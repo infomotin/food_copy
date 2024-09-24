@@ -21,6 +21,7 @@ class Admin extends Authenticatable
     //     'email',
     //     'password',
     // ];
+    protected $guard = 'admin';
     protected $guarded = [];
     /**
      * The attributes that should be hidden for serialization.
