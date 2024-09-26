@@ -23,4 +23,4 @@ require __DIR__.'/auth.php';
 // admin login
 Route::get('admin/login', [AdminController::class, 'login'])->name('admin.login');
 Route::get('admin/dashboard', [AdminController::class, 'AdminDashboard'])->name('admin.dashboard');
-Route::post('admin/submit', [AdminController::class, 'Admin_Login_Submit'])->name('admin.login_submit');
+Route::post('admin/login_submit', [AdminController::class, 'AdminLoginSubmit'])->name('admin.login_submit');

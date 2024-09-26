@@ -26,20 +26,20 @@
     </div>
     @endif
 
-    {{-- @if (session::has('error'))
+    @if (Session::has('error'))
     <div class="alert alert-danger">
-        <li class="text">{{ session::get('error') }}</li>
+        <li class="text">{{ Session::get('error') }}</li>
 
     </div>
     @endif
 
 
-    @if (session::has('success'))
+    @if (Session::has('success'))
     <div class="alert alert-danger">
-        <li class="text">{{ session::get('success') }}</li>
+        <li class="text">{{ Session::get('success') }}</li>
 
     </div>
-    @endif --}}
+    @endif
 
     <form method="POST" action="{{ route('admin.login_submit') }}">
         @csrf
