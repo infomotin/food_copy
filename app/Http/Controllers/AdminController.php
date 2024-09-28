@@ -93,7 +93,8 @@ class AdminController extends Controller
         $user->update();
         $reset_link = url('admin/reset-password/'.$token.'/'.$request->email);
         $subject = 'Reset Password';
-        $body = 'Reset Password Link: '.$reset_link;
+        $body = 'Reset Password Link: ';
+        $body .= "<a href='$reset_link'>Reset Password</a>";
 
         \Mail::to($request->email)->send(new Websitemail($subject, $body));
 
@@ -110,7 +111,25 @@ class AdminController extends Controller
         if(!$user){
             return redirect()->route('admin.login')->with('error', 'Invalid token');
         }
-
+        // dd($token, $email);
         return view('admin.reset-password', compact('token', 'email'));
+    }
+
+    public function ResetPasswordSubmit(Request $request){
+        $request->validate([
+            'token' => 'required',
+            'email' => 'required|email',
+            'password' => 'required',
+            'password_confirmation' => 'required|same:password'
+        ]);
+        $user = \App\Models\Admin::where('token', $request->token)->where('email', $request->email)->first();
+        if(!$user){
+            return redirect()->route('admin.login')->with('error', 'Invalid token');
+        }
+        $user->update([
+            'password' => Hash::make($request->password),
+            'token' => null
+        ]);
+        return redirect()->route('admin.login')->with('success', 'Password reset successful');
     }
 }
