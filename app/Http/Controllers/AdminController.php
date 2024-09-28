@@ -18,8 +18,8 @@ class AdminController extends Controller
 
     public function AdminDashboard()
     {
-        return view('admin.dashboard');
-        return response()->json(['data' => 'Admin Dashboard']);
+        return view('admin.admin_dashboard');
+        // return response()->json(['data' => 'Admin Dashboard']);
     }
 
 
