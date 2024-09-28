@@ -258,7 +258,7 @@
                     <a class="dropdown-item" href="apps-contacts-profile.html"><i class="align-middle mdi mdi-face-man font-size-16 me-1"></i> Profile</a>
                     <a class="dropdown-item" href="auth-lock-screen.html"><i class="align-middle mdi mdi-lock font-size-16 me-1"></i> Lock Screen</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="auth-logout.html"><i class="align-middle mdi mdi-logout font-size-16 me-1"></i> Logout</a>
+                    <a class="dropdown-item" href="{{route('admin.logout')}}"><i class="align-middle mdi mdi-logout font-size-16 me-1"></i> Logout</a>
                 </div>
             </div>
 
