@@ -132,4 +132,41 @@ class AdminController extends Controller
         ]);
         return redirect()->route('admin.login')->with('success', 'Password reset successful');
     }
+    public function Profile(){
+        // get admin data
+        $user = Auth::guard('admin')->id();
+        $userData = \App\Models\Admin::find($user);
+        // dd($userData);
+        return view('admin.admin_profile', compact('userData'));
+    }
+    // ProfileUpdate
+    public function ProfileUpdate(Request $request){
+        // dd($request->all());
+        // $request->validate([
+        //     'name' => 'required',
+        //     'email' => 'required|email',
+        //     'address' => 'required|required',
+        //     'username' => 'required',
+        //     'phone' => 'required',
+        //     'birth_date' => 'required|date'
+        // ]);
+        // dd($request->validate);
+        // if($request->validate){
+        //     return redirect()->back()->with('error', 'Not updated');
+        // }else{
+            // dd($request->all());
+        $user = \App\Models\Admin::find(Auth::guard('admin')->id());
+        // dd($user);
+        $user->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'address' => $request->address,
+            'username' => $request->username,
+            'phone' => $request->phone,
+            'birth_date' => $request->birth_date
+        ]);
+
+
+        return redirect()->back()->with('success', 'Profile updated successfully');
+    }
 }
