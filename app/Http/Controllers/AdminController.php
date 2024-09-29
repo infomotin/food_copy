@@ -191,6 +191,11 @@ class AdminController extends Controller
        return redirect()->back()->with($notification);
 
     }
+    public function PasswordUpdate(Request $request){
+        $user = \App\Models\Admin::find(Auth::guard('admin')->id());
+        return view('admin.admin_password', compact('user'));
+    }
+
     public function deleteOldImage( string $old_profile_photo_path): void{
         $fullpath = public_path('upload/admins/'.$old_profile_photo_path);
         if($old_profile_photo_path && file_exists('upload/admins/'.$old_profile_photo_path)){
