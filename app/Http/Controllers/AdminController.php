@@ -156,17 +156,45 @@ class AdminController extends Controller
         // }else{
             // dd($request->all());
         $user = \App\Models\Admin::find(Auth::guard('admin')->id());
+        $old_profile_photo_path = $user->profile_photo_path;
         // dd($user);
+        // image file upload
+        $profile_photo_path = [];
+        if($request->hasFile('profile_photo_path')){
+            $file = $request->file('profile_photo_path');
+            $ext = $file->getClientOriginalExtension();
+            $filename = time().'.'.$ext;
+            $file->move('upload/admins/',$filename);
+            $profile_photo_path = $filename;
+            if($old_profile_photo_path && file_exists('upload/admins/'.$old_profile_photo_path) && $old_profile_photo_path !== $ext){
+                $this->deleteOldImage($old_profile_photo_path);
+
+            }
+        }
+
+
+
         $user->update([
             'name' => $request->name,
             'email' => $request->email,
             'address' => $request->address,
             'username' => $request->username,
             'phone' => $request->phone,
-            'birth_date' => $request->birth_date
+            'birth_date' => $request->birth_date,
+            'profile_photo_path' => $profile_photo_path
         ]);
 
+       $notification = array(
+           'message' => 'Profile updated successfully',
+           'alert-type' => 'success'
+       );
+       return redirect()->back()->with($notification);
 
-        return redirect()->back()->with('success', 'Profile updated successfully');
+    }
+    public function deleteOldImage( string $old_profile_photo_path): void{
+        $fullpath = public_path('upload/admins/'.$old_profile_photo_path);
+        if($old_profile_photo_path && file_exists('upload/admins/'.$old_profile_photo_path)){
+            unlink($fullpath);
+        }
     }
 }

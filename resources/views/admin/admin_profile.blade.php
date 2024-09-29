@@ -32,7 +32,7 @@
                                     <div class="flex-shrink-0">
                                         <div class="avatar-xl me-3">
                                             {{-- {!! $userData->profile_photo_path !!} --}}
-                                            <img src="{{(!empty($userData->profile_photo_path))?url('upload/admin_images/'.$userData->profile_photo_path):url('upload/no_image.jpg')}}" alt="" class="img-fluid rounded-circle d-block">
+                                            <img src="{{(!empty($userData->profile_photo_path))?url('upload/admins/'.$userData->profile_photo_path):url('upload/no_image.jpg')}}" alt="" class="img-fluid rounded-circle d-block">
                                         </div>
                                     </div>
                                     <div class="flex-grow-1">
@@ -164,7 +164,7 @@
                                     </div>
                                     <div class="mb-3">
 
-                                        <img src="{{(!empty($userData->profile_photo_path))?url('upload/admin_images/'.$userData->profile_photo_path):url('upload/no_image.jpg')}}" alt="" class="p-1 rounded-circle bg-light" width="150">
+                                        <img id="showImage" src="{{(!empty($userData->profile_photo_path))?url('upload/admins/'.$userData->profile_photo_path):url('upload/no_image.jpg')}}" alt="" class="p-1 rounded-circle bg-light" width="150">
                                     </div>
                                     <div class="mt-3">
                                         <button type="submit" class="btn btn-primary w-md">Update</button>
@@ -182,5 +182,17 @@
 
     </div> <!-- container-fluid -->
 </div>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#profile_photo_path').change(function(e){
+            var reader = new FileReader();
+            reader.onload = function(e){
+                $('#showImage').attr('src',e.target.result);
+            }
+            reader.readAsDataURL(e.target.files['0']);
+        });
+    });
+</script>
+
 
 @endsection
