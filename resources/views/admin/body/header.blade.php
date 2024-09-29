@@ -209,7 +209,7 @@
                 <div class="dropdown-menu dropdown-menu-end">
                     <!-- item-->
                     <a class="dropdown-item" href="{{route('admin.profile')}}"><i class="align-middle mdi mdi-face-man font-size-16 me-1"></i> Profile</a>
-                    <a class="dropdown-item" href="{{route('admin.password.change')}}"><i class="align-middle mdi mdi-lock font-size-16 me-1"></i> Change Password</a>
+                    <a class="dropdown-item" href="{{route('admin.password.update')}}"><i class="align-middle mdi mdi-lock font-size-16 me-1"></i> Change Password</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="{{route('admin.logout')}}"><i class="align-middle mdi mdi-logout font-size-16 me-1"></i> Logout</a>
                 </div>
