@@ -191,9 +191,39 @@ class AdminController extends Controller
        return redirect()->back()->with($notification);
 
     }
-    public function PasswordUpdate(Request $request){
+    public function PasswordChange(){
+
         $user = \App\Models\Admin::find(Auth::guard('admin')->id());
-        return view('admin.admin_password', compact('user'));
+        return view('admin.admin_change_password', compact('user'));
+    }
+
+    public function PasswordChangeSubmit(Request $request){
+
+        // $request->validate([
+        //     'password' => 'required',
+        //     'new_password' => 'required|confirmed|different:password',
+        // ]);
+
+        $user = \App\Models\Admin::find(Auth::guard('admin')->id());
+        if(Hash::check($request->password, $user->password)){
+            $user->password = Hash::make($request->new_password);
+            $user->save();
+            Auth::logout();
+            $notification = array(
+                'message' => 'Password Changed Successfully',
+                'alert-type' => 'success'
+            );
+            return redirect()->route('admin.login')->with($notification);
+        }else{
+            $notification = array(
+                'message' => 'Old Password does not match',
+                'alert-type' => 'error'
+            );
+            return redirect()->back()->with($notification);
+        }
+
+
+
     }
 
     public function deleteOldImage( string $old_profile_photo_path): void{

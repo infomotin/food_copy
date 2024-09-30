@@ -25,7 +25,8 @@ Route::middleware('admin')->group(function () {
     Route::get('admin/dashboard', [AdminController::class, 'AdminDashboard'])->name('admin.dashboard');
     Route::get('admin/profile', [AdminController::class, 'Profile'])->name('admin.profile');
     Route::post('admin/profile_update', [AdminController::class, 'ProfileUpdate'])->name('admin.profile.update');
-    Route::post('admin/password_update', [AdminController::class, 'PasswordUpdate'])->name('admin.password.update');
+    Route::get('admin/password_change', [AdminController::class, 'PasswordChange'])->name('admin.change.password');
+    Route::post('admin/password_change_submit', [AdminController::class, 'PasswordChangeSubmit'])->name('admin.change_password_submit');
 });
 Route::get('admin/login', [AdminController::class, 'login'])->name('admin.login');
 Route::post('admin/login_submit', [AdminController::class, 'AdminLoginSubmit'])->name('admin.login_submit');
