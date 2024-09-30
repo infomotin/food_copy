@@ -199,10 +199,28 @@ class AdminController extends Controller
 
     public function PasswordChangeSubmit(Request $request){
 
+        $admin = \App\Models\Admin::find(Auth::guard('admin')->user());
+
         // $request->validate([
         //     'password' => 'required',
-        //     'new_password' => 'required|confirmed|different:password',
+        //     'new_password' => 'required|confirmed'
         // ]);
+
+        // if(!Hash::check($request->password, $admin->password)){
+        //     $notification = array(
+        //         'message' => 'Old Password does not match',
+        //         'alert-type' => 'error'
+        //     );
+        //     return redirect()->back()->with($notification);
+        // }
+        // if($request->password == $request->new_password){
+        //     $notification = array(
+        //         'message' => 'New Password cannot be same as old password',
+        //         'alert-type' => 'error'
+        //     );
+        //     return redirect()->back()->with($notification);
+        // }
+
 
         $user = \App\Models\Admin::find(Auth::guard('admin')->id());
         if(Hash::check($request->password, $user->password)){
