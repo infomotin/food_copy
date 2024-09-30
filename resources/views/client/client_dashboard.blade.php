@@ -63,7 +63,7 @@
         <!-- ============================================================== -->
         <div class="main-content">
 
-            @yield('admin')
+            @yield('client')
 
             @include('client.body.footer')
 
