@@ -4,11 +4,15 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\UserController;
+
+
 
 Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/', [UserController::class, 'Index'])->name('index');
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -41,8 +45,6 @@ Route::post('admin/reset_password_submit', [AdminController::class, 'ResetPasswo
 //ALL ROUTER FOR CLIENT
 
 Route::middleware('client')->group(function () {
-
-
     Route::get('client/dashboard', [ClientController::class, 'ClientDashboard'])->name('client.dashboard');
     Route::get('client/profile', [ClientController::class, 'ClientProfile'])->name('client.profile');
     Route::post('client/profile_update', [ClientController::class, 'ClientProfileUpdate'])->name('client.profile.update');
