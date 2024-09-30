@@ -185,7 +185,7 @@
                                             <h5 class="mb-0">Welcome Back !</h5>
                                             <p class="mt-2 text-muted">Re-set Admin Password with Email</p>
                                         </div>
-                                        <form class="pt-2 mt-4" form method="POST" action="{{ route('admin.login_submit') }}">
+                                        <form class="pt-2 mt-4" form method="POST" action="{{ route('client.reset_password') }}">
                                             @csrf
                                             <div class="mb-3">
                                                 <label class="form-label">Email Address </label>
@@ -197,7 +197,7 @@
                                                 <br>
                                                 <div class="flex-shrink-0">
                                                     <div class="">
-                                                        <a href="{{ route('admin.login') }}" class="text-muted">login</a></a>
+                                                        <a href="{{ route('client.login') }}" class="text-muted">login</a></a>
                                                     </div>
                                                 </div>
                                             </div>

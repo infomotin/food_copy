@@ -1,6 +1,6 @@
-@extends('admin.admin_dashboard')
+@extends('client.client_dashboard')
 
-@section('admin')
+@section('client')
 <div class="page-content">
     <div class="container-fluid">
 
@@ -32,7 +32,7 @@
                                     <div class="flex-shrink-0">
                                         <div class="avatar-xl me-3">
                                             {{-- {!! $userData->profile_photo_path !!} --}}
-                                            <img src="{{(!empty($userData->profile_photo_path))?url('upload/admins/'.$userData->profile_photo_path):url('upload/no_image.jpg')}}" alt="" class="img-fluid rounded-circle d-block">
+                                            <img src="{{(!empty($userData->profile_photo_path))?url('upload/clients/'.$userData->profile_photo_path):url('upload/no_image.jpg')}}" alt="" class="img-fluid rounded-circle d-block">
                                         </div>
                                     </div>
                                     <div class="flex-grow-1">
@@ -90,7 +90,7 @@
 
         </div>
         <!-- end row -->
-        <form action="{{route('admin.profile.update')}}" method="POST" enctype="multipart/form-data">
+        <form action="{{route('client.profile.update')}}" method="POST" enctype="multipart/form-data">
             @csrf
         <div class="row">
             <div class="col-12">
@@ -164,7 +164,7 @@
                                     </div>
                                     <div class="mb-3">
 
-                                        <img id="showImage" src="{{(!empty($userData->profile_photo_path))?url('upload/admins/'.$userData->profile_photo_path):url('upload/no_image.jpg')}}" alt="" class="p-1 rounded-circle bg-light" width="150">
+                                        <img id="showImage" src="{{(!empty($userData->profile_photo_path))?url('upload/clients/'.$userData->profile_photo_path):url('upload/no_image.jpg')}}" alt="" class="p-1 rounded-circle bg-light" width="150">
                                     </div>
                                     <div class="mt-3">
                                         <button type="submit" class="btn btn-primary w-md">Update</button>

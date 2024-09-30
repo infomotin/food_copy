@@ -1,6 +1,5 @@
-@extends('admin.admin_dashboard')
-
-@section('admin')
+@extends('client.client_dashboard')
+@section('client')
 <div class="page-content">
     <div class="container-fluid">
 
@@ -24,7 +23,7 @@
 
 
         <!-- end row -->
-        <form action="{{route('admin.change_password_submit')}}" method="POST">
+        <form action="{{route('client.change_password_submit')}}" method="POST">
             @csrf
             <div class="row">
                 <div class="col-12">

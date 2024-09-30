@@ -192,7 +192,7 @@
                                             <h5 class="mb-0">Welcome Back !</h5>
                                             <p class="mt-2 text-muted">Entry Your New Password </p>
                                         </div>
-                                        <form class="pt-2 mt-4" form method="POST" action="{{ route('admin.login_submit') }}">
+                                        <form class="pt-2 mt-4" form method="POST" action="{{ route('client.reset_password_submit') }}">
                                             @csrf
                                             <div class="mb-3">
                                                 <label class="form-label">New Password </label>
