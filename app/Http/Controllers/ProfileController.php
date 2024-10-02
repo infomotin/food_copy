@@ -57,4 +57,64 @@ class ProfileController extends Controller
 
         return Redirect::to('/');
     }
+
+    //ProfileStore
+    public function ProfileStore(Request $request){
+        // dd($request->all());
+        // $request->validate([
+        //     'name' => 'required',
+        //     'email' => 'required|email',
+        //     'address' => 'required|required',
+        //     'username' => 'required',
+        //     'phone' => 'required',
+        //     'birth_date' => 'required|date'
+        // ]);
+        // dd($request->validate);
+        // if($request->validate){
+        //     return redirect()->back()->with('error', 'Not updated');
+        // }else{
+            // dd($request->all());
+            $user = \App\Models\User::find(Auth::guard('web')->id());
+            $old_profile_photo_path = $user->profile_photo_path;
+            // dd($user);
+            // image file upload
+            $profile_photo_path = [];
+            if($request->hasFile('profile_photo_path')){
+                $file = $request->file('profile_photo_path');
+                $ext = $file->getClientOriginalExtension();
+                $filename = time().'.'.$ext;
+                $file->move('upload/users/',$filename);
+                $profile_photo_path = $filename;
+                if($old_profile_photo_path && file_exists('upload/users/'.$old_profile_photo_path) && $old_profile_photo_path !== $ext){
+                    $this->deleteOldImage($old_profile_photo_path);
+
+                }
+            }
+
+
+
+            $user->update([
+                'name' => $request->name,
+                'email' => $request->email,
+                'address' => $request->address,
+                'username' => $request->username,
+                'phone' => $request->phone,
+                'birth_date' => $request->birth_date,
+                'profile_photo_path' => $profile_photo_path
+            ]);
+
+           $notification = array(
+               'message' => 'Profile updated successfully',
+               'alert-type' => 'success'
+           );
+           return redirect()->back()->with($notification);
+    }
+
+    public function deleteOldImage( string $old_profile_photo_path): void{
+        $fullpath = public_path('upload/clients/'.$old_profile_photo_path);
+        if($old_profile_photo_path && file_exists('upload/clients/'.$old_profile_photo_path)){
+            unlink($fullpath);
+        }
+    }
+
 }
