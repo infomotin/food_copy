@@ -30,10 +30,8 @@
         @include('frontend.layouts.header')
         @include('frontend.layouts.banner')
       </div>
-      @yield('content')
-
       @include('frontend.layouts.ads')
-
+      @yield('content')
       @include('frontend.layouts.member')
       @include('frontend.layouts.footer')
 
