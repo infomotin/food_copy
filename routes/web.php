@@ -71,6 +71,8 @@ Route::post('client/reset_password_submit', [ClientController::class, 'ClientRes
 Route::middleware('admin')->group(function () {
     Route::controller(CategoryController::class)->group(function () {
         Route::get('all/category', 'AllCategory')->name('all.category');
+        Route::get('store/category', 'AddCategory')->name('admin.category.add');
+        Route::post('store/category/submit', 'AddCategoryStore')->name('admin.category.store');
     });
 });
 //end all router for category

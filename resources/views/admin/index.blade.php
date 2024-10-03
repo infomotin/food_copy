@@ -1,10 +1,7 @@
 @extends('admin.admin_dashboard')
-
 @section('admin')
-
 <div class="page-content">
     <div class="container-fluid">
-
         <!-- start page title -->
         <div class="row">
             <div class="col-12">
@@ -22,7 +19,6 @@
             </div>
         </div>
         <!-- end page title -->
-
         <div class="row">
             <div class="col-xl-3 col-md-6">
                 <!-- card -->
@@ -122,10 +118,6 @@
             </div><!-- end col -->
         </div>
         <!-- end row-->
-
-
-
-
     </div>
     <!-- container-fluid -->
 </div>
