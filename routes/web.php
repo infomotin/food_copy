@@ -20,8 +20,10 @@ Route::get('/dashboard', function () {
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::post('/profile/store', [ProfileController::class, 'ProfileStore'])->name('profile.store');
-    // Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::get('/user/logout', [ProfileController::class, 'UserLogout'])->name('user.logout');
     // Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::post('/profile/password/change', [ProfileController::class, 'PasswordChange'])->name('change.password');
+
 });
 
 require __DIR__.'/auth.php';

@@ -1,13 +1,13 @@
 <nav class="navbar navbar-expand-lg navbar-dark osahan-nav">
     <div class="container">
-       <a class="navbar-brand" href="index.html"><img alt="logo" src="img/favicon.png"></a>
+       <a class="navbar-brand" href="{{url('/')}}"><img alt="logo" src="{{asset('frontend/img/favicon.png')}}">  Dazzle Demo </a>
        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
        <span class="navbar-toggler-icon"></span>
        </button>
        <div class="collapse navbar-collapse" id="navbarNavDropdown">
           <ul class="ml-auto navbar-nav">
              <li class="nav-item active">
-                <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="{{url('/')}}">Home <span class="sr-only">(current)</span></a>
              </li>
              <li class="nav-item">
                 <a class="nav-link" href="offers.html"><i class="icofont-sale-discount"></i> Offers <span class="badge badge-warning">New</span></a>
@@ -29,24 +29,36 @@
                 <div class="border-0 shadow-sm dropdown-menu dropdown-menu-right">
                    <a class="dropdown-item" href="track-order.html">Track Order</a>
                    <a class="dropdown-item" href="invoice.html">Invoice</a>
-                   <a class="dropdown-item" href="login.html">Login</a>
-                   <a class="dropdown-item" href="register.html">Register</a>
+                   @if (Auth::user())
+                   <a class="dropdown-item" href="{{route('user.logout')}}">Logout</a>
+                   @else
+                   <a class="dropdown-item" href="{{route('login')}}">Login</a>
+                   @endif
+                   @if(!Auth::user())
+                   <a class="dropdown-item" href="{{route('register')}}">Register</a>
+                   @endif
                    <a class="dropdown-item" href="404.html">404</a>
-                   <a class="dropdown-item" href="extra.html">Extra :)</a>
+                   <a class="dropdown-item" href="{{url('/')}}">Extra :)</a>
                 </div>
              </li>
+             @php
+                $userData = Auth::user();
+             @endphp
              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <img alt="Generic placeholder image" src="img/user/4.png" class="nav-osahan-pic rounded-pill"> My Account
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                    <img alt="Generic placeholder image" src="{{(!empty($userData->profile_photo_path))?url('upload/users/'.$userData->profile_photo_path):url('upload/no_image.jpg')}}"
+                        class="nav-osahan-pic rounded-pill"> My Account
                 </a>
                 <div class="border-0 shadow-sm dropdown-menu dropdown-menu-right">
-                   <a class="dropdown-item" href="orders.html#orders"><i class="icofont-food-cart"></i> Orders</a>
-                   <a class="dropdown-item" href="orders.html#offers"><i class="icofont-sale-discount"></i> Offers</a>
-                   <a class="dropdown-item" href="orders.html#favourites"><i class="icofont-heart"></i> Favourites</a>
-                   <a class="dropdown-item" href="orders.html#payments"><i class="icofont-credit-card"></i> Payments</a>
-                   <a class="dropdown-item" href="orders.html#addresses"><i class="icofont-location-pin"></i> Addresses</a>
+
+                    <a class="dropdown-item" href="{{route('dashboard')}}"><i class="icofont-sale-discount"></i>
+                        Dashboard</a>
+                    <a class="dropdown-item" href="{{route('user.logout')}}"><i class="icofont-heart"></i>
+                        logout</a>
+
                 </div>
-             </li>
+            </li>
              <li class="nav-item dropdown dropdown-cart">
                 <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-shopping-basket"></i> Cart

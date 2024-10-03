@@ -139,6 +139,59 @@ $userData = Auth::user();
                                 </div>
                             </div>
                         </div>
+                        {{-- ============================================================================ --}}
+                        <div class="tab-pane fade show active" id="changepassword" role="tabpanel"
+                            aria-labelledby="orders-tab">
+                            <h4 class="mt-0 mb-4 font-weight-bold">Change Password</h4>
+                            <div class="mb-4 bg-white shadow-sm card order-list">
+                                <div class="p-4 gold-members">
+                                    <form action="{{route('change.password')}}" method="POST">
+                                        @csrf
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="card">
+                                                    <div class="p-4 card-body">
+                                                        <div class="row">
+                                                            <div class="col-lg-12">
+                                                                <div>
+                                                                    <div class="mb-3">
+                                                                        <label for="example-text-input"
+                                                                            class="form-label">Old Password</label>
+                                                                        <input class="form-control" type="text"
+                                                                             id="old_password"
+                                                                            name="old_password">
+                                                                    </div>
+
+                                                                    <div class="mb-3">
+                                                                        <label for="example-text-input"
+                                                                            class="form-label">New Password</label>
+                                                                        <input class="form-control" type="password"
+
+                                                                            id="password" name="password">
+                                                                    </div>
+                                                                    <div class="mb-3">
+                                                                        <label for="example-number-input"
+                                                                            class="form-label">Confirm Password</label>
+                                                                        <input class="form-control" type="password"
+                                                                             id="confirm_password"
+                                                                            name="confirm_password">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="mt-3">
+                                                            <button type="submit"
+                                                                class="btn btn-primary w-md">change Password</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div> <!-- end col -->
+                                        </div>
+                                        <!-- end row -->
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
 
                         {{-- =================================================================== --}}
                         <div class="tab-pane fade show " id="orders" role="tabpanel" aria-labelledby="orders-tab">

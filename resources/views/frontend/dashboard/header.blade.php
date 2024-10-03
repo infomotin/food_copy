@@ -29,7 +29,7 @@
 </head>
 
 <body>
-    <!-- Modal -->
+    {{-- <!-- Modal -->
     <div class="modal fade" id="edit-profile-modal" tabindex="-1" role="dialog" aria-labelledby="edit-profile"
         aria-hidden="true">
         <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
@@ -160,11 +160,15 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 
     <nav class="shadow-sm navbar navbar-expand-lg navbar-light bg-light osahan-nav">
+        @php
+
+        $userData = Auth::user();
+    @endphp
         <div class="container">
-            <a class="navbar-brand" href="index.html"><img alt="logo" src="img/logo.png"></a>
+            <a class="navbar-brand" href="{{url('/')}}"><img alt="logo" src="{{asset('frontend/img/logo.png')}}"></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
                 aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -172,7 +176,7 @@
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul class="ml-auto navbar-nav">
                     <li class="nav-item active">
-                        <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="{{url('/')}}">Home <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="offers.html"><i class="icofont-sale-discount"></i> Offers <span
@@ -197,7 +201,7 @@
                         <div class="border-0 shadow-sm dropdown-menu dropdown-menu-right">
                             <a class="dropdown-item" href="track-order.html">Track Order</a>
                             <a class="dropdown-item" href="invoice.html">Invoice</a>
-                            <a class="dropdown-item" href="login.html">Login</a>
+                            <a class="dropdown-item" href="{{route('login')}}">Login</a>
                             <a class="dropdown-item" href="register.html">Register</a>
                             <a class="dropdown-item" href="404.html">404</a>
                             <a class="dropdown-item" href="extra.html">Extra :)</a>
@@ -206,20 +210,17 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
                             aria-haspopup="true" aria-expanded="false">
-                            <img alt="Generic placeholder image" src="img/user/4.png"
+                            <img alt="Generic placeholder image" src="{{(!empty($userData->profile_photo_path))?url('upload/users/'.$userData->profile_photo_path):url('upload/no_image.jpg')}}"
                                 class="nav-osahan-pic rounded-pill"> My Account
                         </a>
                         <div class="border-0 shadow-sm dropdown-menu dropdown-menu-right">
                             <a class="dropdown-item" href="orders.html#orders"><i class="icofont-food-cart"></i>
                                 Orders</a>
-                            <a class="dropdown-item" href="orders.html#offers"><i class="icofont-sale-discount"></i>
-                                Offers</a>
-                            <a class="dropdown-item" href="orders.html#favourites"><i class="icofont-heart"></i>
-                                Favourites</a>
-                            <a class="dropdown-item" href="orders.html#payments"><i class="icofont-credit-card"></i>
-                                Payments</a>
-                            <a class="dropdown-item" href="orders.html#addresses"><i class="icofont-location-pin"></i>
-                                Addresses</a>
+                            <a class="dropdown-item" href="{{route('dashboard')}}"><i class="icofont-sale-discount"></i>
+                                Dashboard</a>
+                            <a class="dropdown-item" href="{{route('user.logout')}}"><i class="icofont-heart"></i>
+                                logout</a>
+
                         </div>
                     </li>
                     <li class="nav-item dropdown dropdown-cart">
