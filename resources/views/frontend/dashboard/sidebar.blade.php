@@ -28,11 +28,11 @@
 
         <ul class="pt-4 pb-4 pl-4 border-0 nav nav-tabs flex-column" id="myTab" role="tablist">
             <li class="nav-item">
-                <a class="nav-link active" id="profile-tab" data-toggle="tab" href="#profile" role="tab"
+                <a class="nav-link {{Route::currentRouteName() === 'dashboard' ? 'active' : ''}}" id="profile-tab" data-toggle="tab" href="#profile" role="tab"
                     aria-controls="profile" aria-selected="true"><i class="icofont-food-cart"></i> User Profile</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="changepassword-tab" data-toggle="tab" href="#changepassword" role="tab"
+                <a class="nav-link {{Route::currentRouteName() === 'change.password' ? 'active' : ''}}" id="changepassword-tab" data-toggle="tab" href="#changepassword" role="tab"
                     aria-controls="changepassword" aria-selected="true"><i class="icofont-food-cart"></i>Change Password</a>
             </li>
             <li class="nav-item">
