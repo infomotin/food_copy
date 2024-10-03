@@ -10,7 +10,7 @@
                 <li class="menu-title" data-key="t-menu">Menu</li>
 
                 <li>
-                    <a href="index.html">
+                    <a href="{{route('admin.dashboard')}}">
                         <i data-feather="home"></i>
                         <span data-key="t-dashboard">Dashboard</span>
                     </a>
@@ -34,6 +34,8 @@
                             </a>
                         </li>
 
+
+
                         <li>
                             <a href="javascript: void(0);" class="has-arrow">
                                 <span data-key="t-email">Email</span>
@@ -49,8 +51,33 @@
                             </a>
                             <ul class="sub-menu" aria-expanded="false">
                                 <li><a href="apps-invoices-list.html" data-key="t-invoice-list">Invoice List</a></li>
-                                <li><a href="apps-invoices-detail.html" data-key="t-invoice-detail">Invoice Detail</a></li>
+                                <li><a href="apps-invoices-detail.html" data-key="t-invoice-detail">Invoice Detail</a>
+                                </li>
                             </ul>
+                        </li>
+
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow">
+                        <i data-feather="users"></i>
+                        <span data-key="t-authentication">Category</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li>
+                            <a href="{{route('all.category')}}">
+                                <span data-key="t-login">
+                                    All Category
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="auth-login.html">
+                                <span data-key="t-login">
+                                    Add Category
+                                </span>
+                            </a>
                         </li>
 
                     </ul>

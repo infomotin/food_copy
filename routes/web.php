@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\Admin\CategoryController;
 
 
 
@@ -66,3 +67,10 @@ Route::post('client/reset_password', [ClientController::class, 'ClientResetPassw
 Route::get('client/reset-password/{token}/{email}', [ClientController::class, 'ClientResetPasswordForm'])->name('client.reset-password');
 Route::post('client/reset_password_submit', [ClientController::class, 'ClientResetPasswordSubmit'])->name('client.reset_password_submit');
 
+//all router for category
+Route::middleware('admin')->group(function () {
+    Route::controller(CategoryController::class)->group(function () {
+        Route::get('all/category', 'AllCategory')->name('all.category');
+    });
+});
+//end all router for category
