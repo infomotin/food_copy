@@ -8,20 +8,20 @@
                 <div class="card">
                     <div class="card-body">
 
-                        <h4 class="card-title">Add Category</h4>
+                        <h4 class="card-title">Edit Category</h4>
 
-                        <form action="{{route('admin.category.store')}}" method="POST" enctype="multipart/form-data">
+                        <form action="{{route('admin.category.update', $category->id)}}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <div class="mb-3 row">
                                 <label for="example-text-input" class="col-sm-2 col-form-label">Category Name</label>
                                 <div class="col-sm-10">
-                                    <input class="form-control" name="category_name" type="text" id="example-text-input">
+                                    <input class="form-control" name="category_name" type="text" id="example-text-input" value="{{$category->category_name}}">
                                 </div>
                             </div>
                             <div class="mb-3 row">
                                 <label for="example-search-input" class="col-sm-2 col-form-label">Category Slug</label>
                                 <div class="col-sm-10">
-                                    <input class="form-control" name="slug" type="text" id="example-search-input">
+                                    <input class="form-control" name="slug" type="text" id="example-search-input" value="{{$category->slug}}">
                                 </div>
                             </div>
                             <div class="mb-3 row">
@@ -33,10 +33,10 @@
                             <div class="mb-3 row">
                                 <label for="example-url-input" class="col-sm-2 col-form-label"></label>
                                 <div class="col-sm-10">
-                                    <img id="showImage" class="rounded avatar-lg" src="{{(!empty($item->image))?url('upload/category/'.$item->image):url('upload/no_image.jpg')}}" alt="Card image cap">
+                                    <img id="showImage" class="rounded avatar-lg" src="{{(!empty($category->image))?url('upload/category/'.$category->image):url('upload/no_image.png')}}" alt="Card image cap">
                                 </div>
                             </div>
-                            <input type="submit" class="btn btn-info waves-effect waves-light" value="Add Category">
+                            <input type="submit" class="btn btn-info waves-effect waves-light" value="Edit Category">
                         </form>
                     </div>
                 </div>

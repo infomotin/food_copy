@@ -37,10 +37,10 @@
                                 <tr>
                                     <td>{{$key+1}}</td>
                                     <td>{{$item->category_name}}</td>
-                                    <td><img src="{{(!empty($item->category_image))?url('upload/category_images/'.$item->category_image):url('upload/no_image.png')}}" height="50" width="50" alt=""></td>
+                                    <td><img src="{{(!empty($item->image))?url('upload/category/'.$item->image):url('upload/no_image.jpg')}}" height="50" width="50" alt=""></td>
                                     <td>
-                                        <a href="#" class="btn btn-info sm" title="Edit Data"> <i class="fas fa-edit"></i> </a>
-                                        <a href="#" class="btn btn-danger sm" title="Delete Data" id="delete"> <i class="fas fa-trash-alt"></i> </a>
+                                        <a href="{{route('admin.category.edit', $item->id)}}" class="btn btn-info sm" title="Edit Data"> <i class="fas fa-edit"></i> </a>
+                                        <a href="{{route('admin.category.delete', $item->id)}}" class="btn btn-danger sm" title="Delete Data" id="delete"> <i class="fas fa-trash-alt"></i> </a>
                                     </td>
 
                                 </tr>
