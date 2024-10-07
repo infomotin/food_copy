@@ -36,11 +36,8 @@
                                     <img id="showImage" class="rounded avatar-lg" src="{{(!empty($item->category_image))?url('upload/category_images/'.$item->category_image):url('upload/no_image.png')}}" alt="Card image cap">
                                 </div>
                             </div>
-
                             <input type="submit" class="btn btn-info waves-effect waves-light" value="Add Category">
-
                         </form>
-
                     </div>
                 </div>
             </div> <!-- end col -->
@@ -48,7 +45,6 @@
 
     </div>
 </div>
-
 <script type="text/javascript">
     $(document).ready(function(){
         $('#image').change(function(e){
@@ -60,6 +56,4 @@
         });
     });
 </script>
-
-
 @endsection
