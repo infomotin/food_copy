@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Admin\Category;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
 
 class CategoryController extends Controller
 {
@@ -30,30 +32,59 @@ class CategoryController extends Controller
         //     'image' => 'required',
         // ]);
         // get old category image and delete
-        $old_category_photo_path = $request->image;
-        if($old_category_photo_path && file_exists('upload/category/'.$old_category_photo_path)){
-            $this->deleteOldImage($old_category_photo_path);
+        // $old_category_photo_path = $request->image;
+        // if($old_category_photo_path && file_exists('upload/category/'.$old_category_photo_path)){
+        //     $this->deleteOldImage($old_category_photo_path);
+        // }
+
+        // // image file upload
+        // $category_photo_path = [];
+        // if($request->hasFile('image')){
+        //     $file = $request->file('image');
+        //     $ext = $file->getClientOriginalExtension();
+        //     $filename = time().'.'.$ext;
+        //     $file->move('upload/category/',$filename);
+        //     $category_photo_path = $filename;
+        // }
+        // $category = new Category();
+        // $category->category_name = $request->category_name;
+        // $category->slug = $request->slug;
+        // $category->image = $category_photo_path;
+        // $category->save();
+        // $notification = array(
+        //     'message' => 'Category Inserted Successfully',
+        //     'alert-type' => 'success'
+        // );
+        // return redirect()->route('all.category')->with($notification);
+
+        if($request->file('image')){
+            $image = $request->file('image');
+            //create image manager instance
+            $manager = new ImageManager(new Driver());
+            $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
+            $img = $manager->read($image);
+            $img->resize(300, 300)->save(public_path('upload/category/'.$name_gen));
+            $save_url = 'upload/category/'.$name_gen;
+            $category = new Category();
+            $category->category_name = $request->category_name;
+            $category->slug = $request->slug;
+            $category->image = $save_url;
+            $category->save();
+            $notification = array(
+                'message' => 'Category Inserted Successfully',
+                'alert-type' => 'success'
+            );
+            return redirect()->route('all.category')->with($notification);
         }
 
-        // image file upload
-        $category_photo_path = [];
-        if($request->hasFile('image')){
-            $file = $request->file('image');
-            $ext = $file->getClientOriginalExtension();
-            $filename = time().'.'.$ext;
-            $file->move('upload/category/',$filename);
-            $category_photo_path = $filename;
-        }
-        $category = new Category();
-        $category->category_name = $request->category_name;
-        $category->slug = $request->slug;
-        $category->image = $category_photo_path;
-        $category->save();
-        $notification = array(
-            'message' => 'Category Inserted Successfully',
-            'alert-type' => 'success'
-        );
-        return redirect()->back()->with($notification);
+
+
+
+
+
+
+
+
     }
 
     // EditCategory

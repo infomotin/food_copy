@@ -10,7 +10,7 @@
 
                         <h4 class="card-title">Add Category</h4>
 
-                        <form action="{{route('admin.category.store')}}" method="POST" enctype="multipart/form-data">
+                        <form action="{{route('admin.category.store')}}" method="POST" enctype="multipart/form-data" id="myForm">
                             @csrf
                             <div class="mb-3 row">
                                 <label for="example-text-input" class="col-sm-2 col-form-label">Category Name</label>
