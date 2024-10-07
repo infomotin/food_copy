@@ -75,6 +75,8 @@
     <script src="{{asset('backend/assets/js/pages/dashboard.init.js')}}"></script>
     <script src="{{asset('backend/assets/js/app.js')}}"></script>
     <script src="{{asset('backend/assets/js/validate.min.js')}}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script>
         @if(Session::has('message'))
@@ -106,6 +108,7 @@
     <script src="{{asset('backend/assets/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js')}}"></script>
     <!-- Datatable init js -->
     <script src="{{asset('backend/assets/js/pages/datatables.init.js')}}"></script>
+    <script src="{{asset('backend/assets/js/code.js') }}"></script>
 
 </body>
 

@@ -6,6 +6,8 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\CityController;
+
 
 
 
@@ -80,3 +82,16 @@ Route::middleware('admin')->group(function () {
     });
 });
 //end all router for category
+//all router for city
+Route::middleware('admin')->group(function () {
+    Route::controller(CityController::class)->group(function () {
+        Route::get('all/city', 'AllCity')->name('all.city');
+        Route::get('store/city', 'AddCity')->name('admin.city.add');
+        Route::post('store/city/submit', 'AddCityStore')->name('admin.city.store');
+        Route::get('edit/city/{id}', 'EditCity')->name('admin.city.edit');
+        Route::post('update/city/{id}', 'UpdateCity')->name('admin.city.update');
+        Route::get('delete/city/{id}', 'DeleteCity')->name('admin.city.delete');
+
+    });
+});
+//end all router for city

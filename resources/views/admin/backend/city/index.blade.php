@@ -5,11 +5,11 @@
         <div class="row">
             <div class="col-12">
                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                    <h4 class="mb-sm-0 font-size-18">Category</h4>
+                    <h4 class="mb-sm-0 font-size-18">City</h4>
 
                     <div class="page-title-right">
                         <ol class="m-0 breadcrumb">
-                            <a href="{{route('admin.category.add')}}" class="btn btn-primary waves-effect waves-light">Add Category</a>
+                            <a href="{{route('admin.city.add')}}" class="btn btn-primary waves-effect waves-light">Add City</a>
                         </ol>
                     </div>
 
@@ -26,8 +26,8 @@
                             <thead>
                                 <tr>
                                     <th>SL</th>
-                                    <th>Category Name</th>
-                                    <th>Image</th>
+                                    <th>City Name</th>
+                                    <th>City Sluge</th>
                                     <th>Action</th>
 
                                 </tr>
@@ -36,11 +36,11 @@
                                 @foreach ($userData as $key => $item)
                                 <tr>
                                     <td>{{$key+1}}</td>
-                                    <td>{{$item->category_name}}</td>
-                                    <td><img src="{{(!empty($item->image))?url('upload/category/'.$item->image):url('upload/no_image.jpg')}}" height="50" width="50" alt=""></td>
+                                    <td>{{$item->city_name}}</td>
+                                    <td>{{$item->city_slug}}</td>
                                     <td>
-                                        <a href="{{route('admin.category.edit', $item->id)}}" class="btn btn-info sm" title="Edit Data"> <i class="fas fa-edit"></i> </a>
-                                        <a href="{{route('admin.category.delete', $item->id)}}" class="btn btn-danger sm" title="Delete Data" id="delete"> <i class="fas fa-trash-alt"></i> </a>
+                                        <a href="{{route('admin.city.edit', $item->id)}}" class="btn btn-info sm" title="Edit Data"> <i class="fas fa-edit"></i> </a>
+                                        <a href="{{route('admin.city.delete', $item->id)}}" class="btn btn-danger sm" title="Delete Data" id="delete"> <i class="fas fa-trash-alt"></i> </a>
                                     </td>
 
                                 </tr>

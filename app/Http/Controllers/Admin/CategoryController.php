@@ -64,7 +64,7 @@ class CategoryController extends Controller
             $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
             $img = $manager->read($image);
             $img->resize(300, 300)->save(public_path('upload/category/'.$name_gen));
-            $save_url = 'upload/category/'.$name_gen;
+            $save_url = $name_gen;
             $category = new Category();
             $category->category_name = $request->category_name;
             $category->slug = $request->slug;
@@ -133,7 +133,7 @@ class CategoryController extends Controller
             'message' => 'Category Deleted Successfully',
             'alert-type' => 'success'
         );
-        return redirect()->back()->with($notification);
+        return redirect()->route('all.category')->with($notification);
     }
     public function deleteOldImage( string $old_profile_photo_path): void{
         $fullpath = public_path('upload/category/'.$old_profile_photo_path);
