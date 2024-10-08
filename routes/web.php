@@ -32,6 +32,7 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+require __DIR__.'/client.php';
 
 // admin login
 Route::middleware('admin')->group(function () {
