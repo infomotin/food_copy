@@ -42,7 +42,7 @@
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
                         <li>
-                            <a href="{{ route('all.menu') }}">
+                            <a href="{{ route('client.menu.add') }}">
                                 <span data-key="t-calendar">Add Menu</span>
                             </a>
                         </li>
@@ -53,6 +53,26 @@
                         </li>
                     </ul>
                 </li>
+
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow">
+                        <i data-feather="grid"></i>
+                        <span data-key="t-apps">Food Product</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li>
+                            <a href="{{ route('client.product.all') }}">
+                                <span data-key="t-calendar">All Food Products</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('client.product.add') }}">
+                                <span data-key="t-chat">Add Food</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
 
                 <li>
                     <a href="javascript: void(0);" class="has-arrow">

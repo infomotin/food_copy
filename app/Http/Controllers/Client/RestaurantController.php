@@ -4,7 +4,10 @@ namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Menu;
+use App\Models\Client\Menu;
+use App\Models\Client\Product;
+use App\Models\Admin\Category;
+use App\Models\City;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
 
@@ -106,5 +109,22 @@ class RestaurantController extends Controller
         );
 
         return redirect()->back()->with($notification);
+    }
+
+    //All Function for Product
+    // Show all product to index page
+    public function ClientProductAll()
+    {
+        $products = Product::latest()->get();
+        return view('client.backend.product.index', compact('products'));
+    }
+    //ClientProductAdd
+    public function ClientProductAdd()
+    {
+        $menus = Menu::latest()->get();
+        $cities = City::latest()->get();
+        $categories = Category::latest()->get();
+        return view('client.backend.product.add', compact('menus', 'cities', 'categories'));
+        // return view('client.backend.product.add');
     }
 }
