@@ -12,6 +12,7 @@ use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
 use Haruncpi\LaravelIdGenerator\IdGenerator;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Carbon;
 
 class RestaurantController extends Controller
 {
@@ -34,9 +35,9 @@ class RestaurantController extends Controller
         if ($request->file('menu_icon')) {
             $image = $request->file('menu_icon');
             $manager = new ImageManager(new Driver());
-            $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
+            $name_gen = hexdec(uniqid()) . '.' . $image->getClientOriginalExtension();
             $img = $manager->read($image);
-            $img->resize(300,300)->save(public_path('upload/menus/'.$name_gen));
+            $img->resize(300, 300)->save(public_path('upload/menus/' . $name_gen));
             $save_url = $name_gen;
 
             Menu::create([
@@ -65,9 +66,9 @@ class RestaurantController extends Controller
         if ($request->file('menu_icon')) {
             $image = $request->file('menu_icon');
             $manager = new ImageManager(new Driver());
-            $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
+            $name_gen = hexdec(uniqid()) . '.' . $image->getClientOriginalExtension();
             $img = $manager->read($image);
-            $img->resize(300,300)->save(public_path('upload/menus/'.$name_gen));
+            $img->resize(300, 300)->save(public_path('upload/menus/' . $name_gen));
             $save_url = $name_gen;
 
             Menu::find($id)->update([
@@ -100,7 +101,7 @@ class RestaurantController extends Controller
     public function ClientMenuDelete($id)
     {
         $menu = Menu::find($id);
-        $img = public_path('upload/menus/'.$menu->menu_icon);
+        $img = public_path('upload/menus/' . $menu->menu_icon);
         if (file_exists($img)) {
             unlink($img);
         }
@@ -142,9 +143,9 @@ class RestaurantController extends Controller
         if ($request->file('image')) {
             $image = $request->file('image');
             $manager = new ImageManager(new Driver());
-            $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
+            $name_gen = hexdec(uniqid()) . '.' . $image->getClientOriginalExtension();
             $img = $manager->read($image);
-            $img->resize(300,300)->save(public_path('upload/products/'.$name_gen));
+            $img->resize(300, 300)->save(public_path('upload/products/' . $name_gen));
             $save_url = $name_gen;
             //gen Unique ID Code No with Prefix and Suffix Code 4 digit
             Product::create([
@@ -162,7 +163,8 @@ class RestaurantController extends Controller
                 'size' => $request->size,
                 'most_popular' => $request->most_popular,
                 'best_seller' => $request->best_seller,
-                'client_id' => $user_id->id
+                'client_id' => $user_id->id,
+                'created_at' => Carbon::now()
             ]);
         }
         // } else {
@@ -192,5 +194,106 @@ class RestaurantController extends Controller
             'alert-type' => 'success'
         );
         return redirect()->route('client.product.all')->with($notification);
+    }
+    //ClientProductEdit
+    public function ClientProductEdit($id)
+    {
+        $product = Product::find($id);
+        $menus = Menu::latest()->get();
+        $cities = City::latest()->get();
+        $categories = Category::latest()->get();
+        return view('client.backend.product.edit', compact('product', 'menus', 'cities', 'categories'));
+    }
+
+    //ClientProductUpdate
+    public function ClientProductUpdate(Request $request, $id)
+    {
+        $product = Product::find($id);
+        $user_id = \App\Models\Client::find(Auth::guard('client')->id());
+        if ($request->file('image')) {
+            $image = $request->file('image');
+            $manager = new ImageManager(new Driver());
+            $name_gen = hexdec(uniqid()) . '.' . $image->getClientOriginalExtension();
+            $img = $manager->read($image);
+            $img->resize(300, 300)->save(public_path('upload/products/' . $name_gen));
+            $save_url = $name_gen;
+            Product::find($id)->update([
+                'name' => $request->name,
+                'slug' => strtolower(str_replace(' ', '-', $request->name)),
+                'menu_id' => $request->menu_id,
+                'category_id' => $request->category_id,
+                'city_id' => $request->city_id,
+                'a_code' => $request->a_code,
+                'qty' => $request->qty,
+                'price' => $request->price,
+                'discount_price' => $request->discount_price,
+                'image' => $save_url,
+                'description' => $request->description,
+                'size' => $request->size,
+                'most_popular' => $request->most_popular,
+                'best_seller' => $request->best_seller,
+                'client_id' => $user_id->id,
+                'updated_at' => Carbon::now()
+            ]);
+
+            $notification = array(
+                'message' => 'Product Updated Successfully',
+                'alert-type' => 'success'
+            );
+            return redirect()->route('client.product.all')->with($notification);
+
+        } else {
+            Product::find($id)->update([
+                'name' => $request->name,
+                'slug' => strtolower(str_replace(' ', '-', $request->name)),
+                'menu_id' => $request->menu_id,
+                'category_id' => $request->category_id,
+                'city_id' => $request->city_id,
+                'a_code' => $request->a_code,
+                'qty' => $request->qty,
+                'price' => $request->price,
+                'discount_price' => $request->discount_price,
+                'description' => $request->description,
+                'size' => $request->size,
+                'most_popular' => $request->most_popular,
+                'best_seller' => $request->best_seller,
+                'client_id' => $user_id->id
+            ]);
+
+            $notification = array(
+                'message' => 'Product Updated Successfully',
+                'alert-type' => 'success'
+            );
+            return redirect()->route('client.product.all')->with($notification);
+        }
+    }
+    //ClientProductDelete
+    public function ClientProductDelete($id)
+    {
+        $product = Product::find($id);
+        $img = public_path('upload/products/' . $product->image);
+        if (file_exists($img)) {
+            unlink($img);
+        }
+        $product->delete();
+        $notification = array(
+            'message' => 'Product Deleted Successfully',
+            'alert-type' => 'success'
+        );
+        return redirect()->back()->with($notification);
+    }
+    //ChangeStatus
+    public function ChangeStatus(Request $request)
+    {
+        // dd($request->all());
+        $product = Product::find($request->product_id);
+        // dd($product);
+        $product->status = $product->status == 'active' ? 'inactive' : 'active';
+        $product->save();
+        $notification = array(
+            'message' => 'Product Status Changed Successfully',
+            'alert-type' => 'success'
+        );
+        return response()->json(['success' => 'Status Change Successfully', 'status' => $product->status], 200);
     }
 }

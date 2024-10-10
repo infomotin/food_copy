@@ -34,6 +34,7 @@ Route::middleware('client')->group(function () {
         Route::get('client/product/edit/{id}', 'ClientProductEdit')->name('client.product.edit');
         Route::post('client/product/update/{id}', 'ClientProductUpdate')->name('client.product.update');
         Route::get('client/product/delete/{id}', 'ClientProductDelete')->name('client.product.delete');
+        Route::get('/changeStatus', 'ChangeStatus');
     });
 
 });
