@@ -24,14 +24,14 @@
                 <div class="card">
                     <div class="card-body">
                         <h4 class="card-title">Add Food Product</h4>
-                        <form action="{{route('client.menu.store')}}" method="POST" enctype="multipart/form-data" id="myForm">
+                        <form action="{{route('client.product.store')}}" method="POST" enctype="multipart/form-data" id="myForm">
                             @csrf
                             <div class="row">
                                 <div class="col-md-3">
                                     <div class="mb-3">
                                         <label for="example-text-input" class="form-label">Category Name</label>
                                         <select class="form-select" name="category_id" aria-label="Default select example">
-                                            <option selected>Open this select menu</option>
+                                            <option selected="" disabled ="">Open this select menu</option>
                                             @foreach ($categories as $category)
                                             <option value="{{ $category->id }}">{{ $category->category_name }}</option>
                                             @endforeach
@@ -41,8 +41,8 @@
                                 <div class="col-md-3">
                                     <div class="mb-3">
                                         <label for="example-search-input" class="form-label">Manu Name</label>
-                                        <select class="form-select" name="category_id" aria-label="Default select example">
-                                            <option selected>Open this select menu</option>
+                                        <select class="form-select" name="menu_id" aria-label="Default select example">
+                                            <option selected="" disabled ="">Open this select menu</option>
                                             @foreach ($menus as $category)
                                             <option value="{{ $category->id }}">{{ $category->menu_name }}</option>
                                             @endforeach
@@ -52,8 +52,8 @@
                                 <div class="col-md-3">
                                     <div class="mb-3">
                                         <label for="example-text-input" class="form-label">City Name</label>
-                                        <select class="form-select" name="category_id" aria-label="Default select example">
-                                            <option selected>Open this select menu</option>
+                                        <select class="form-select" name="city_id" aria-label="Default select example">
+                                            <option selected="" disabled ="">Open this select menu</option>
                                             @foreach ($cities as $category)
                                             <option value="{{ $category->id }}">{{ $category->city_name }}</option>
                                             @endforeach
@@ -62,37 +62,68 @@
                                 </div>
                                 <div class="col-md-3">
                                     <div class="mb-3">
-                                        <label for="example-search-input" class="form-label">Product Slug</label>
-                                        <input class="form-control" name="menu_slug" type="text" id="example-search-input">
+                                        <label for="example-search-input" class="form-label">Product Name</label>
+                                        <input class="form-control" name="name" type="text" id="example-search-input">
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="mb-3">
-                                        <label for="example-search-input" class="form-label">Product Slug</label>
-                                        <input class="form-control" name="menu_slug" type="text" id="example-search-input">
+                                        <label for="example-search-input" class="form-label">Price</label>
+                                        <input class="form-control" name="price" type="text" id="example-search-input">
                                     </div>
                                 </div>
                                 <div class="col-md-2">
                                     <div class="mb-3">
-                                        <label for="example-search-input" class="form-label">Product Slug</label>
-                                        <input class="form-control" name="menu_slug" type="text" id="example-search-input">
+                                        <label for="example-search-input" class="form-label">Product Size</label>
+                                        <input class="form-control" name="size" type="text" id="example-search-input">
                                     </div>
                                 </div>
                                 <div class="col-md-2">
                                     <div class="mb-3">
-                                        <label for="example-search-input" class="form-label">Product Slug</label>
-                                        <input class="form-control" name="menu_slug" type="text" id="example-search-input">
+                                        <label for="example-search-input" class="form-label">Product Qty</label>
+                                        <input class="form-control" name="qty" type="text" id="example-search-input">
                                     </div>
                                 </div>
+                                <div class="col-md-2">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="1" id="flexCheckDefault" name="most_popular">
+                                        <label class="form-check-label" for="flexCheckDefault">Is Most Popular?</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="mb-3">
+                                        <input class="form-check-input" type="checkbox" value="1" id="flexCheckDefault" name="best_seller">
+                                        <label class="form-check-label" for="flexCheckDefault">Is Best Seller</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                    <div class="mb-3">
+                                        <label for="example-search-input" class="form-label">Discount Price</label>
+                                        <input class="form-control" name="discount_price" type="text" id="example-search-input">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="example-search-input" class="form-label">Product Description</label>
+                                        <textarea name="description" class="form-control" id="example-search-input" cols="3" rows="2">
 
-
-
-
-
-
-
+                                        </textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="example-email-input" class="col-sm-2 col-form-label">Product Image</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control" name="image" type="file" id="image">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="example-url-input" class="col-sm-2 col-form-label"></label>
+                                    <div class="col-sm-10">
+                                        <img id="showImage" class="rounded avatar-lg" src="{{(!empty($item->image))?url('upload/products/'.$item->image):url('upload/no_image.jpg')}}" alt="Card image cap">
+                                    </div>
+                                </div>
                             </div>
-                            <input type="submit" class="btn btn-info waves-effect waves-light" value="Add Menu">
+                            <input type="submit" class="btn btn-info waves-effect waves-light" value="Add Product">
                         </form>
                     </div>
                 </div>
@@ -116,27 +147,50 @@
     $(document).ready(function (){
         $('#myForm').validate({
             rules: {
-                menu_name: {
+                category_id: {
                     required : true,
                 },
-                menu_slug:{
+                menu_id:{
                     required : true,
                 },
-                menu_icon: {
+                city_id:{
                     required : true,
                 },
+                name:{
+                    required : true,
+                },
+                price:{
+                    required : true,
+                },
+                image:{
+                    required : true,
+                }
+
+
 
             },
             messages :{
-                menu_name: {
+                category_id: {
                     required : 'Please Enter CategoryName',
                 },
-                menu_slug:{
-                    required : 'Please Enter Slug',
+                menu_id: {
+                    required : 'Please Enter CategoryName',
                 },
-                menu_icon: {
-                    required : 'Please Enter Image',
+                city_id: {
+                    required : 'Please Enter CategoryName',
                 },
+                name: {
+                    required : 'Please Enter CategoryName',
+                },
+                price: {
+                    required : 'Please Enter CategoryName',
+                },
+                image:{
+                    required : 'Please Enter CategoryName',
+                }
+
+
+
 
 
             },

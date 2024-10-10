@@ -10,7 +10,7 @@
 
                     <div class="page-title-right">
                         <ol class="m-0 breadcrumb">
-                            <a href="{{route('client.menu.add')}}" class="btn btn-primary waves-effect waves-light">Add Product</a>
+                            <a href="{{route('client.product.add')}}" class="btn btn-primary waves-effect waves-light">Add Product</a>
                         </ol>
                     </div>
 
@@ -44,12 +44,19 @@
                                     <td>{{$key+1}}</td>
                                     <td><img src="{{(!empty($item->image))?url('upload/products/'.$item->image):url('upload/no_image.jpg')}}" height="30" width="30" alt=""></td>
                                     <td>{{$item->name}}</td>
-                                    <td>{{$item->menu_id}}</td>
+                                    <td>
+                                        @foreach ($menus as $menu)
+                                            @if ($item->menu_id == $menu->id)
+                                                {{$menu->menu_name}}
+                                            @endif
+                                        @endforeach
+
+                                    </td>
                                     <td>{{$item->price}}</td>
                                     <td>{{$item->qty}}</td>
                                     <td>{{$item->discount_price}}</td>
                                     <td>
-                                        @if ($item->status == 1)
+                                        @if ($item->status == 'active')
                                             <span class="badge rounded-pill bg-success">Active</span>
                                         @else
                                             <span class="badge rounded-pill bg-danger">Inactive</span>
