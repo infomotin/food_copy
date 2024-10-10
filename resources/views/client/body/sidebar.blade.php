@@ -72,7 +72,24 @@
                         </li>
                     </ul>
                 </li>
-
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow">
+                        <i data-feather="grid"></i>
+                        <span data-key="t-apps">Food Photo Gallery</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li>
+                            <a href="{{ route('client.gallery.all') }}">
+                                <span data-key="t-calendar">Photo Gallery</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('client.gallery.add') }}">
+                                <span data-key="t-chat">Add Photo   </span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
 
                 <li>
                     <a href="javascript: void(0);" class="has-arrow">

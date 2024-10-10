@@ -36,6 +36,18 @@ Route::middleware('client')->group(function () {
         Route::get('client/product/delete/{id}', 'ClientProductDelete')->name('client.product.delete');
         Route::get('/changeStatus', 'ChangeStatus');
     });
+    //end all route for client menu
+
+    //all route for Photo Gallery
+    Route::controller(RestaurantController::class)->group(function () {
+        Route::get('client/gallery/all', 'ClientGalleryAll')->name('client.gallery.all');
+        Route::get('client/gallery/add', 'ClientGalleryAdd')->name('client.gallery.add');
+        Route::post('client/gallery/store', 'ClientGalleryStore')->name('client.gallery.store');
+        Route::get('client/gallery/edit/{id}', 'ClientGalleryEdit')->name('client.gallery.edit');
+        Route::post('client/gallery/update/{id}', 'ClientGalleryUpdate')->name('client.gallery.update');
+        Route::get('client/gallery/delete/{id}', 'ClientGalleryDelete')->name('client.gallery.delete');
+    });
+    //end all route for Photo Gallery
 
 });
 

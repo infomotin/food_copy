@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Client\Menu;
 use App\Models\Client\Product;
+use App\Models\Client\Gllery;
 use App\Models\Admin\Category;
 use App\Models\City;
 use Intervention\Image\ImageManager;
@@ -296,4 +297,98 @@ class RestaurantController extends Controller
         );
         return response()->json(['success' => 'Status Change Successfully', 'status' => $product->status], 200);
     }
+
+   //Client photo gallery all Function start
+
+   //ClientGalleryAll
+   public function ClientGalleryAll()
+   {
+       $gallery = Gllery::latest()->get();
+       return view('client.backend.photo_gallery.index', compact('gallery'));
+   }
+
+   //ClientGalleryAdd
+   public function ClientGalleryAdd()
+   {
+       return view('client.backend.photo_gallery.add');
+   }
+   //ClientGalleryStore
+   public function ClientGalleryStore(Request $request)
+   {
+        $client_id = \App\Models\Client::find(Auth::guard('client')->id());
+       //Multiple Image Upload
+       if ($request->hasFile('gallery_image')) {
+           foreach ($request->gallery_image as $image) {
+               $manager = new ImageManager(new Driver());
+               $name_gen = hexdec(uniqid()) . '.' . $image->getClientOriginalExtension();
+               $img = $manager->read($image);
+               $img->resize(300, 300)->save(public_path('upload/gallerys/' . $name_gen));
+               $save_url = $name_gen;
+               Gllery::create([
+                   'gallery_image' => $save_url,
+                   'client_id' => $client_id->id
+               ]);
+           }
+       }
+       $notification = array(
+           'message' => 'Gallery Inserted Successfully',
+           'alert-type' => 'success'
+       );
+
+       return redirect()->route('client.gallery.all')->with($notification);
+   }
+   //ClientGalleryEdit
+   public function ClientGalleryEdit($id)
+   {
+       $gallery = Gllery::find($id);
+       return view('client.backend.photo_gallery.edit', compact('gallery'));
+   }
+//    ClientGalleryUpdate
+   public function ClientGalleryUpdate(Request $request, $id)
+   {
+       $client_id = \App\Models\Client::find(Auth::guard('client')->id());
+       //Multiple Image update Upload
+       if ($request->hasFile('gallery_image')) {
+            foreach ($request->gallery_image as $image) {
+                $manager = new ImageManager(new Driver());
+                $name_gen = hexdec(uniqid()) . '.' . $image->getClientOriginalExtension();
+                $img = $manager->read($image);
+                $img->resize(300, 300)->save(public_path('upload/gallerys/' . $name_gen));
+                $save_url = $name_gen;
+                Gllery::find($id)->update([
+                    'gallery_image' => $save_url,
+                    'client_id' => $client_id->id
+                ]);
+
+            }
+       } else {
+           Gllery::find($id)->update([
+               'client_id' => $client_id->id
+           ]);
+       }
+       $notification = array(
+           'message' => 'Gallery Updated Successfully',
+           'alert-type' => 'success'
+       );
+
+       return redirect()->route('client.gallery.all')->with($notification);
+
+
+    }
+
+   //ClientGalleryDelete
+   public function ClientGalleryDelete($id)
+   {
+       $gallery = Gllery::find($id);
+       $img = public_path('upload/gallerys/' . $gallery->gallery_image);
+       if (file_exists($img)) {
+           unlink($img);
+       }
+       $gallery->delete();
+       $notification = array(
+           'message' => 'Gallery Deleted Successfully',
+           'alert-type' => 'success'
+       );
+       return redirect()->back()->with($notification);
+   }
 }
