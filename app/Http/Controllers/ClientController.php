@@ -16,7 +16,27 @@ class ClientController extends Controller
     public function ClientRegister(){
         return view('client.register');
     }
-
+    //ClientRegisterSubmit
+    public function ClientRegisterSubmit(Request $request){
+        dd($request->all());
+        // $request->validate([
+        //     'name' => 'required',
+        //     'email' => 'required|email',
+        //     'password' => 'required',
+        // ]);
+        // // dd($request->validate);
+        // if($request->validate){
+        //     return redirect()->back()->with('error', 'Not registered');
+        // }else{
+            // dd($request->all());
+            $user = new \App\Models\Client();
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->password = Hash::make($request->password);
+            $user->save();
+            return redirect()->route('client.login')->with('success', 'Registered successfully');
+        //}//
+    }
     public function ClientLogin(){
         return view('client.login');
     }

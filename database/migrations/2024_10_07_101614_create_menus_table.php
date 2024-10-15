@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('menu_icon')->nullable();
             $table->string('menu_link')->nullable();
             $table->string('menu_target')->nullable();
+            $table->string('client_id')->nullable();
             $table->string('menu_status')->default('active');
             $table->timestamps();
         });

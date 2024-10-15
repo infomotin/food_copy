@@ -66,18 +66,18 @@
                                             <h5 class="mb-0">Register Account</h5>
                                             <p class="mt-2 text-muted">Get your free Minia account now.</p>
                                         </div>
-                                        <form class="pt-2 mt-4 needs-validation" novalidate action="index.html">
+                                        <form class="pt-2 mt-4 needs-validation" method="post" action="{{ route('client.register_submit') }}">
                                             <div class="mb-3">
-                                                <label for="useremail" class="form-label">Email</label>
-                                                <input type="email" class="form-control" id="useremail" placeholder="Enter email" required>
+                                                <label for="useremail" class="form-label">Name</label>
+                                                <input type="text" class="form-control" id="useremail" name="name" placeholder="Enter email" required>
                                                 <div class="invalid-feedback">
                                                     Please Enter Email
                                                 </div>
                                             </div>
 
                                             <div class="mb-3">
-                                                <label for="username" class="form-label">Username</label>
-                                                <input type="text" class="form-control" id="username" placeholder="Enter username" required>
+                                                <label for="username" class="form-label">Email</label>
+                                                <input type="email" class="form-control" id="username" name="email" placeholder="Enter username" required>
                                                 <div class="invalid-feedback">
                                                     Please Enter Username
                                                 </div>
@@ -85,7 +85,7 @@
 
                                             <div class="mb-3">
                                                 <label for="userpassword" class="form-label">Password</label>
-                                                <input type="password" class="form-control" id="userpassword" placeholder="Enter password" required>
+                                                <input type="password" class="form-control" id="userpassword" name="password" placeholder="Enter password" required>
                                                 <div class="invalid-feedback">
                                                     Please Enter Password
                                                 </div>

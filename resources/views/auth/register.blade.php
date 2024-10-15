@@ -49,7 +49,7 @@
                                 <label for="inputPassword">Confirm Password</label>
                              </div>
                               <button class="mb-2 btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold" type="submit">Sign Up</button>
-                              <div class="pt-3 text-center">
+                              <div class="pt-3 text-center"> 
                                  Already have an Account? <a class="font-weight-bold" href="{{route('login')}}">Sign In</a>
                               </div>
                            </form>
