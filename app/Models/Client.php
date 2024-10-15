@@ -31,7 +31,9 @@ class Client extends Authenticatable
         'password',
         'remember_token',
     ];
-
+    // public function city(){
+    //     return $this->belongsTo(City::class, 'city_id', 'id');
+    // }
     /**
      * Get the attributes that should be cast.
      *

@@ -124,7 +124,15 @@
                                     </div>
                                     <div>
                                         <label for="example-datetime-local-input" class="form-label">Phone </label>
-                                        <input class="form-control" type="number" value="{{$userData->phone}}" id="phone" name="phone">
+                                        <input class="form-control" type="text" value="{{$userData->phone}}" id="phone" name="phone">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="example-date-input" class="form-label">Cover Image</label>
+                                        <input class="form-control" type="file" value="{{$userData->cover_photo}}" id="cover_photo" name="cover_photo">
+                                    </div>
+                                    <div class="mb-3">
+
+                                        <img id="showImage" src="{{(!empty($userData->cover_photo))?url('upload/clients/'.$userData->cover_photo):url('upload/no_image.jpg')}}" alt="" class="p-1 rounded-circle bg-light" width="150">
                                     </div>
 
                                 </div>
@@ -138,24 +146,24 @@
                                     </div>
 
                                     <div class="mb-3">
-                                        <label class="form-label">Sex</label>
-                                        <select class="form-select">
-                                            <option>Select</option>
-                                            <option>Male</option>
-                                            <option>Female </option>
+                                        <label class="form-label">City</label>
+                                        <select class="form-select" name="city_id">
+                                            <option>Open this select menu</option>
+                                            @php
+                                                $cities = App\Models\City::all();
+                                            @endphp
+                                            @foreach($cities as $city)
+                                                <option value="{{$city->id}}" {{$city->id == $userData->city_id ? 'selected': ''}} >{{$city->city_name}}</option>
+                                            @endforeach
                                         </select>
+
                                     </div>
 
                                     <div>
-                                        <label for="exampleDataList" class="form-label">Datalists</label>
-                                        <input class="form-control" list="datalistOptions" id="exampleDataList" placeholder="Type to search...">
-                                        <datalist id="datalistOptions">
-                                            <option value="San Francisco">
-                                            <option value="New York">
-                                            <option value="Seattle">
-                                            <option value="Los Angeles">
-                                            <option value="Chicago">
-                                        </datalist>
+                                        <label for="exampleDataList" class="form-label">Shop Information</label>
+                                        <input class="form-control" type="text" value="{{$userData->shopinfo}}" id="shopinfo" name="shopinfo">
+
+
                                     </div>
 
                                     <div class="mb-3">

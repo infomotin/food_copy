@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Mail\Websitemail;
+use App\Models\City;
 class ClientController extends Controller
 {
     public function index()
@@ -46,9 +47,6 @@ class ClientController extends Controller
          }else{
              return redirect()->route('client.login')->with('error', 'Login details are not valid');
          }
-
-
-
         // $credentials = $request->only('email', 'password');
         // if (Auth::attempt($credentials)) {
         //     return redirect()->intended('/admin/dashboard');
@@ -64,6 +62,7 @@ class ClientController extends Controller
         // GET LOGIN USER DATA HERE
         $user = Auth::guard('client')->id();
         $userData = \App\Models\Client::find($user);
+        // $cities = City::latest()->get();
         // dd($userData);
         return view('client.client_profile', compact('userData'));
     }
@@ -100,7 +99,19 @@ class ClientController extends Controller
                 }
             }
 
-
+            $old_cover_photo = $user->cover_photo;
+            $cover_photo =[];
+            if($request->hasFile('cover_photo')){
+                $file = $request->file('cover_photo');
+                $ext = $file->getClientOriginalExtension();
+                $filename = 'C-'.time().'.'.$ext;
+                $file->move('upload/clients/',$filename);
+                $cover_photo = $filename;
+                if($old_cover_photo && file_exists('upload/clients/'.$old_cover_photo) && $old_cover_photo !== $ext){
+                    $this->deleteOldImage($old_cover_photo);
+                }
+            }
+            // dd($request->all());
 
             $user->update([
                 'name' => $request->name,
@@ -109,7 +120,10 @@ class ClientController extends Controller
                 'username' => $request->username,
                 'phone' => $request->phone,
                 'birth_date' => $request->birth_date,
-                'profile_photo_path' => $profile_photo_path
+                'profile_photo_path' => $profile_photo_path,
+                'cover_photo' => $cover_photo,
+                'city_id' => $request->city_id,
+                'shopinfo' => $request->shopinfo
             ]);
 
            $notification = array(
