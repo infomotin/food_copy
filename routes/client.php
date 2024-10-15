@@ -7,7 +7,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CityController;
 use App\Http\Controllers\Client\RestaurantController;
-
+use App\Http\Controllers\Client\CouponController;
 
 
 
@@ -48,6 +48,18 @@ Route::middleware('client')->group(function () {
         Route::get('client/gallery/delete/{id}', 'ClientGalleryDelete')->name('client.gallery.delete');
     });
     //end all route for Photo Gallery
+
+    //all route for Coupon
+    Route::controller(CouponController::class)->group(function () {
+        Route::get('client/coupon/all', 'ClientCouponAll')->name('client.coupon.all');
+        Route::get('client/coupon/add', 'ClientCouponAdd')->name('client.coupon.add');
+        Route::post('client/coupon/store', 'ClientCouponStore')->name('client.coupon.store');
+        Route::get('client/coupon/edit/{id}', 'ClientCouponEdit')->name('client.coupon.edit');
+        Route::post('client/coupon/update/{id}', 'ClientCouponUpdate')->name('client.coupon.update');
+        Route::get('client/coupon/delete/{id}', 'ClientCouponDelete')->name('client.coupon.delete');
+    });
+    //end all route for Coupon
+
 
 });
 
