@@ -10,12 +10,17 @@
                 <li class="menu-title" data-key="t-menu">Menu</li>
 
                 <li>
-                    <a href="index.html">
+                    <a href="{{ route('client.dashboard') }}">
                         <i data-feather="home"></i>
                         <span data-key="t-dashboard">Dashboard</span>
                     </a>
                 </li>
-
+                @php
+                $id = Auth::guard('client')->id();
+                $client = App\Models\Client::find($id);
+                $status = $client->status;
+                @endphp
+                @if ($status === 'active')
                 <li>
                     <a href="javascript: void(0);" class="has-arrow">
                         <i data-feather="grid"></i>
@@ -34,7 +39,6 @@
                         </li>
                     </ul>
                 </li>
-
                 <li>
                     <a href="javascript: void(0);" class="has-arrow">
                         <i data-feather="grid"></i>
@@ -53,7 +57,6 @@
                         </li>
                     </ul>
                 </li>
-
                 <li>
                     <a href="javascript: void(0);" class="has-arrow">
                         <i data-feather="grid"></i>
@@ -90,7 +93,6 @@
                         </li>
                     </ul>
                 </li>
-
                 <li>
                     <a href="javascript: void(0);" class="has-arrow">
                         <i data-feather="grid"></i>
@@ -109,7 +111,6 @@
                         </li>
                     </ul>
                 </li>
-
                 <li>
                     <a href="javascript: void(0);" class="has-arrow">
                         <i data-feather="users"></i>
@@ -121,9 +122,9 @@
 
                     </ul>
                 </li>
-
-
-
+                @else
+                    <li class="mt-2 menu-title text-danger" data-key="t-components" >Inactive</li>
+                @endif
                 <li class="mt-2 menu-title" data-key="t-components">Elements</li>
 
 

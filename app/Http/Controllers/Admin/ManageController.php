@@ -18,14 +18,12 @@ use App\Models\Client;
 class ManageController extends Controller
 {
     //AllProduct
-
     public function AllProduct()
     {
         $products = Product::latest()->get();
         return view('admin.backend.product.index', compact('products'));
     }
     //AddProduct
-
     public function AddProduct(){
         $menus = Menu::latest()->get();
         $cities = City::latest()->get();
@@ -34,7 +32,6 @@ class ManageController extends Controller
         return view('admin.backend.product.add', compact('menus', 'cities', 'categories','clients'));
     }
     //AddProductStore
-
     public function AddProductStore(Request $request){
         // login user id
         $user_id = \App\Models\Admin::find(Auth::guard('admin')->id());
@@ -193,5 +190,37 @@ class ManageController extends Controller
            'alert-type' => 'success'
        );
        return response()->json(['success' => 'Status Change Successfully', 'status' => $product->status], 200);
+    }
+    //AllRestaurant
+    public function AllRestaurant(){
+        $restaurants = Client::latest()->get();
+        return view('admin.backend.restaurant.index', compact('restaurants'));
+    }
+    //AddRestaurant
+    public function AddRestaurant(){
+        return response()->json(['data' => 'Add Restaurant']);
+    }
+    //EditRestaurant
+    public function EditRestaurant($id){
+        return response()->json(['data' => 'Edit Restaurant']);
+    }
+
+    //DeleteRestaurant
+    public function DeleteRestaurant($id){
+        return response()->json(['data' => 'Delete Restaurant']);
+    }
+    //Ajax For Restaurant
+    public function ClientchangeStatus(Request $request)
+    {
+       // dd($request->all());
+       $restaurant = Client::find($request->id);
+       // dd($restaurant);
+       $restaurant->status = $restaurant->status == 'active' ? 'inactive' : 'active';
+       $restaurant->save();
+       $notification = array(
+           'message' => 'Restaurant Status Changed Successfully',
+           'alert-type' => 'success'
+       );
+       return response()->json(['success' => 'Status Change Successfully', 'status' => $restaurant->status], 200);
     }
 }

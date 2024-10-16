@@ -15,7 +15,7 @@ require __DIR__.'/auth.php';
 
 
 // all route for client menu here
-Route::middleware('client')->group(function () {
+Route::middleware(['clientstatus','client'],)->group(function () {
     //for menu
     Route::controller(RestaurantController::class)->group(function () {
         Route::get('all/menu', 'AllMenu')->name('all.menu');

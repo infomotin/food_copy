@@ -113,3 +113,17 @@ Route::middleware('admin')->group(function () {
     });
 });
 //end all router for manage
+
+// end all route for Manage Rastaurant
+
+Route::middleware('admin')->group(function () {
+    Route::controller(ManageController::class)->group(function () {
+        Route::get('all/admin/restaurant', 'AllRestaurant')->name('admin.all.restaurant');
+        Route::get('store/admin/restaurant', 'AddRestaurant')->name('admin.add.restaurant');
+        // Route::post('store/admin/restaurant/submit', 'AddRestaurantStore')->name('admin.restaurant.store');
+        Route::get('edit/admin/restaurant/{id}', 'EditRestaurant')->name('admin.edit.restaurant');
+        // Route::post('update/admin/restaurant/{id}', 'UpdateRestaurant')->name('admin.update.restaurant');
+        Route::get('delete/admin/restaurant/{id}', 'DeleteRestaurant')->name('admin.delete.restaurant');
+        Route::get('/ClientchangeStatus','ClientchangeStatus');
+    });
+});
