@@ -109,6 +109,30 @@
                 <li>
                     <a href="javascript: void(0);" class="has-arrow">
                         <i data-feather="users"></i>
+                        <span data-key="t-authentication">Manage Rastaurant</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li>
+                            <a href="{{route('admin.all.product')}}">
+                                <span data-key="t-login">
+                                    All Rastaurant Product
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{route('admin.add.product')}}">
+                                <span data-key="t-login">
+                                    Add Product
+                                </span>
+                            </a>
+                        </li>
+
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow">
+                        <i data-feather="users"></i>
                         <span data-key="t-authentication">Authentication</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Admin\Category;
 use App\Models\Client\Menu;
 use App\Models\City;
+use App\Models\Client;
 
 class Product extends Model
 {
@@ -22,5 +23,8 @@ class Product extends Model
     // City
     public function city(){
         return $this->belongsTo(City::class, 'city_id', 'id');
+    }
+    public function client(){
+        return $this->belongsTo(Client::class, 'client_id', 'id');
     }
 }

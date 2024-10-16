@@ -7,6 +7,7 @@ use App\Http\Controllers\ClientController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CityController;
+use App\Http\Controllers\Admin\ManageController;
 
 
 
@@ -96,3 +97,19 @@ Route::middleware('admin')->group(function () {
     });
 });
 //end all router for city
+
+//all router for manage
+Route::middleware('admin')->group(function () {
+    Route::controller(ManageController::class)->group(function () {
+        Route::get('all/admin/product', 'AllProduct')->name('admin.all.product');
+        Route::get('store/admin/product', 'AddProduct')->name('admin.add.product');
+        Route::post('store/admin/product/submit', 'AddProductStore')->name('admin.product.store');
+        Route::get('edit/admin/product/{id}', 'EditProduct')->name('admin.edit.product');
+        Route::post('update/admin/product/{id}', 'UpdateProduct')->name('admin.update.product');
+        Route::get('delete/admin/product/{id}', 'DeleteProduct')->name('admin.delete.product');
+
+        Route::get('/AdminchangeStatus','AdminchangeStatus');
+
+    });
+});
+//end all router for manage
