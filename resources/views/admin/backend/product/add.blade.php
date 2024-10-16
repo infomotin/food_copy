@@ -61,8 +61,19 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
-                                    <div class="mb-3">
+                                <div class="col-md-1">
+                                    <div class="mb-1">
+                                        <label for="example-text-input" class="form-label">Restaruant</label>
+                                        <select class="form-select" name="client_id" aria-label="Default select example">
+                                            <option selected="" disabled ="">Open this select menu</option>
+                                            @foreach ($clients as $category)
+                                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="mb-2">
                                         <label for="example-search-input" class="form-label">Product Name</label>
                                         <input class="form-control" name="name" type="text" id="example-search-input">
                                     </div>

@@ -82,7 +82,7 @@
                                     <td>
                                         <a href="{{route('admin.edit.product', $item->id)}}" class="btn btn-info sm"
                                             title="Edit Data"> <i class="fas fa-edit"></i> </a>
-                                        <a href="{{route('admin.delete.produc', $item->id)}}"
+                                        <a href="{{route('admin.delete.product', $item->id)}}"
                                             class="btn btn-danger sm" title="Delete Data" id="delete"> <i
                                                 class="fas fa-trash-alt"></i> </a>
 

@@ -13,6 +13,7 @@ use Intervention\Image\Drivers\Gd\Driver;
 use Haruncpi\LaravelIdGenerator\IdGenerator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Carbon;
+use App\Models\Client;
 
 class ManageController extends Controller
 {
@@ -29,7 +30,8 @@ class ManageController extends Controller
         $menus = Menu::latest()->get();
         $cities = City::latest()->get();
         $categories = Category::latest()->get();
-        return view('admin.backend.product.add', compact('menus', 'cities', 'categories'));
+        $clients = Client::latest()->get();
+        return view('admin.backend.product.add', compact('menus', 'cities', 'categories','clients'));
     }
     //AddProductStore
 
@@ -62,7 +64,7 @@ class ManageController extends Controller
                 'size' => $request->size,
                 'most_popular' => $request->most_popular,
                 'best_seller' => $request->best_seller,
-                'client_id' => $user_id->id,
+                'client_id' => $request->client_id,
                 'created_at' => Carbon::now()
             ]);
         }
@@ -100,7 +102,8 @@ class ManageController extends Controller
         $menus = Menu::latest()->get();
         $cities = City::latest()->get();
         $categories = Category::latest()->get();
-        return view('admin.backend.product.edit', compact('product', 'menus', 'cities', 'categories'));
+        $clients = Client::latest()->get();
+        return view('admin.backend.product.edit', compact('product', 'menus', 'cities', 'categories','clients'));
     }
     //UpdateProduct
     public function UpdateProduct(Request $request, $id){
@@ -128,7 +131,7 @@ class ManageController extends Controller
                 'size' => $request->size,
                 'most_popular' => $request->most_popular,
                 'best_seller' => $request->best_seller,
-                'client_id' => $user_id->id,
+                'client_id' => $request->client_id,
                 'updated_at' => Carbon::now()
             ]);
 
@@ -153,7 +156,7 @@ class ManageController extends Controller
                 'size' => $request->size,
                 'most_popular' => $request->most_popular,
                 'best_seller' => $request->best_seller,
-                'client_id' => $user_id->id
+                'client_id' => $request->client_id,
             ]);
 
             $notification = array(
