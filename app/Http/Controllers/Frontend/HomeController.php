@@ -12,7 +12,9 @@ class HomeController extends Controller
     // RestaurantDetail
     public function RestaurantDetail($id){
         $restaurant = Client::find($id);
-        $menus = Menu::where('client_id', $restaurant->id)->latest()->get();
+        $menus = Menu::where('client_id', $restaurant->id)->latest()->get()->filter(function($menu){
+            return $menu->products->count() > 0;
+        });
         return view('frontend.restaurantdetail',compact('restaurant','menus'));
     }
 }
