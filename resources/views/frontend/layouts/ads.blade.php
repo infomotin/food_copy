@@ -1,26 +1,19 @@
+@php
+    $banners = App\Models\Admin\Banner::latest()->limit(4)->get();
+    // dd($banners);
+@endphp
 <section class="pt-5 pb-5 bg-white section homepage-add-section">
     <div class="container">
        <div class="row">
-          <div class="col-md-3 col-6">
-             <div class="products-box">
-                <a href="listing.html"><img alt="" src="{{asset('frontend/img/pro1.jpg')}}" class="rounded img-fluid"></a>
-             </div>
-          </div>
-          <div class="col-md-3 col-6">
-             <div class="products-box">
-                <a href="listing.html"><img alt="" src="{{asset('frontend/img/pro2.jpg')}}" class="rounded img-fluid"></a>
-             </div>
-          </div>
-          <div class="col-md-3 col-6">
-             <div class="products-box">
-                <a href="listing.html"><img alt="" src="{{asset('frontend/img/pro3.jpg')}}" class="rounded img-fluid"></a>
-             </div>
-          </div>
-          <div class="col-md-3 col-6">
-             <div class="products-box">
-                <a href="listing.html"><img alt="" src="{{asset('frontend/img/pro4.jpg')}}" class="rounded img-fluid"></a>
-             </div>
-          </div>
+        @foreach ($banners as $banner)
+        <div class="col-md-3 col-6">
+            <div class="products-box">
+               <a href="{{$banner->url}}"><img alt="" src="{{asset($banner->image)}}" class="rounded img-fluid"></a>
+            </div>
+         </div>
+        @endforeach
+
+
        </div>
     </div>
  </section>
