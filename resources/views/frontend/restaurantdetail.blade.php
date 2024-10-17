@@ -37,9 +37,11 @@
             <div class="row d-flex align-items-end">
                 <div class="col-md-8">
                     <div class="restaurant-detailed-header-left">
-                        <img class="float-left mr-3 img-fluid" alt="osahan" src="{{asset('upload/clients/'. $restaurant->profile_photo_path)}}">
+                        <img class="float-left mr-3 img-fluid" alt="osahan"
+                            src="{{asset('upload/clients/'. $restaurant->profile_photo_path)}}">
                         <h2 class="text-white">{{$restaurant->name}}</h2>
-                        <p class="mb-1 text-white"><i class="icofont-location-pin"></i> {{$restaurant->address}}, NEW YORK, NY 10029
+                        <p class="mb-1 text-white"><i class="icofont-location-pin"></i> {{$restaurant->address}}, NEW
+                            YORK, NY 10029
                             <span class="badge badge-success">OPEN</span>
                         </p>
                         <p class="mb-0 text-white"><i class="icofont-food-cart"></i> {{$menusName}}
@@ -109,8 +111,9 @@
                         <div class="tab-pane fade show active" id="pills-order-online" role="tabpanel"
                             aria-labelledby="pills-order-online-tab">
                             @php
-                                $popularProducts = App\Models\Client\Product::where('client_id',$restaurant->id)->where('status','active')->where('most_popular',1)->limit(5)->get();
-                                // dd($popularProducts);
+                            $popularProducts =
+                            App\Models\Client\Product::where('client_id',$restaurant->id)->where('status','active')->where('most_popular',1)->limit(5)->get();
+                            // dd($popularProducts);
                             @endphp
                             <div id="#menu" class="p-4 mb-4 bg-white rounded shadow-sm explore-outlets">
                                 <h5 class="mb-4">Recommended</h5>
@@ -133,13 +136,19 @@
                                     <div class="item">
                                         <div class="mall-category-item">
                                             <a href="#">
-                                                <img class="img-fluid" src="{{asset('upload/products/'.$popularProduct->image)}}">
+                                                <img class="img-fluid"
+                                                    src="{{asset('upload/products/'.$popularProduct->image)}}">
 
                                                 <h6>{{$popularProduct->name}}</h6>
-                                                @if ($popularProduct->discount_price)
-                                                    <span class="text-primary">$:{{$popularProduct->discount_price}} </span>
+                                                @if ($popularProduct->discount_price == null)
+                                                <span class="text-primary">$:{{$popularProduct->price}} </span>
+                                                @else
+                                                <del class="text-primary">$:{{$popularProduct->price}} </del>
+                                                {{$popularProduct->discount_price}}
                                                 @endif
-                                                <span class="text-primary">Stock : {{$popularProduct->qty}} Pcs</span>
+                                                <span class="float-right text-secondary">
+                                                    <a href="#" class="btn btn-outline-secondary btn-sm">Add</a>
+                                                </span>
                                             </a>
                                         </div>
                                     </div>
@@ -150,15 +159,17 @@
                             </div>
                             <div class="row">
                                 @php
-                                $bestProducts = App\Models\Client\Product::where('client_id',$restaurant->id)->where('status','active')->where('best_seller',1)->limit(5)->get();
+                                $bestProducts =
+                                App\Models\Client\Product::where('client_id',$restaurant->id)->where('status','active')->where('best_seller',1)->limit(5)->get();
                                 // dd($popularProducts);
-                            @endphp
+                                @endphp
                                 <h5 class="mt-3 mb-4 col-md-12">Best Sellers</h5>
                                 @foreach ($bestProducts as $bestProducts)
 
                                 <div class="mb-4 col-md-4 col-sm-6">
 
-                                    <div class="overflow-hidden bg-white rounded shadow-sm list-card h-100 position-relative">
+                                    <div
+                                        class="overflow-hidden bg-white rounded shadow-sm list-card h-100 position-relative">
                                         <div class="list-card-image">
                                             <div class="star position-absolute"><span class="badge badge-success"><i
                                                         class="icofont-star"></i> 3.1 (300+)</span></div>
@@ -173,11 +184,19 @@
                                         </div>
                                         <div class="p-3 position-relative">
                                             <div class="list-card-body">
-                                                <h6 class="mb-1"><a href="#" class="text-black">{{$bestProducts->name}}</a>
+                                                <h6 class="mb-1"><a href="#"
+                                                        class="text-black">{{$bestProducts->name}}</a>
                                                 </h6>
-                                                <p class="mb-2 text-gray">North Indian • Indian</p>
+                                                <p class="mb-2 text-gray">{{$bestProducts['city']['city_name']}}</p>
                                                 <p class="mb-0 text-gray time"><a class="text-black btn btn-link btn-sm"
-                                                        href="#">$550 <span class="badge badge-success">NEW</span></a>
+                                                        href="#">
+                                                        @if ($popularProduct->discount_price == null)
+                                                        <span class="text-primary">$:{{$popularProduct->price}} </span>
+                                                        @else
+                                                        <del class="text-primary">$:{{$popularProduct->price}} </del>
+                                                        {{$popularProduct->discount_price}}
+                                                        @endif
+                                                        <span class="badge badge-success">NEW</span></a>
                                                     <span class="float-right">
                                                         <a class="btn btn-outline-secondary btn-sm" href="#">ADD</a>
                                                     </span>
@@ -191,66 +210,37 @@
 
 
                             </div>
-
+                            @foreach ($menus as $menu )
                             <div class="row">
-                                <h5 class="mt-3 mb-4 col-md-12">Starters <small class="h6 text-black-50">3 ITEMS</small>
+
+
+
+                                <h5 class="mt-3 mb-4 col-md-12">{{$menu->menu_name}} <small class="h6 text-black-50">{{$menu->products->count()}} Items</small>
                                 </h5>
                                 <div class="col-md-12">
                                     <div class="mb-4 bg-white border rounded shadow-sm">
+                                        @foreach ($menu->products as $product)
+
                                         <div class="p-3 menu-list border-bottom">
 
                                             <a class="float-right btn btn-outline-secondary btn-sm" href="#">ADD</a>
 
                                             <div class="media">
-                                                <img class="mr-3 rounded-pill" src="{{asset('frontend/img/5.jpg')}}"
+                                                <img class="mr-3 rounded-pill" src="{{asset('upload/products/'.$product->image)}}"
                                                     alt="Generic placeholder image">
                                                 <div class="media-body">
-                                                    <h6 class="mb-1">Veg Spring Roll</h6>
-                                                    <p class="mb-0 text-gray">$314 - 12" (30 cm)</p>
+                                                    <h6 class="mb-1">{{$product->name}}</h6>
+                                                    <p class="mb-0 text-gray">{{$product->size}} | {{$product->qty}}</p>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="p-3 menu-list border-bottom">
-                                            <span class="float-right count-number">
-                                                <button class="btn btn-outline-secondary btn-sm left dec"> <i
-                                                        class="icofont-minus"></i> </button>
-                                                <input class="count-number-input" type="text" value="1" readonly="">
-                                                <button class="btn btn-outline-secondary btn-sm right inc"> <i
-                                                        class="icofont-plus"></i> </button>
-                                            </span>
-                                            <div class="media">
-                                                <img class="mr-3 rounded-pill" src="{{asset('frontend/img/2.jpg')}}"
-                                                    alt="Generic placeholder image">
-                                                <div class="media-body">
-                                                    <h6 class="mb-1">Stuffed Mushroom <span
-                                                            class="badge badge-danger">BESTSELLER</span></h6>
-                                                    <p class="mb-0 text-gray">$600</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="p-3 menu-list">
-                                            <span class="float-right count-number">
-                                                <button class="btn btn-outline-secondary btn-sm left dec"> <i
-                                                        class="icofont-minus"></i> </button>
-                                                <input class="count-number-input" type="text" value="1" readonly="">
-                                                <button class="btn btn-outline-secondary btn-sm right inc"> <i
-                                                        class="icofont-plus"></i> </button>
-                                            </span>
-                                            <div class="media">
-                                                <img class="mr-3 rounded-pill" src="{{asset('frontend/img/3.jpg')}}"
-                                                    alt="Generic placeholder image">
-                                                <div class="media-body">
-                                                    <h6 class="mb-1">Honey Chilli Potato
-                                                        <span class="badge badge-success">Pure Veg</span>
-                                                    </h6>
-                                                    <p class="mb-0 text-gray">$600</p>
-                                                </div>
-                                            </div>
-                                        </div>
+
+                                        @endforeach
+
                                     </div>
                                 </div>
                             </div>
-
+                            @endforeach
                         </div>
                         <div class="tab-pane fade" id="pills-gallery" role="tabpanel"
                             aria-labelledby="pills-gallery-tab">
