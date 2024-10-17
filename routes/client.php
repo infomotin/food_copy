@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CityController;
 use App\Http\Controllers\Client\RestaurantController;
 use App\Http\Controllers\Client\CouponController;
+use App\Http\Controllers\Frontend\HomeController;
 
 
 
@@ -63,3 +64,4 @@ Route::middleware(['clientstatus','client'],)->group(function () {
 
 });
 
+Route::get('restaurant/detail/{id}',[HomeController::class,'RestaurantDetail'])->name('restaurant.detail');

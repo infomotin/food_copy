@@ -7,7 +7,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
       <meta name="description" content="Askbootstrap">
       <meta name="author" content="Askbootstrap">
-      <title>Osahan Eat - Online Food Ordering Website HTML Template</title>
+      <title>Dazzle Foods - Online Food Ordering Website</title>
       <!-- Favicon Icon -->
       <link rel="icon" type="image/png" href="{{asset('frontend/img/favicon.png')}}">
       <!-- Bootstrap core CSS-->

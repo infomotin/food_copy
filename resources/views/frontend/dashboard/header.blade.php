@@ -21,6 +21,8 @@
     <!-- Custom styles for this template-->
     <link href="{{asset('frontend/css/osahan.css')}}" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="{{asset('frontend/vendor/owl-carousel/owl.carousel.css')}}">
+    <link rel="stylesheet" href="{{asset('frontend/vendor/owl-carousel/owl.theme.css')}}">
 
 
 

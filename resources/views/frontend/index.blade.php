@@ -56,14 +56,14 @@
                             </div>
                             @endif
 
-                            <a href="#">
+                            <a href="{{route('restaurant.detail',$restaurants->id)}}">
                                 <img src="{{asset('/upload/clients/'.$restaurants->cover_photo)}}"
                                     class="img-fluid item-img" style="width: 300px; height: 200px;">
                             </a>
                         </div>
                         <div class="p-3 position-relative">
                             <div class="list-card-body">
-                                <h6 class="mb-1"><a href="detail.html" class="text-black">{{$restaurants->name}}</a>
+                                <h6 class="mb-1"><a href="{{route('restaurant.detail',$restaurants->id)}}" class="text-black">{{$restaurants->name}}</a>
                                 </h6>
                                 <p class="mb-3 text-gray">{{$menusName}}</p>
                                 <p class="mb-3 text-gray time"><span
