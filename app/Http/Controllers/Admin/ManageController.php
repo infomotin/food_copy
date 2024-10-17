@@ -14,6 +14,7 @@ use Haruncpi\LaravelIdGenerator\IdGenerator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Carbon;
 use App\Models\Client;
+use App\Models\Admin\Banner;
 
 class ManageController extends Controller
 {
@@ -24,15 +25,17 @@ class ManageController extends Controller
         return view('admin.backend.product.index', compact('products'));
     }
     //AddProduct
-    public function AddProduct(){
+    public function AddProduct()
+    {
         $menus = Menu::latest()->get();
         $cities = City::latest()->get();
         $categories = Category::latest()->get();
         $clients = Client::latest()->get();
-        return view('admin.backend.product.add', compact('menus', 'cities', 'categories','clients'));
+        return view('admin.backend.product.add', compact('menus', 'cities', 'categories', 'clients'));
     }
     //AddProductStore
-    public function AddProductStore(Request $request){
+    public function AddProductStore(Request $request)
+    {
         // login user id
         $user_id = \App\Models\Admin::find(Auth::guard('admin')->id());
         // dd($user);
@@ -94,16 +97,18 @@ class ManageController extends Controller
         return redirect()->route('admin.all.product')->with($notification);
     }
     //UpdateProduct
-    public function EditProduct($id){
+    public function EditProduct($id)
+    {
         $product = Product::find($id);
         $menus = Menu::latest()->get();
         $cities = City::latest()->get();
         $categories = Category::latest()->get();
         $clients = Client::latest()->get();
-        return view('admin.backend.product.edit', compact('product', 'menus', 'cities', 'categories','clients'));
+        return view('admin.backend.product.edit', compact('product', 'menus', 'cities', 'categories', 'clients'));
     }
     //UpdateProduct
-    public function UpdateProduct(Request $request, $id){
+    public function UpdateProduct(Request $request, $id)
+    {
         $product = Product::find($id);
         $user_id = \App\Models\Admin::find(Auth::guard('admin')->id());
         if ($request->file('image')) {
@@ -137,7 +142,6 @@ class ManageController extends Controller
                 'alert-type' => 'success'
             );
             return redirect()->route('admin.all.product')->with($notification);
-
         } else {
             Product::find($id)->update([
                 'name' => $request->name,
@@ -164,7 +168,8 @@ class ManageController extends Controller
         }
     }
     //DeleteProduct
-    public function DeleteProduct($id){
+    public function DeleteProduct($id)
+    {
         $product = Product::find($id);
         $img = public_path('upload/products/' . $product->image);
         if (file_exists($img)) {
@@ -180,47 +185,140 @@ class ManageController extends Controller
     //Ajax For Product
     public function AdminchangeStatus(Request $request)
     {
-       // dd($request->all());
-       $product = Product::find($request->product_id);
-       // dd($product);
-       $product->status = $product->status == 'active' ? 'inactive' : 'active';
-       $product->save();
-       $notification = array(
-           'message' => 'Product Status Changed Successfully',
-           'alert-type' => 'success'
-       );
-       return response()->json(['success' => 'Status Change Successfully', 'status' => $product->status], 200);
+        // dd($request->all());
+        $product = Product::find($request->product_id);
+        // dd($product);
+        $product->status = $product->status == 'active' ? 'inactive' : 'active';
+        $product->save();
+        $notification = array(
+            'message' => 'Product Status Changed Successfully',
+            'alert-type' => 'success'
+        );
+        return response()->json(['success' => 'Status Change Successfully', 'status' => $product->status], 200);
     }
     //AllRestaurant
-    public function AllRestaurant(){
+    public function AllRestaurant()
+    {
         $restaurants = Client::latest()->get();
         return view('admin.backend.restaurant.index', compact('restaurants'));
     }
     //AddRestaurant
-    public function AddRestaurant(){
+    public function AddRestaurant()
+    {
         return response()->json(['data' => 'Add Restaurant']);
     }
     //EditRestaurant
-    public function EditRestaurant($id){
+    public function EditRestaurant($id)
+    {
         return response()->json(['data' => 'Edit Restaurant']);
     }
 
     //DeleteRestaurant
-    public function DeleteRestaurant($id){
+    public function DeleteRestaurant($id)
+    {
         return response()->json(['data' => 'Delete Restaurant']);
     }
     //Ajax For Restaurant
     public function ClientchangeStatus(Request $request)
     {
-       // dd($request->all());
-       $restaurant = Client::find($request->id);
-       // dd($restaurant);
-       $restaurant->status = $restaurant->status == 'active' ? 'inactive' : 'active';
-       $restaurant->save();
-       $notification = array(
-           'message' => 'Restaurant Status Changed Successfully',
-           'alert-type' => 'success'
-       );
-       return response()->json(['success' => 'Status Change Successfully', 'status' => $restaurant->status], 200);
+        // dd($request->all());
+        $restaurant = Client::find($request->id);
+        // dd($restaurant);
+        $restaurant->status = $restaurant->status == 'active' ? 'inactive' : 'active';
+        $restaurant->save();
+        $notification = array(
+            'message' => 'Restaurant Status Changed Successfully',
+            'alert-type' => 'success'
+        );
+        return response()->json(['success' => 'Status Change Successfully', 'status' => $restaurant->status], 200);
+    }
+
+    //AllBanner
+    public function AllBanner()
+    {
+        $banners = Banner::latest()->get();
+        return view('admin.backend.banner.index', compact('banners'));
+    }
+    //AddBannerStore
+    public function AddBannerStore(Request $request)
+    {
+        //if request has image
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $manager = new ImageManager(new Driver());
+            $name_gen = hexdec(uniqid()) . '.' . $image->getClientOriginalExtension();
+            $img = $manager->read($image);
+            $img->resize(400, 400)->save(public_path('upload/banners/' . $name_gen));
+            $save_url = 'upload/banners/' . $name_gen;
+            Banner::insert([
+                'url' => $request->url,
+                'image' => $save_url,
+                'created_at' => Carbon::now()
+            ]);
+            $notification = array(
+                'message' => 'Banner Added Successfully',
+                'alert-type' => 'success'
+            );
+            return redirect()->route('admin.all.banner')->with($notification);
+        } else {
+            Banner::insert([
+                'url' => $request->url,
+                'created_at' => Carbon::now()
+            ]);
+            $notification = array(
+                'message' => 'Banner Added Successfully',
+                'alert-type' => 'success'
+            );
+            return redirect()->route('admin.all.banner')->with($notification);
+        }
+    }
+    //EditBanner
+    public function EditBanner($id)
+    {
+        // dd($id);
+        $banner = Banner::find($id);
+        if ($banner) {
+            $banner->image = asset($banner->image);
+        }
+        return response()->json($banner);
+    }
+    //UpdateBanner
+    public function UpdateBanner(Request $request)
+    {
+        $banner = Banner::find($request->banner_id);
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $manager = new ImageManager(new Driver());
+            $name_gen = hexdec(uniqid()) . '.' . $image->getClientOriginalExtension();
+            $img = $manager->read($image);
+            $img->resize(400, 400)->save(public_path('upload/banners/' . $name_gen));
+            $save_url = 'upload/banners/' . $name_gen;
+            $banner->image = $save_url;
+        } else {
+            $banner->url = $request->url;
+        }
+        $banner->url = $request->url;
+        $banner->save();
+        $notification = array(
+            'message' => 'Banner Updated Successfully',
+            'alert-type' => 'success'
+        );
+        return redirect()->route('admin.all.banner')->with($notification);
+    }
+    //DeleteBanner
+    public function DeleteBanner($id)
+    {
+        //find banner
+        $banner = Banner::find($id);
+        $img = public_path($banner->image);
+        if (file_exists($img)) {
+            unlink($img);
+        }
+        $banner->delete();
+        $notification = array(
+            'message' => 'Banner Deleted Successfully',
+            'alert-type' => 'success'
+        );
+        return redirect()->back()->with($notification);
     }
 }

@@ -26,15 +26,11 @@ Route::middleware('auth')->group(function () {
     Route::post('/profile/store', [ProfileController::class, 'ProfileStore'])->name('profile.store');
     Route::get('/user/logout', [ProfileController::class, 'UserLogout'])->name('user.logout');
     // Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
-
     Route::post('/profile/password/change', [ProfileController::class, 'PasswordChange'])->name('change.password');
-
 });
 
 require __DIR__.'/auth.php';
 require __DIR__.'/client.php';
-
 // admin login
 Route::middleware('admin')->group(function () {
     Route::get('admin/dashboard', [AdminController::class, 'AdminDashboard'])->name('admin.dashboard');
@@ -50,10 +46,7 @@ Route::get('admin/forgot_password', [AdminController::class, 'ForgotPassword'])-
 Route::post('admin/reset_password', [AdminController::class, 'ResetPassword'])->name('admin.reset_password');
 Route::get('admin/reset-password/{token}/{email}', [AdminController::class, 'ResetPasswordForm'])->name('admin.reset-password');
 Route::post('admin/reset_password_submit', [AdminController::class, 'ResetPasswordSubmit'])->name('admin.reset_password_submit');
-
-
 //ALL ROUTER FOR CLIENT
-
 Route::middleware('client')->group(function () {
     Route::get('client/dashboard', [ClientController::class, 'ClientDashboard'])->name('client.dashboard');
     Route::get('client/profile', [ClientController::class, 'ClientProfile'])->name('client.profile');
@@ -70,7 +63,6 @@ Route::get('client/forgot_password', [ClientController::class, 'ClientForgotPass
 Route::post('client/reset_password', [ClientController::class, 'ClientResetPassword'])->name('client.reset_password');
 Route::get('client/reset-password/{token}/{email}', [ClientController::class, 'ClientResetPasswordForm'])->name('client.reset-password');
 Route::post('client/reset_password_submit', [ClientController::class, 'ClientResetPasswordSubmit'])->name('client.reset_password_submit');
-
 //all router for category
 Route::middleware('admin')->group(function () {
     Route::controller(CategoryController::class)->group(function () {
@@ -127,3 +119,20 @@ Route::middleware('admin')->group(function () {
         Route::get('/ClientchangeStatus','ClientchangeStatus');
     });
 });
+
+
+// end all route for Manage Rastaurant
+
+//Manage Banner Route
+Route::middleware('admin')->group(function () {
+    Route::controller(ManageController::class)->group(function () {
+        Route::get('all/admin/banner', 'AllBanner')->name('admin.all.banner');
+        Route::get('store/admin/banner', 'AddBanner')->name('admin.add.banner');
+        Route::post('store/admin/banner/submit', 'AddBannerStore')->name('admin.banner.store');
+        Route::get('edit/admin/banner/{id}', 'EditBanner')->name('admin.banner.edit');
+        Route::post('update/admin/banner/', 'UpdateBanner')->name('admin.update.banner');
+        Route::get('delete/admin/banner/{id}', 'DeleteBanner')->name('admin.banner.delete');
+    });
+});
+
+// Route::get('edit/admin/banner/{id}', [ManageController::class, 'EditBanner'])->middleware('admin');
