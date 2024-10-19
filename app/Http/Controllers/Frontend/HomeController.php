@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Client;
+use App\Models\Client\Gllery;
 use App\Models\Client\Menu;
 
 class HomeController extends Controller
@@ -15,6 +16,7 @@ class HomeController extends Controller
         $menus = Menu::where('client_id', $restaurant->id)->latest()->get()->filter(function($menu){
             return $menu->products->count() > 0;
         });
-        return view('frontend.restaurantdetail',compact('restaurant','menus'));
+        $galarys = Gllery::where('client_id', $restaurant->id)->get();
+        return view('frontend.restaurantdetail',compact('restaurant','menus','galarys'));
     }
 }

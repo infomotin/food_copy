@@ -247,29 +247,18 @@
                             <div id="gallery" class="p-4 mb-4 bg-white rounded shadow-sm">
                                 <div class="restaurant-slider-main position-relative homepage-great-deals-carousel">
                                     <div class="owl-carousel owl-theme homepage-ad">
-                                        <div class="item">
-                                            <img class="img-fluid" src="{{asset('frontend/img/gallery/1.png')}}">
-                                        </div>
-                                        <div class="item">
-                                            <img class="img-fluid" src="{{asset('frontend/img/gallery/2.png')}}">
-                                        </div>
-                                        <div class="item">
-                                            <img class="img-fluid" src="{{asset('frontend/img/gallery/3.png')}}">
-                                        </div>
-                                        <div class="item">
-                                            <img class="img-fluid" src="{{asset('frontend/img/gallery/1.png')}}">
-                                        </div>
-                                        <div class="item">
-                                            <img class="img-fluid" src="{{asset('frontend/img/gallery/2.png')}}">
-                                        </div>
-                                        <div class="item">
-                                            <img class="img-fluid" src="{{asset('frontend/img/gallery/3.png')}}">
-                                        </div>
+                                        @foreach ($galarys as $key =>$galary)
+                                          <div class="item">
+                                            <img class="img-fluid" src="{{asset('upload/gallerys/'.$galary->gallery_image)}}">
+                                            <div class="text-white position-absolute restaurant-slider-pics bg-dark">{{$key+1}} of {{$galarys->count()}}
+                                                Photos</div>
+                                        </div>  
+                                        @endforeach
+                                        
+                                        
                                     </div>
-                                    <div class="text-white position-absolute restaurant-slider-pics bg-dark">2 of 14
-                                        Photos</div>
-                                    <div class="position-absolute restaurant-slider-view-all"><button type="button"
-                                            class="bg-white btn btn-light">See all Photos</button></div>
+                                    
+                                    
                                 </div>
                             </div>
                         </div>
@@ -284,14 +273,14 @@
                                                 marginwidth="0"></iframe></div>
                                     </div>
                                 </div>
-                                <h5 class="mb-4">Restaurant Info</h5>
-                                <p class="mb-3">Jagjit Nagar, Near Railway Crossing,
-                                    <br> Near Model Town, Ludhiana, PUNJAB
+                                <h5 class="mb-4">{{$restaurant->name}}</h5>
+                                <p class="mb-3">{{$restaurant->address}}</p>
                                 </p>
-                                <p class="mb-2 text-black"><i class="mr-2 icofont-phone-circle text-primary"></i> +91
-                                    01234-56789, +91 01234-56789</p>
+                                <p class="mb-2 text-black"><i class="mr-2 icofont-phone-circle text-primary"></i> {{$restaurant->phone}}</p>
                                 <p class="mb-2 text-black"><i class="mr-2 icofont-email text-primary"></i>
-                                    iamosahan@gmail.com, osahaneat@gmail.com</p>
+                                   {{$restaurant->email}}</p>
+                                <p class="mb-2 text-black"><i class="mr-2 icofont-shop text-primary"></i>
+                                    {{$restaurant->shopinfo}}</p>
                                 <p class="mb-2 text-black"><i class="mr-2 icofont-clock-time text-primary"></i> Today
                                     11am – 5pm, 6pm – 11pm
                                     <span class="badge badge-success"> OPEN NOW </span>
