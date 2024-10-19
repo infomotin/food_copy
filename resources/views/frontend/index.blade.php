@@ -10,35 +10,21 @@
         <div class="row">
             @php
             $restaurantsData = App\Models\Client::latest()->where('status','active')->limit(4)->get();
-            // dd($restaurantsData);
             @endphp
-
             @foreach ( $restaurantsData as $restaurants)
             @php
             $products = App\Models\Client\Product::where('client_id',$restaurants->id)->limit(3)->get();
             $menusName = $products->map(function($item){
             return $item->menu->menu_name;
             });
-            // $menuNames = implode('. ', $menusName);
             $menusName = $menusName->unique();
             if($menusName->count() > 1){
             $menusName = $menusName->implode('* ');
             }else{
             $menusName = $menusName->first();
             }
-            //gat coupon data
             $coupons =
             App\Models\Coupon::where('client_id',$restaurants->id)->where('coupon_status',1)->orderBy('id')->first();
-            // $couponsDiscount = $coupons->map(function($item){
-            // return $item->coupon_discount;
-            // });
-            // $couponsName = $couponsDiscount->unique();
-            // if($couponsDiscount->count() > 1){
-            // $couponsDiscount = $couponsName->implode('* ');
-            // }else{
-            // $couponsDiscount = $couponsName->first();
-            // }
-
             @endphp
             <div class="col-md-3">
                 <div class="item pd-3">
@@ -46,8 +32,12 @@
                         <div class="list-card-image">
                             <div class="star position-absolute"><span class="badge badge-success"><i
                                         class="icofont-star"></i> 3.1 (300+)</span></div>
-                            <div class="favourite-heart text-danger position-absolute"><a href="detail.html"><i
-                                        class="icofont-heart"></i></a></div>
+                            <div class="favourite-heart text-danger position-absolute">
+                                <a aria-label="Add To Wishlist" onclick="addWishlist({{$restaurants->id}})"><i
+                                        class="icofont-heart">
+                                    </i>
+                                </a>
+                            </div>
                             @if ($coupons)
                             <div class="member-plan position-absolute"><span class="badge badge-dark">Promoted</span>
                             </div>
@@ -63,7 +53,8 @@
                         </div>
                         <div class="p-3 position-relative">
                             <div class="list-card-body">
-                                <h6 class="mb-1"><a href="{{route('restaurant.detail',$restaurants->id)}}" class="text-black">{{$restaurants->name}}</a>
+                                <h6 class="mb-1"><a href="{{route('restaurant.detail',$restaurants->id)}}"
+                                        class="text-black">{{$restaurants->name}}</a>
                                 </h6>
                                 <p class="mb-3 text-gray">{{$menusName}}</p>
                                 <p class="mb-3 text-gray time"><span
@@ -77,7 +68,7 @@
                                     off| Use Coupon:
                                     {{$coupons->coupon_code}}</small>
                                 @else
-                                    <span class="badge badge-success">NO OFFER</span>
+                                <span class="badge badge-success">NO OFFER</span>
                                 @endif
                             </div>
                         </div>

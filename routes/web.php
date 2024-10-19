@@ -8,6 +8,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CityController;
 use App\Http\Controllers\Admin\ManageController;
+use App\Http\Controllers\Frontend\HomeController;
 
 
 
@@ -27,6 +28,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/user/logout', [ProfileController::class, 'UserLogout'])->name('user.logout');
     // Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::post('/profile/password/change', [ProfileController::class, 'PasswordChange'])->name('change.password');
+    //UserFavourites
+    Route::get('/user/favourites', [HomeController::class, 'UserFavourites'])->name('user.favourites');
+    //favourite.delete
+    Route::get('/user/favourites/delete/{id}', [HomeController::class, 'UserFavouritesDelete'])->name('user.favourites.delete');
 });
 
 require __DIR__.'/auth.php';

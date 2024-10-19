@@ -8,26 +8,13 @@
     $menusName = $products->map(function($item){
     return $item->menu->menu_name;
     });
-    // $menuNames = implode('. ', $menusName);
     $menusName = $menusName->unique();
     if($menusName->count() > 1){
     $menusName = $menusName->implode('* ');
     }else{
     $menusName = $menusName->first();
     }
-    //gat coupon data
-    $coupons =
-    App\Models\Coupon::where('client_id',$restaurant->id)->where('coupon_status',1)->orderBy('id')->first();
-    // $couponsDiscount = $coupons->map(function($item){
-    // return $item->coupon_discount;
-    // });
-    // $couponsName = $couponsDiscount->unique();
-    // if($couponsDiscount->count() > 1){
-    // $couponsDiscount = $couponsName->implode('* ');
-    // }else{
-    // $couponsDiscount = $couponsName->first();
-    // }
-
+    $coupons = App\Models\Coupon::where('client_id',$restaurant->id)->where('coupon_status',1)->orderBy('id')->first();
     @endphp
     <div class="text-center">
         <img class="img-fluid cover" src="{{asset('upload/clients/'.$restaurant->cover_photo)}}">

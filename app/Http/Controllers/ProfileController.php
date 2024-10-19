@@ -152,7 +152,8 @@ class ProfileController extends Controller
         }
 
     }
-
+    //UserFavourites
+    
 
     public function deleteOldImage(string $old_profile_photo_path): void
     {

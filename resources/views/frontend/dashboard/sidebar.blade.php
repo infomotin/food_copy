@@ -44,7 +44,7 @@
                     aria-selected="false"><i class="icofont-sale-discount"></i> Offers</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="favourites-tab" data-toggle="tab" href="#favourites" role="tab"
+                <a class="nav-link nav-link {{Route::currentRouteName() === 'user.favourites' ? 'active' : ''}}" id="favourites-tab" data-toggle="tab" href="#favourites" role="tab"
                     aria-controls="favourites" aria-selected="false"><i class="icofont-heart"></i> Favourites</a>
             </li>
             <li class="nav-item">

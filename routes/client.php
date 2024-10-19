@@ -65,3 +65,5 @@ Route::middleware(['clientstatus','client'],)->group(function () {
 });
 
 Route::get('restaurant/detail/{id}',[HomeController::class,'RestaurantDetail'])->name('restaurant.detail');
+//add-wish-list
+Route::post('/add-wish-list/{id}',[HomeController::class,'AddToWishlist']);
