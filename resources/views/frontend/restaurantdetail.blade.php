@@ -1,4 +1,6 @@
-@include('frontend.dashboard.header')
+
+@extends('frontend.master')
+@section('content')
 <section class="restaurant-detailed-banner">
     @php
     // $restaurantsData = App\Models\Client::latest()->where('status','active')->limit(4)->get();
@@ -635,5 +637,4 @@
         </div>
     </div>
 </section>
-
-@include('frontend.dashboard.footer')
+@endsection
