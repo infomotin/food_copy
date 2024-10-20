@@ -153,6 +153,9 @@ class RestaurantController extends Controller
             $img->resize(300, 300)->save(public_path('upload/products/' . $name_gen));
             $save_url = $name_gen;
             //gen Unique ID Code No with Prefix and Suffix Code 4 digit
+            if($request->discount_price){
+                
+            }
             Product::create([
                 'name' => $request->name,
                 'slug' => strtolower(str_replace(' ', '-', $request->name)),

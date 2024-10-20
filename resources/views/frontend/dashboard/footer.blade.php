@@ -129,10 +129,87 @@
 <script src="{{asset('frontend/vendor/select2/js/select2.min.js')}}"></script>
       <!-- Owl Carousel -->
 <script src="{{asset('frontend/vendor/owl-carousel/owl.carousel.js')}}"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    
 <!-- Custom scripts for all pages-->
 <script src="{{asset('frontend/js/custom.js')}}"></script>
-
-
+<script>
+      $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+</script>
+<script type="text/javascript">
+    $(function() {
+      $('.toggle-class').change(function() {
+          var status = $(this).prop('checked') == true ? 1 : 0; 
+          var user_id = $(this).data('id'); 
+           
+          $.ajax({
+              type: "GET",
+              dataType: "json",
+              url: '/changeStatus',
+              data: {'status': status, 'user_id': user_id},
+              success: function(data){
+                // console.log(data.success)
+  
+                  // Start Message 
+  
+              const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    icon: 'success', 
+                    showConfirmButton: false,
+                    timer: 3000 
+              })
+              if ($.isEmptyObject(data.error)) {
+                      
+                      Toast.fire({
+                      type: 'success',
+                      title: data.success, 
+                      })
+  
+              }else{
+                 
+             Toast.fire({
+                      type: 'error',
+                      title: data.error, 
+                      })
+                  }
+  
+                // End Message   
+  
+  
+              }
+          });
+      });
+    });
+  </script>
+  
+  <script>
+        @if(Session::has('message'))
+        var type = "{{ Session::get('alert-type','info') }}"
+        switch(type){
+           case 'info':
+           toastr.info(" {{ Session::get('message') }} ");
+           break;
+       
+           case 'success':
+           toastr.success(" {{ Session::get('message') }} ");
+           break;
+       
+           case 'warning':
+           toastr.warning(" {{ Session::get('message') }} ");
+           break;
+       
+           case 'error':
+           toastr.error(" {{ Session::get('message') }} ");
+           break; 
+        }
+        @endif 
+    </script>
 
 </body>
 

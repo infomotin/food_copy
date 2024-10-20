@@ -1,6 +1,5 @@
-
-@extends('frontend.master')
-@section('content')
+@include('frontend.dashboard.header')
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <section class="restaurant-detailed-banner">
     @php
     // $restaurantsData = App\Models\Client::latest()->where('status','active')->limit(4)->get();
@@ -136,7 +135,8 @@
                                                 {{$popularProduct->discount_price}}
                                                 @endif
                                                 <span class="float-right text-secondary">
-                                                    <a href="#" class="btn btn-outline-secondary btn-sm">Add</a>
+                                                    <a href="{{route('addtocart',$popularProduct->id)}}"
+                                                        class="btn btn-outline-secondary btn-sm">Add</a>
                                                 </span>
                                             </a>
                                         </div>
@@ -187,7 +187,8 @@
                                                         @endif
                                                         <span class="badge badge-success">NEW</span></a>
                                                     <span class="float-right">
-                                                        <a class="btn btn-outline-secondary btn-sm" href="#">ADD</a>
+                                                        <a class="btn btn-outline-secondary btn-sm"
+                                                            href="{{route('addtocart',$bestProducts->id)}}">ADD</a>
                                                     </span>
                                                 </p>
                                             </div>
@@ -204,7 +205,8 @@
 
 
 
-                                <h5 class="mt-3 mb-4 col-md-12">{{$menu->menu_name}} <small class="h6 text-black-50">{{$menu->products->count()}} Items</small>
+                                <h5 class="mt-3 mb-4 col-md-12">{{$menu->menu_name}} <small
+                                        class="h6 text-black-50">{{$menu->products->count()}} Items</small>
                                 </h5>
                                 <div class="col-md-12">
                                     <div class="mb-4 bg-white border rounded shadow-sm">
@@ -212,14 +214,25 @@
 
                                         <div class="p-3 menu-list border-bottom">
 
-                                            <a class="float-right btn btn-outline-secondary btn-sm" href="#">ADD</a>
+                                            <a class="float-right btn btn-outline-secondary btn-sm"
+                                                href="{{route('addtocart',$product->id)}}">ADD</a>
 
                                             <div class="media">
-                                                <img class="mr-3 rounded-pill" src="{{asset('upload/products/'.$product->image)}}"
+                                                <img class="mr-3 rounded-pill"
+                                                    src="{{asset('upload/products/'.$product->image)}}"
                                                     alt="Generic placeholder image">
                                                 <div class="media-body">
                                                     <h6 class="mb-1">{{$product->name}}</h6>
-                                                    <p class="mb-0 text-gray">{{$product->size}} | {{$product->qty}}</p>
+                                                    <span class="mb-0 text-gray">Product Single Price :
+                                                        @if ($product->discount_price == null)
+                                                        <span class="text-primary">$:{{$product->price}} </span>
+                                                        @else
+                                                        <span class="text-primary">$:{{$product->discount_price}}
+                                                        </span>
+                                                        @endif
+                                                    </span>
+                                                    <p class="mb-0 text-gray">Size :({{$product->size??''}}CM) | Product
+                                                        Quanty :{{$product->qty}}</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -237,17 +250,19 @@
                                 <div class="restaurant-slider-main position-relative homepage-great-deals-carousel">
                                     <div class="owl-carousel owl-theme homepage-ad">
                                         @foreach ($galarys as $key =>$galary)
-                                          <div class="item">
-                                            <img class="img-fluid" src="{{asset('upload/gallerys/'.$galary->gallery_image)}}">
-                                            <div class="text-white position-absolute restaurant-slider-pics bg-dark">{{$key+1}} of {{$galarys->count()}}
+                                        <div class="item">
+                                            <img class="img-fluid"
+                                                src="{{asset('upload/gallerys/'.$galary->gallery_image)}}">
+                                            <div class="text-white position-absolute restaurant-slider-pics bg-dark">
+                                                {{$key+1}} of {{$galarys->count()}}
                                                 Photos</div>
-                                        </div>  
+                                        </div>
                                         @endforeach
-                                        
-                                        
+
+
                                     </div>
-                                    
-                                    
+
+
                                 </div>
                             </div>
                         </div>
@@ -265,9 +280,10 @@
                                 <h5 class="mb-4">{{$restaurant->name}}</h5>
                                 <p class="mb-3">{{$restaurant->address}}</p>
                                 </p>
-                                <p class="mb-2 text-black"><i class="mr-2 icofont-phone-circle text-primary"></i> {{$restaurant->phone}}</p>
+                                <p class="mb-2 text-black"><i class="mr-2 icofont-phone-circle text-primary"></i>
+                                    {{$restaurant->phone}}</p>
                                 <p class="mb-2 text-black"><i class="mr-2 icofont-email text-primary"></i>
-                                   {{$restaurant->email}}</p>
+                                    {{$restaurant->email}}</p>
                                 <p class="mb-2 text-black"><i class="mr-2 icofont-shop text-primary"></i>
                                     {{$restaurant->shopinfo}}</p>
                                 <p class="mb-2 text-black"><i class="mr-2 icofont-clock-time text-primary"></i> Today
@@ -517,108 +533,48 @@
                 </div>
                 <div class="p-4 mb-4 rounded shadow-sm generator-bg osahan-cart-item">
                     <h5 class="mb-1 text-white">Your Order</h5>
-                    <p class="mb-4 text-white">6 ITEMS</p>
+                    <p class="mb-4 text-white">{{count((array)Session::get('cart'))}} ITEMS</p>
                     <div class="mb-2 bg-white rounded shadow-sm">
+                        @php
+                        $total = 0;
+                        @endphp
+                        @if (Session::has('cart'))
+                        @foreach (Session::get('cart') as $id => $details)
+                        @php
+                        $total += $details['price'] * $details['quantity'];
+                        @endphp
+
                         <div class="p-2 gold-members border-bottom">
-                            <p class="float-right mb-0 ml-2 text-gray">$314</p>
+                           
+                            <p class="float-right mb-0 ml-2 text-gray">{{$details['price'] * $details['quantity']}}</p>
                             <span class="float-right count-number">
-                                <button class="btn btn-outline-secondary btn-sm left dec"> <i class="icofont-minus"></i>
+                                
+                               
+                                <button class="btn btn-outline-secondary btn-sm left dec" data-id="{{$id}}"> <i class="icofont-minus"></i>
                                 </button>
-                                <input class="count-number-input" type="text" value="1" readonly="">
-                                <button class="btn btn-outline-secondary btn-sm right inc"> <i class="icofont-plus"></i>
+                                
+                                <input class="count-number-input" type="text" value="{{$details['quantity']}}" readonly="">
+                                
+                                <button class="btn btn-outline-secondary btn-sm right inc" data-id="{{$id}}"> <i class="icofont-plus"></i>
+                                </button>
+                                <button class="btn btn-outline-danger btn-sm right remove" data-id="{{$id}}"> <i class="icofont-trash"></i>
                                 </button>
                             </span>
                             <div class="media">
-                                <div class="mr-2"><i class="icofont-ui-press text-danger food-item"></i></div>
+                                <div class="mr-2"><img class="img-fluid"
+                                        src="{{asset('upload/products/'.$details['image'])}}" style="width: 30px;">
+                                </div>
                                 <div class="media-body">
-                                    <p class="mt-1 mb-0 text-black">Chicken Tikka Sub</p>
+                                    <p class="mt-1 mb-0 text-black">{{$details['name']}}</p>
                                 </div>
                             </div>
                         </div>
-                        <div class="p-2 gold-members border-bottom">
-                            <p class="float-right mb-0 ml-2 text-gray">$260</p>
-                            <span class="float-right count-number">
-                                <button class="btn btn-outline-secondary btn-sm left dec"> <i class="icofont-minus"></i>
-                                </button>
-                                <input class="count-number-input" type="text" value="1" readonly="">
-                                <button class="btn btn-outline-secondary btn-sm right inc"> <i class="icofont-plus"></i>
-                                </button>
-                            </span>
-                            <div class="media">
-                                <div class="mr-2"><i class="icofont-ui-press text-success food-item"></i></div>
-                                <div class="media-body">
-                                    <p class="mt-1 mb-0 text-black">Cheese corn Roll</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="p-2 gold-members border-bottom">
-                            <p class="float-right mb-0 ml-2 text-gray">$260</p>
-                            <span class="float-right count-number">
-                                <button class="btn btn-outline-secondary btn-sm left dec"> <i class="icofont-minus"></i>
-                                </button>
-                                <input class="count-number-input" type="text" value="1" readonly="">
-                                <button class="btn btn-outline-secondary btn-sm right inc"> <i class="icofont-plus"></i>
-                                </button>
-                            </span>
-                            <div class="media">
-                                <div class="mr-2"><i class="icofont-ui-press text-success food-item"></i></div>
-                                <div class="media-body">
-                                    <p class="mt-1 mb-0 text-black">Cheese corn Roll</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="p-2 gold-members border-bottom">
-                            <p class="float-right mb-0 ml-2 text-gray">$056</p>
-                            <span class="float-right count-number">
-                                <button class="btn btn-outline-secondary btn-sm left dec"> <i class="icofont-minus"></i>
-                                </button>
-                                <input class="count-number-input" type="text" value="1" readonly="">
-                                <button class="btn btn-outline-secondary btn-sm right inc"> <i class="icofont-plus"></i>
-                                </button>
-                            </span>
-                            <div class="media">
-                                <div class="mr-2"><i class="icofont-ui-press text-success food-item"></i></div>
-                                <div class="media-body">
-                                    <p class="mt-1 mb-0 text-black">Coke [330 ml]</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="p-2 gold-members border-bottom">
-                            <p class="float-right mb-0 ml-2 text-gray">$652</p>
-                            <span class="float-right count-number">
-                                <button class="btn btn-outline-secondary btn-sm left dec"> <i class="icofont-minus"></i>
-                                </button>
-                                <input class="count-number-input" type="text" value="1" readonly="">
-                                <button class="btn btn-outline-secondary btn-sm right inc"> <i class="icofont-plus"></i>
-                                </button>
-                            </span>
-                            <div class="media">
-                                <div class="mr-2"><i class="icofont-ui-press text-danger food-item"></i></div>
-                                <div class="media-body">
-                                    <p class="mt-1 mb-0 text-black">Black Dal Makhani</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="p-2 gold-members">
-                            <p class="float-right mb-0 ml-2 text-gray">$122</p>
-                            <span class="float-right count-number">
-                                <button class="btn btn-outline-secondary btn-sm left dec"> <i class="icofont-minus"></i>
-                                </button>
-                                <input class="count-number-input" type="text" value="1" readonly="">
-                                <button class="btn btn-outline-secondary btn-sm right inc"> <i class="icofont-plus"></i>
-                                </button>
-                            </span>
-                            <div class="media">
-                                <div class="mr-2"><i class="icofont-ui-press text-danger food-item"></i></div>
-                                <div class="media-body">
-                                    <p class="mt-1 mb-0 text-black">Mixed Veg</p>
-                                </div>
-                            </div>
-                        </div>
+                        @endforeach
+                        @endif
                     </div>
                     <div class="clearfix p-2 mb-2 bg-white rounded">
                         <img class="float-left img-fluid" src="{{asset('frontend/img/wallet-icon.png')}}">
-                        <h6 class="mb-2 text-right font-weight-bold">Subtotal : <span class="text-danger">$456.4</span>
+                        <h6 class="mb-2 text-right font-weight-bold">Subtotal : <span class="text-danger"> ${{$total }}</span>
                         </h6>
                         <p class="mb-1 text-right seven-color">Extra charges may apply</p>
                         <p class="mb-0 text-right text-black">You have saved $955 on the bill</p>
@@ -637,4 +593,69 @@
         </div>
     </div>
 </section>
-@endsection
+<script>
+    // ajaxSetup
+  
+    $(document).ready(function() {
+        $('.inc').on('click', function() {
+            // alart
+            // alert('increment');
+            var id = $(this).data('id');
+            var input = $(this).closest('span').find('input');
+            var newQuantity = parseInt(input.val()) + 1;
+            console.log(newQuantity);
+            updateQuantity(id, newQuantity);
+        });
+        $('.dec').on('click', function() {
+            // alert('increment');
+            var id = $(this).data('id');
+            var input = $(this).closest('span').find('input');
+            var newQuantity = parseInt(input.val()) - 1;
+            if (newQuantity >= 1) {
+                updateQuantity(id, newQuantity);
+            }
+            console.log(newQuantity);
+            // updateQuantity(id, newQuantity);
+        });
+        //remove
+        $('.remove').on('click', function() {
+            var id = $(this).data('id');
+            removeItem(id);
+            
+        });
+
+        function updateQuantity(id, newQuantity) {
+            $.ajax({
+                type: 'POST',
+                url: '{{route('update.from.cart')}}',
+                data: {
+                    _token: '{{csrf_token()}}',
+                    id: id,
+                    quantity: newQuantity,
+                },
+                success: function(response) {
+                    console.log(response);
+                    location.reload();
+                }
+            });
+        }
+        //removeItem
+        function removeItem(id) {
+            $.ajax({
+                type: 'POST',
+                url: '{{route('remove.from.cart')}}',
+                data: {
+                    _token: '{{csrf_token()}}',
+                    id: id
+                },
+                success: function(response) {
+                    console.log(response);
+                    location.reload();
+                }
+            });
+        }
+    });
+</script>
+
+
+@include('frontend.dashboard.footer')

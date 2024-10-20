@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CityController;
 use App\Http\Controllers\Admin\ManageController;
 use App\Http\Controllers\Frontend\HomeController;
+use App\Http\Controllers\Frontend\CartController;
 
 
 
@@ -141,3 +142,11 @@ Route::middleware('admin')->group(function () {
 });
 
 // Route::get('edit/admin/banner/{id}', [ManageController::class, 'EditBanner'])->middleware('admin');
+Route::controller(CartController::class)->group(function () {
+    Route::post('update-from-cart', 'UpdateFromCart')->name('update.from.cart');
+    Route::get('addtocart/{id}', 'AddToCart')->name('addtocart');
+    Route::post('remove-from-cart', 'RemoveFromCart')->name('remove.from.cart');
+    // Route::get('order-confirm', 'OrderConfirm')->name('order.confirm');
+    // Route::post('place-order', 'PlaceOrder')->name('place.order');
+    
+});
