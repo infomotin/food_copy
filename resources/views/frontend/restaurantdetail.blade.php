@@ -15,7 +15,8 @@
     }else{
     $menusName = $menusName->first();
     }
-    $coupons = App\Models\Coupon::where('client_id',$restaurant->id)->where('coupon_status',1)->orderBy('id')->first();
+    use Carbon\Carbon;
+    $coupons = App\Models\Coupon::where('client_id',$restaurant->id)->where('coupon_status',1)->where('coupon_validity','>=',Carbon::now()->format('Y-m-d'))->latest()->first();
     @endphp
     <div class="text-center">
         <img class="img-fluid cover" src="{{asset('upload/clients/'.$restaurant->cover_photo)}}">
@@ -524,8 +525,14 @@
                         class="clearfix p-4 mb-4 text-white bg-white rounded shadow-sm restaurant-detailed-earn-pts card-icon-overlap">
                         <img class="float-left mr-3 img-fluid" src="{{asset('frontend/img/earn-score-icon.png')}}">
                         <h6 class="pt-0 mb-1 text-primary font-weight-bold">OFFER</h6>
-                        <p class="mb-0">60% off on orders above $99 | Use coupon <span
-                                class="text-danger font-weight-bold">OSAHAN50</span></p>
+                        @if($coupons == NULL)
+                        <p class="mb-0">No Coupon <span
+                            class="text-danger font-weight-bold"></span>{{'ZERO'}}</p>
+                        @else
+                        <p class="mb-0">{{$coupons->coupon_discount}}% off on orders above {{'discount '}} | Use coupon <span
+                            class="text-danger font-weight-bold"></span>{{$coupons->coupon_name}}</p>
+                        @endif
+                        
                         <div class="icon-overlap">
                             <i class="icofont-sale-discount"></i>
                         </div>
