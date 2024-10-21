@@ -547,44 +547,44 @@
 
                     <div class="mb-2 bg-white rounded shadow-sm">
                         @php
-                        $total = 0;
+                            $total = 0;
                         @endphp
                         @if (Session::has('cart'))
-                        @foreach (Session::get('cart') as $id => $details)
-                        @php
-                        $total += $details['price'] * $details['quantity'];
-                        @endphp
+                            @foreach (Session::get('cart') as $id => $details)
+                                @php
+                                    $total += $details['price'] * $details['quantity'];
+                                @endphp
 
-                        <div class="p-2 gold-members border-bottom">
+                                            <div class="p-2 gold-members border-bottom">
 
-                            <p class="float-right mb-0 ml-2 text-gray">{{$details['price'] * $details['quantity']}}</p>
-                            <span class="float-right count-number">
+                                                <p class="float-right mb-0 ml-2 text-gray">{{$details['price'] * $details['quantity']}}</p>
+                                                <span class="float-right count-number">
 
 
-                                <button class="btn btn-outline-secondary btn-sm left dec" data-id="{{$id}}"> <i
-                                        class="icofont-minus"></i>
-                                </button>
+                                                    <button class="btn btn-outline-secondary btn-sm left dec" data-id="{{$id}}"> <i
+                                                            class="icofont-minus"></i>
+                                                    </button>
 
-                                <input class="count-number-input" type="text" value="{{$details['quantity']}}"
-                                    readonly="">
+                                                    <input class="count-number-input" type="text" value="{{$details['quantity']}}"
+                                                        readonly="">
 
-                                <button class="btn btn-outline-secondary btn-sm right inc" data-id="{{$id}}"> <i
-                                        class="icofont-plus"></i>
-                                </button>
-                                <button class="btn btn-outline-danger btn-sm right remove" data-id="{{$id}}"> <i
-                                        class="icofont-trash"></i>
-                                </button>
-                            </span>
-                            <div class="media">
-                                <div class="mr-2"><img class="img-fluid"
-                                        src="{{asset('upload/products/'.$details['image'])}}" style="width: 30px;">
-                                </div>
-                                <div class="media-body">
-                                    <p class="mt-1 mb-0 text-black">{{$details['name']}}</p>
-                                </div>
-                            </div>
-                        </div>
-                        @endforeach
+                                                    <button class="btn btn-outline-secondary btn-sm right inc" data-id="{{$id}}"> <i
+                                                            class="icofont-plus"></i>
+                                                    </button>
+                                                    <button class="btn btn-outline-danger btn-sm right remove" data-id="{{$id}}"> <i
+                                                            class="icofont-trash"></i>
+                                                    </button>
+                                                </span>
+                                                <div class="media">
+                                                    <div class="mr-2"><img class="img-fluid"
+                                                            src="{{asset('upload/products/'.$details['image'])}}" style="width: 30px;">
+                                                    </div>
+                                                    <div class="media-body">
+                                                        <p class="mt-1 mb-0 text-black">{{$details['name']}}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                            @endforeach
                         @endif
                     </div>
                     {{-- coupon apply --}}

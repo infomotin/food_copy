@@ -265,7 +265,7 @@ class CartController extends Controller
                     $totalAmount += $item['price'];
                 }
                 if ($totalAmount > 0) {
-                    $client = Auth::user();
+                    $client = \App\Models\Client::find($item['client_id']);
                     return view('frontend.checkout.shop-checkout', compact('cart', 'totalAmount', 'client'));
                 } else {
                     $nofication = array(
