@@ -24,16 +24,19 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <link rel="stylesheet" href="{{asset('frontend/vendor/owl-carousel/owl.carousel.css')}}">
     <link rel="stylesheet" href="{{asset('frontend/vendor/owl-carousel/owl.theme.css')}}">
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" >
-    
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css">
+
 
 </head>
 
 <body>
-    <nav class="shadow-sm navbar navbar-expand-lg navbar-light bg-light osahan-nav">
-        @php
-        $userData = Auth::user();
+    @php
+    $userData = Auth::user();
+    // $profileData = App\Models\User::find($userData->id);
     @endphp
+    <nav class="shadow-sm navbar navbar-expand-lg navbar-light bg-light osahan-nav">
+
+
         <div class="container">
             <a class="navbar-brand" href="{{url('/')}}"><img alt="logo" src="{{asset('frontend/img/logo.png')}}"></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
@@ -77,16 +80,27 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
                             aria-haspopup="true" aria-expanded="false">
-                            <img alt="Generic placeholder image" src="{{(!empty($userData->profile_photo_path))?url('upload/users/'.$userData->profile_photo_path):url('upload/no_image.jpg')}}"
+                            <img alt="Generic placeholder image"
+                                src="{{(!empty($userData->profile_photo_path))?url('upload/users/'.$userData->profile_photo_path):url('upload/no_image.jpg')}}"
                                 class="nav-osahan-pic rounded-pill"> My Account
                         </a>
                         <div class="border-0 shadow-sm dropdown-menu dropdown-menu-right">
+                            
                             <a class="dropdown-item" href="orders.html#orders"><i class="icofont-food-cart"></i>
                                 Orders</a>
+                            @if (Auth::user())
                             <a class="dropdown-item" href="{{route('dashboard')}}"><i class="icofont-sale-discount"></i>
                                 Dashboard</a>
-                            <a class="dropdown-item" href="{{route('user.logout')}}"><i class="icofont-heart"></i>
-                                logout</a>
+                                <a class="dropdown-item" href="{{route('user.logout')}}"><i class="icofont-heart"></i>
+                                    logout</a>
+                            @else
+                            <a class="dropdown-item" href="{{route('login')}}"><i class="icofont-heart"></i>
+                                Login</a>
+                                <a class="dropdown-item" href="{{route('register')}}"><i class="icofont-heart"></i>
+                                    Register</a>
+                            @endif
+                            
+                            
 
                         </div>
                     </li>

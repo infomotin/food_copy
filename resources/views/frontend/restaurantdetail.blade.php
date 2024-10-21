@@ -1,4 +1,6 @@
 @include('frontend.dashboard.header')
+
+
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <section class="restaurant-detailed-banner">
     @php
@@ -16,7 +18,8 @@
     $menusName = $menusName->first();
     }
     use Carbon\Carbon;
-    $coupons = App\Models\Coupon::where('client_id',$restaurant->id)->where('coupon_status',1)->where('coupon_validity','>=',Carbon::now()->format('Y-m-d'))->latest()->first();
+    $coupons =
+    App\Models\Coupon::where('client_id',$restaurant->id)->where('coupon_status',1)->where('coupon_validity','>=',Carbon::now()->format('Y-m-d'))->latest()->first();
     @endphp
     <div class="text-center">
         <img class="img-fluid cover" src="{{asset('upload/clients/'.$restaurant->cover_photo)}}">
@@ -526,13 +529,13 @@
                         <img class="float-left mr-3 img-fluid" src="{{asset('frontend/img/earn-score-icon.png')}}">
                         <h6 class="pt-0 mb-1 text-primary font-weight-bold">OFFER</h6>
                         @if($coupons == NULL)
-                        <p class="mb-0">No Coupon <span
-                            class="text-danger font-weight-bold"></span>{{'ZERO'}}</p>
+                        <p class="mb-0">No Coupon <span class="text-danger font-weight-bold"></span>{{'ZERO'}}</p>
                         @else
-                        <p class="mb-0">{{$coupons->coupon_discount}}% off on orders above {{'discount '}} | Use coupon <span
-                            class="text-danger font-weight-bold"></span>{{$coupons->coupon_name}}</p>
+                        <p class="mb-0">{{$coupons->coupon_discount}}% off on orders above {{'discount '}} | Use coupon
+                            <span class="text-danger font-weight-bold"></span>{{$coupons->coupon_name}}
+                        </p>
                         @endif
-                        
+
                         <div class="icon-overlap">
                             <i class="icofont-sale-discount"></i>
                         </div>
@@ -541,6 +544,7 @@
                 <div class="p-4 mb-4 rounded shadow-sm generator-bg osahan-cart-item">
                     <h5 class="mb-1 text-white">Your Order</h5>
                     <p class="mb-4 text-white">{{count((array)Session::get('cart'))}} ITEMS</p>
+
                     <div class="mb-2 bg-white rounded shadow-sm">
                         @php
                         $total = 0;
@@ -552,19 +556,23 @@
                         @endphp
 
                         <div class="p-2 gold-members border-bottom">
-                           
+
                             <p class="float-right mb-0 ml-2 text-gray">{{$details['price'] * $details['quantity']}}</p>
                             <span class="float-right count-number">
-                                
-                               
-                                <button class="btn btn-outline-secondary btn-sm left dec" data-id="{{$id}}"> <i class="icofont-minus"></i>
+
+
+                                <button class="btn btn-outline-secondary btn-sm left dec" data-id="{{$id}}"> <i
+                                        class="icofont-minus"></i>
                                 </button>
-                                
-                                <input class="count-number-input" type="text" value="{{$details['quantity']}}" readonly="">
-                                
-                                <button class="btn btn-outline-secondary btn-sm right inc" data-id="{{$id}}"> <i class="icofont-plus"></i>
+
+                                <input class="count-number-input" type="text" value="{{$details['quantity']}}"
+                                    readonly="">
+
+                                <button class="btn btn-outline-secondary btn-sm right inc" data-id="{{$id}}"> <i
+                                        class="icofont-plus"></i>
                                 </button>
-                                <button class="btn btn-outline-danger btn-sm right remove" data-id="{{$id}}"> <i class="icofont-trash"></i>
+                                <button class="btn btn-outline-danger btn-sm right remove" data-id="{{$id}}"> <i
+                                        class="icofont-trash"></i>
                                 </button>
                             </span>
                             <div class="media">
@@ -579,14 +587,68 @@
                         @endforeach
                         @endif
                     </div>
+                    {{-- coupon apply --}}
+                    @if (Session::has('coupon'))
+                    <div class="clearfix p-2 mb-2 bg-white rounded">
+                        <p class="mb-1">Item Total <span
+                                class="float-right text-dark">{{count((array)Session::get('cart'))}} Items</span></p>
+                        <p class="mb-1">Restaurant Coupon Name <span class="float-right text-dark" id="removeCoupon"
+                                >{{(Session::get('coupon')['coupon_name'])}} </span>
+                            <a type="submit" class="float-right text-danger"  onclick="RemoveCoupon()"><i class="icofont-ui-delete"></i></a>
+                        </p>
+                        
+
+                        <p class="mb-1">Delivery Fee <span class="text-info" data-toggle="tooltip" data-placement="top"
+                                title="Total discount breakup">
+                                <i class="icofont-info-circle"></i>
+                            </span> <span class="float-right text-dark">{{'Next Time Adding'}}</span>
+                        </p>
+                        <p class="mb-1 text-success">Total Discount
+                            <span
+                                class="float-right text-success">{{(Session::get('coupon')['discount_amount'])}}</span>
+                        </p>
+                        <hr />
+                        <h6 class="mb-0 font-weight-bold">TO PAY <span class="float-right">
+                                @if (Session::has('coupon'))
+                                {{(Session::get('coupon')['total_amount'])}}
+                                @else
+                                {{$total}}
+                                @endif</span></h6>
+                    </div>
+                    @else
+                    <div class="clearfix p-2 mb-2 bg-white rounded">
+                        <div class="mb-2 input-group input-group-sm">
+                            <input type="text" class="form-control" placeholder="Enter promo code" id="coupon_name">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary" type="submit" id="button-addon2"
+                                    onclick="ApplyCoupon()"><i class="icofont-sale-discount"></i> APPLY</button>
+                            </div>
+                        </div>
+
+                    </div>
+                    @endif
+
+
+                    {{--
+                    <pre id="demo">{{print_r(Session::get('coupon'),true)}}</pre> --}}
+                    {{-- end coupon --}}
+
+
                     <div class="clearfix p-2 mb-2 bg-white rounded">
                         <img class="float-left img-fluid" src="{{asset('frontend/img/wallet-icon.png')}}">
-                        <h6 class="mb-2 text-right font-weight-bold">Subtotal : <span class="text-danger"> ${{$total }}</span>
+                        <h6 class="mb-2 text-right font-weight-bold">Subtotal : <span class="text-danger">
+                                @if (Session::has('coupon'))
+                                {{(Session::get('coupon')['total_amount'])}}
+                                @else
+                                {{$total}}
+                                @endif
+                            </span>
                         </h6>
                         <p class="mb-1 text-right seven-color">Extra charges may apply</p>
-                        <p class="mb-0 text-right text-black">You have saved $955 on the bill</p>
+
                     </div>
-                    <a href="checkout.html" class="btn btn-success btn-block btn-lg">Checkout <i
+
+                    <a href="{{route('checkout')}}" class="btn btn-success btn-block btn-lg">Checkout <i
                             class="icofont-long-arrow-right"></i></a>
                 </div>
 
@@ -600,6 +662,7 @@
         </div>
     </div>
 </section>
+
 <script>
     // ajaxSetup
   

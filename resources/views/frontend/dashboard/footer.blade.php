@@ -127,19 +127,99 @@
 <script src="{{asset('frontend/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 <!-- Select2 JavaScript-->
 <script src="{{asset('frontend/vendor/select2/js/select2.min.js')}}"></script>
-      <!-- Owl Carousel -->
+<!-- Owl Carousel -->
 <script src="{{asset('frontend/vendor/owl-carousel/owl.carousel.js')}}"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    
+
 <!-- Custom scripts for all pages-->
 <script src="{{asset('frontend/js/custom.js')}}"></script>
 <script>
-      $.ajaxSetup({
+    $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
+</script>
+<script>
+    function ApplyCoupon() {
+        // alert('apply coupon');
+        var coupon_name = $('#coupon_name').val();
+        $.ajax({
+            type: 'POST',
+            url: "{{route('apply.coupon')}}",
+            data: {
+                'coupon_name': coupon_name,
+            },
+            success: function(data) {
+                location.reload();
+                console.log(data);
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    icon: 'success', 
+                    showConfirmButton: false,
+                    timer: 3000 
+              })
+              if ($.isEmptyObject(data.error)) {
+                      
+                      Toast.fire({
+                      type: 'success',
+                      title: data.success, 
+                      })
+  
+              }else{
+                 
+             Toast.fire({
+                      type: 'error',
+                      title: data.error, 
+                      })
+                  }
+  
+            }
+        })
+    }
+</script>
+<script>
+    function RemoveCoupon() {
+        var coupon_name = $('#removeCoupon').text();
+        // alert(coupon_name);
+        $.ajax({
+            type: 'POST',
+            url: "{{route('remove.coupon')}}",
+           
+            data: {
+                'coupon_name': coupon_name,
+            },
+            success: function(data) {
+                console.log(data);
+                location.reload();
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    icon: 'success', 
+                    showConfirmButton: false,
+                    timer: 3000 
+              })
+              if ($.isEmptyObject(data.error)) {
+                      
+                      Toast.fire({
+                      type: 'success',
+                      title: data.success, 
+                      })
+  
+              }else{
+                 
+             Toast.fire({
+                      type: 'error',
+                      title: data.error, 
+                      })
+                  }
+  
+            }
+        })
+    }
+              
 </script>
 <script type="text/javascript">
     $(function() {
@@ -186,10 +266,10 @@
           });
       });
     });
-  </script>
-  
-  <script>
-        @if(Session::has('message'))
+</script>
+
+<script>
+    @if(Session::has('message'))
         var type = "{{ Session::get('alert-type','info') }}"
         switch(type){
            case 'info':
@@ -209,7 +289,7 @@
            break; 
         }
         @endif 
-    </script>
+</script>
 
 </body>
 

@@ -146,7 +146,8 @@ Route::controller(CartController::class)->group(function () {
     Route::post('update-from-cart', 'UpdateFromCart')->name('update.from.cart');
     Route::get('addtocart/{id}', 'AddToCart')->name('addtocart');
     Route::post('remove-from-cart', 'RemoveFromCart')->name('remove.from.cart');
-    // Route::get('order-confirm', 'OrderConfirm')->name('order.confirm');
-    // Route::post('place-order', 'PlaceOrder')->name('place.order');
+    Route::post('apply-coupon', 'ApplyCoupon')->name('apply.coupon');
+    Route::post('remove-coupon', 'RemoveCoupon')->name('remove.coupon');
+    Route::get('/checkout', 'ShopCheckout')->name('checkout');
     
 });
