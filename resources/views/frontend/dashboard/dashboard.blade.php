@@ -140,7 +140,7 @@ $userData = Auth::user();
                             </div>
                         </div>
                         {{-- ============================================================================ --}}
-                        <div class="tab-pane fade show active" id="changepassword" role="tabpanel"
+                        <div class="tab-pane fade " id="changepassword" role="tabpanel"
                             aria-labelledby="orders-tab">
                             <h4 class="mt-0 mb-4 font-weight-bold">Change Password</h4>
                             <div class="mb-4 bg-white shadow-sm card order-list">
@@ -194,7 +194,7 @@ $userData = Auth::user();
                         </div>
 
                         {{-- =================================================================== --}}
-                        <div class="tab-pane fade show " id="orders" role="tabpanel" aria-labelledby="orders-tab">
+                        <div class="tab-pane fade " id="orders" role="tabpanel" aria-labelledby="orders-tab">
                             <h4 class="mt-0 mb-4 font-weight-bold">Past Orders</h4>
                             <div class="mb-4 bg-white shadow-sm card order-list">
                                 <div class="p-4 gold-members">
@@ -506,7 +506,7 @@ $userData = Auth::user();
                         </div> --}}
 
 
-                        {{-- <div class="tab-pane fade" id="addresses" role="tabpanel" aria-labelledby="addresses-tab">
+                        <div class="tab-pane fade" id="addresses" role="tabpanel" aria-labelledby="addresses-tab">
                             <h4 class="mt-0 mb-4 font-weight-bold">Manage Addresses</h4>
                             <div class="row">
                                 <div class="col-md-6">
@@ -598,7 +598,8 @@ $userData = Auth::user();
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> 
+                            
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="bg-white shadow-sm card addresses-item">
@@ -644,7 +645,7 @@ $userData = Auth::user();
                                     </div>
                                 </div>
                             </div>
-                        </div> --}}
+                        </div>
 
 
                     </div>

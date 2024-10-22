@@ -1,8 +1,7 @@
 @include('frontend.dashboard.header')
 
 {{-- modal --}}
-<div class="modal fade" id="add-address-modal" tabindex="-1" role="dialog" aria-labelledby="add-address"
-    aria-hidden="true">
+<div class="modal fade" id="add-address-modal" tabindex="-1" role="dialog" aria-labelledby="add-address" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -75,7 +74,7 @@
                             <div class="item">
                                 <div class="mall-category-item position-relative">
                                     <a class="btn btn-primary btn-sm position-absolute" href="#">ADD</a>
-                                    <img class="img-fluid" src="{{asset('frontend/img/list/1.png')}}">
+                                    <img class="img-fluid" src="{{ asset('frontend/img/list/1.png') }}">
                                     <h6>Burgers</h6>
                                     <small>$500</small>
                                 </div>
@@ -83,7 +82,7 @@
                             <div class="item">
                                 <div class="mall-category-item position-relative">
                                     <a class="btn btn-primary btn-sm position-absolute" href="#">ADD</a>
-                                    <img class="img-fluid" src="{{asset('frontend/img/list/2.png')}}">
+                                    <img class="img-fluid" src="{{ asset('frontend/img/list/2.png') }}">
                                     <h6>Sandwiches</h6>
                                     <small>$260</small>
                                 </div>
@@ -138,7 +137,8 @@
                                                     141002, India
                                                 </p>
                                                 <p class="mb-0 text-black font-weight-bold"><a
-                                                        class="mr-2 btn btn-sm btn-success" href="#"> DELIVER HERE</a>
+                                                        class="mr-2 btn btn-sm btn-success" href="#"> DELIVER
+                                                        HERE</a>
                                                     <span>30MIN</span>
                                                 </p>
                                             </div>
@@ -156,7 +156,8 @@
                                                 <p>NCC, Model Town Rd Town, Ludhiana, Punjab 141002, India
                                                 </p>
                                                 <p class="mb-0 text-black font-weight-bold"><a
-                                                        class="mr-2 btn btn-sm btn-secondary" href="#"> DELIVER HERE</a>
+                                                        class="mr-2 btn btn-sm btn-secondary" href="#"> DELIVER
+                                                        HERE</a>
                                                     <span>40MIN</span>
                                                 </p>
                                             </div>
@@ -176,7 +177,8 @@
                                                 <p>Delhi Bypass Rd, Jawaddi Taksal, Ludhiana, Punjab 141002, India
                                                 </p>
                                                 <p class="mb-0 text-black font-weight-bold"><a
-                                                        class="mr-2 btn btn-sm btn-secondary" href="#"> DELIVER HERE</a>
+                                                        class="mr-2 btn btn-sm btn-secondary" href="#"> DELIVER
+                                                        HERE</a>
                                                     <span>45MIN</span>
                                                 </p>
                                             </div>
@@ -213,30 +215,46 @@
                             <div class="pr-0 col-sm-4">
                                 <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist"
                                     aria-orientation="vertical">
-                                    <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill"
+                                    <a class="nav-link active" id="v-pills-cash-tab" data-toggle="pill"
+                                        href="#v-pills-cash" role="tab" aria-controls="v-pills-cash"
+                                        aria-selected="false"><i class="icofont-money"></i> Pay on Delivery</a>
+                                    <a class="nav-link " id="v-pills-home-tab" data-toggle="pill"
                                         href="#v-pills-home" role="tab" aria-controls="v-pills-home"
-                                        aria-selected="true"><i class="icofont-credit-card"></i> Credit/Debit Cards</a>
+                                        aria-selected="true"><i class="icofont-credit-card"></i> Credit/Debit
+                                        Cards</a>
                                     <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill"
                                         href="#v-pills-profile" role="tab" aria-controls="v-pills-profile"
                                         aria-selected="false"><i class="icofont-id-card"></i> Food Cards</a>
-                                    <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill"
-                                        href="#v-pills-messages" role="tab" aria-controls="v-pills-messages"
-                                        aria-selected="false"><i class="icofont-card"></i> Credit</a>
                                     <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill"
                                         href="#v-pills-settings" role="tab" aria-controls="v-pills-settings"
                                         aria-selected="false"><i class="icofont-bank-alt"></i> Netbanking</a>
-                                    <a class="nav-link" id="v-pills-cash-tab" data-toggle="pill" href="#v-pills-cash"
-                                        role="tab" aria-controls="v-pills-cash" aria-selected="false"><i
-                                            class="icofont-money"></i> Pay on Delivery</a>
+
                                 </div>
                             </div>
                             <div class="pl-0 col-sm-8">
                                 <div class="tab-content h-100" id="v-pills-tabContent">
-                                    <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel"
+                                    
+                                    <div class="tab-pane fade show active" id="v-pills-cash" role="tabpanel"
+                                        aria-labelledby="v-pills-cash-tab">
+                                        <h6 class="mt-0 mb-3">Cash</h6>
+                                        <p>Please keep exact change handy to help us serve you better</p>
+                                        <hr>
+                                        <form>
+                                            <a href="thanks.html" class="btn btn-success btn-block btn-lg">PAY
+                                                @if (Session::has('coupon'))
+                                                    {{ Session::get('coupon')['total_amount'] }}
+                                                @else
+                                                    {{ $total }}
+                                                @endif
+                                                <i class="icofont-long-arrow-right"></i></a>
+                                    </div>
+                                    
+                                    <div class="tab-pane fade" id="v-pills-home" role="tabpanel"
                                         aria-labelledby="v-pills-home-tab">
                                         <h6 class="mt-0 mb-3">Add new card</h6>
                                         <p>WE ACCEPT <span class="osahan-card">
-                                                <i class="icofont-visa-alt"></i> <i class="icofont-mastercard-alt"></i>
+                                                <i class="icofont-visa-alt"></i> <i
+                                                    class="icofont-mastercard-alt"></i>
                                                 <i class="icofont-american-express-alt"></i> <i
                                                     class="icofont-payoneer-alt"></i> <i
                                                     class="icofont-apple-pay-alt"></i> <i
@@ -253,7 +271,8 @@
                                                             placeholder="Card number">
                                                         <div class="input-group-append">
                                                             <button class="btn btn-outline-secondary" type="button"
-                                                                id="button-addon2"><i class="icofont-card"></i></button>
+                                                                id="button-addon2"><i
+                                                                    class="icofont-card"></i></button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -279,18 +298,25 @@
                                                     <div class="custom-control custom-checkbox">
                                                         <input type="checkbox" class="custom-control-input"
                                                             id="customCheck1">
-                                                        <label class="custom-control-label" for="customCheck1">Securely
+                                                        <label class="custom-control-label"
+                                                            for="customCheck1">Securely
                                                             save this card for a faster checkout next time.</label>
                                                     </div>
                                                 </div>
                                                 <div class="mb-0 form-group col-md-12">
                                                     <a href="thanks.html" class="btn btn-success btn-block btn-lg">PAY
-                                                        $1329
-                                                        <i class="icofont-long-arrow-right"></i></a>
+                                                        @if (Session::has('coupon'))
+                                                            {{ Session::get('coupon')['total_amount'] }}
+                                                        @else
+                                                            {{ $total }}
+                                                        @endif
+                                                        <i class="icofont-long-arrow-right"></i>
+                                                    </a>
                                                 </div>
                                             </div>
                                         </form>
                                     </div>
+                                    
                                     <div class="tab-pane fade" id="v-pills-profile" role="tabpanel"
                                         aria-labelledby="v-pills-profile-tab">
                                         <h6 class="mt-0 mb-3">Add new food card</h6>
@@ -308,7 +334,8 @@
                                                             placeholder="Card number">
                                                         <div class="input-group-append">
                                                             <button class="btn btn-outline-secondary" type="button"
-                                                                id="button-addon2"><i class="icofont-card"></i></button>
+                                                                id="button-addon2"><i
+                                                                    class="icofont-card"></i></button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -334,66 +361,43 @@
                                                     <div class="custom-control custom-checkbox">
                                                         <input type="checkbox" class="custom-control-input"
                                                             id="customCheck1">
-                                                        <label class="custom-control-label" for="customCheck1">Securely
+                                                        <label class="custom-control-label"
+                                                            for="customCheck1">Securely
                                                             save this card for a faster checkout next time.</label>
                                                     </div>
                                                 </div>
                                                 <div class="mb-0 form-group col-md-12">
                                                     <a href="thanks.html" class="btn btn-success btn-block btn-lg">PAY
-                                                        $1329
-                                                        <i class="icofont-long-arrow-right"></i></a>
+                                                        @if (Session::has('coupon'))
+                                                            {{ Session::get('coupon')['total_amount'] }}
+                                                        @else
+                                                            {{ $total }}
+                                                        @endif
+                                                        <i class="icofont-long-arrow-right"></i>
+                                                    </a>
                                                 </div>
                                             </div>
                                         </form>
                                     </div>
-                                    <div class="tab-pane fade" id="v-pills-messages" role="tabpanel"
-                                        aria-labelledby="v-pills-messages-tab">
-                                        <div class="p-4 mb-3 bg-white border shadow-sm-sm d-flex align-items-center">
-                                            <i class="mr-3 icofont-apple-pay-alt icofont-3x"></i>
-                                            <div class="d-flex flex-column">
-                                                <h5 class="card-title">Apple Pay</h5>
-                                                <p class="card-text">Apple Pay lets you order now & pay later at no
-                                                    extra cost.</p>
-                                                <a href="#" class="card-link font-weight-bold">LINK ACCOUNT <i
-                                                        class="icofont-link-alt"></i></a>
-                                            </div>
-                                        </div>
-                                        <div class="p-4 mb-3 bg-white border shadow-sm-sm d-flex align-items-center">
-                                            <i class="mr-3 icofont-paypal-alt icofont-3x"></i>
-                                            <div class="d-flex flex-column">
-                                                <h5 class="card-title">Paypal</h5>
-                                                <p class="card-text">Paypal lets you order now & pay later at no extra
-                                                    cost.</p>
-                                                <a href="#" class="card-link font-weight-bold">LINK ACCOUNT <i
-                                                        class="icofont-link-alt"></i></a>
-                                            </div>
-                                        </div>
-                                        <div class="p-4 bg-white border shadow-sm-sm d-flex align-items-center">
-                                            <i class="mr-3 icofont-diners-club icofont-3x"></i>
-                                            <div class="d-flex flex-column">
-                                                <h5 class="card-title">Diners Club</h5>
-                                                <p class="card-text">Diners Club lets you order now & pay later at no
-                                                    extra cost.</p>
-                                                <a href="#" class="card-link font-weight-bold">LINK ACCOUNT <i
-                                                        class="icofont-link-alt"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
+
                                     <div class="tab-pane fade" id="v-pills-settings" role="tabpanel"
                                         aria-labelledby="v-pills-settings-tab">
                                         <h6 class="mt-0 mb-3">Netbanking</h6>
                                         <form>
                                             <div class="btn-group btn-group-toggle" data-toggle="buttons">
                                                 <label class="btn btn-outline-primary active">
-                                                    <input type="radio" name="options" id="option1" autocomplete="off"
-                                                        checked> HDFC <i class="icofont-check-circled"></i>
+                                                    <input type="radio" name="options" id="option1"
+                                                        autocomplete="off" checked> HDFC <i
+                                                        class="icofont-check-circled"></i>
                                                 </label>
                                                 <label class="btn btn-outline-primary">
-                                                    <input type="radio" name="options" id="option2" autocomplete="off">
+                                                    <input type="radio" name="options" id="option2"
+                                                        autocomplete="off">
                                                     ICICI <i class="icofont-check-circled"></i>
                                                 </label>
                                                 <label class="btn btn-outline-primary">
-                                                    <input type="radio" name="options" id="option3" autocomplete="off">
+                                                    <input type="radio" name="options" id="option3"
+                                                        autocomplete="off">
                                                     AXIS <i class="icofont-check-circled"></i>
                                                 </label>
                                             </div>
@@ -412,21 +416,19 @@
                                                 </div>
                                                 <div class="mb-0 form-group col-md-12">
                                                     <a href="thanks.html" class="btn btn-success btn-block btn-lg">PAY
-                                                        $1329
-                                                        <i class="icofont-long-arrow-right"></i></a>
+                                                        @if (Session::has('coupon'))
+                                                            {{ Session::get('coupon')['total_amount'] }}
+                                                        @else
+                                                            {{ $total }}
+                                                        @endif
+                                                        <i class="icofont-long-arrow-right"></i>
+                                                    </a>
                                                 </div>
                                             </div>
                                         </form>
                                     </div>
-                                    <div class="tab-pane fade" id="v-pills-cash" role="tabpanel"
-                                        aria-labelledby="v-pills-cash-tab">
-                                        <h6 class="mt-0 mb-3">Cash</h6>
-                                        <p>Please keep exact change handy to help us serve you better</p>
-                                        <hr>
-                                        <form>
-                                            <a href="thanks.html" class="btn btn-success btn-block btn-lg">PAY $1329
-                                                <i class="icofont-long-arrow-right"></i></a>
-                                    </div>
+                                    
+                                    
                                     </form>
                                 </div>
                             </div>
@@ -438,102 +440,110 @@
                 <div class="p-4 mb-4 rounded shadow-sm generator-bg osahan-cart-item">
                     <div class="mb-4 d-flex osahan-cart-item-profile">
                         <img class="mr-3 img-fluid rounded-pill" alt="osahan"
-                            src="{{asset('upload/clients/'. $client->profile_photo_path)}}">
+                            src="{{ asset('upload/clients/' . $client->profile_photo_path) }}">
                         <div class="d-flex flex-column">
-                            <h6 class="mb-1 text-white">{{$client->name}}
+                            <h6 class="mb-1 text-white">{{ $client->name }}
                             </h6>
-                            <p class="mb-0 text-white"><i class="icofont-location-pin"></i> {{$client->address}}, NEW NY
+                            <p class="mb-0 text-white"><i class="icofont-location-pin"></i> {{ $client->address }},
+                                NEW NY
                                 10029</p>
                         </div>
                     </div>
                     <div class="p-4 mb-4 ">
                         <h5 class="mb-1 text-white">Your Order</h5>
-                        <p class="mb-4 text-white">{{count((array)Session::get('cart'))}} ITEMS</p>
+                        <p class="mb-4 text-white">{{ count((array) Session::get('cart')) }} ITEMS</p>
 
                         <div class="mb-2 bg-white rounded shadow-sm">
                             @php
-                            $total = 0;
+                                $total = 0;
                             @endphp
                             @if (Session::has('cart'))
-                            @foreach (Session::get('cart') as $id => $details)
-                            @php
-                            $total += $details['price'] * $details['quantity'];
-                            @endphp
+                                @foreach (Session::get('cart') as $id => $details)
+                                    @php
+                                        $total += $details['price'] * $details['quantity'];
+                                    @endphp
 
-                            <div class="p-2 gold-members border-bottom">
+                                    <div class="p-2 gold-members border-bottom">
 
-                                <p class="float-right mb-0 ml-2 text-gray">{{$details['price'] * $details['quantity']}}
-                                </p>
-                                <span class="float-right count-number">
+                                        <p class="float-right mb-0 ml-2 text-gray">
+                                            {{ $details['price'] * $details['quantity'] }}
+                                        </p>
+                                        <span class="float-right count-number">
 
 
-                                    <button class="btn btn-outline-secondary btn-sm left dec" data-id="{{$id}}"> <i
-                                            class="icofont-minus"></i>
-                                    </button>
+                                            <button class="btn btn-outline-secondary btn-sm left dec"
+                                                data-id="{{ $id }}"> <i class="icofont-minus"></i>
+                                            </button>
 
-                                    <input class="count-number-input" type="text" value="{{$details['quantity']}}"
-                                        readonly="">
+                                            <input class="count-number-input" type="text"
+                                                value="{{ $details['quantity'] }}" readonly="">
 
-                                    <button class="btn btn-outline-secondary btn-sm right inc" data-id="{{$id}}"> <i
-                                            class="icofont-plus"></i>
-                                    </button>
-                                    <button class="btn btn-outline-danger btn-sm right remove" data-id="{{$id}}"> <i
-                                            class="icofont-trash"></i>
-                                    </button>
-                                </span>
-                                <div class="media">
-                                    <div class="mr-2"><img class="img-fluid"
-                                            src="{{asset('upload/products/'.$details['image'])}}" style="width: 30px;">
+                                            <button class="btn btn-outline-secondary btn-sm right inc"
+                                                data-id="{{ $id }}"> <i class="icofont-plus"></i>
+                                            </button>
+                                            <button class="btn btn-outline-danger btn-sm right remove"
+                                                data-id="{{ $id }}"> <i class="icofont-trash"></i>
+                                            </button>
+                                        </span>
+                                        <div class="media">
+                                            <div class="mr-2"><img class="img-fluid"
+                                                    src="{{ asset('upload/products/' . $details['image']) }}"
+                                                    style="width: 30px;">
+                                            </div>
+                                            <div class="media-body">
+                                                <p class="mt-1 mb-0 text-black">{{ $details['name'] }}</p>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="media-body">
-                                        <p class="mt-1 mb-0 text-black">{{$details['name']}}</p>
-                                    </div>
-                                </div>
-                            </div>
-                            @endforeach
+                                @endforeach
                             @endif
                         </div>
                         {{-- coupon apply --}}
                         @if (Session::has('coupon'))
-                        <div class="clearfix p-2 mb-2 bg-white rounded">
-                            <p class="mb-1">Item Total <span
-                                    class="float-right text-dark">{{count((array)Session::get('cart'))}} Items</span>
-                            </p>
-                            <p class="mb-1">Restaurant Coupon Name <span class="float-right text-dark"
-                                    id="removeCoupon">{{(Session::get('coupon')['coupon_name'])}} </span>
-                                <a type="submit" class="float-right text-danger" onclick="RemoveCoupon()"><i
-                                        class="icofont-ui-delete"></i></a>
-                            </p>
+                            <div class="clearfix p-2 mb-2 bg-white rounded">
+                                <p class="mb-1">Item Total <span
+                                        class="float-right text-dark">{{ count((array) Session::get('cart')) }}
+                                        Items</span>
+                                </p>
+                                <p class="mb-1">Restaurant Coupon Name <span class="float-right text-dark"
+                                        id="removeCoupon">{{ Session::get('coupon')['coupon_name'] }} </span>
+                                    <a type="submit" class="float-right text-danger" onclick="RemoveCoupon()"><i
+                                            class="icofont-ui-delete"></i></a>
+                                </p>
 
 
-                            <p class="mb-1">Delivery Fee <span class="text-info" data-toggle="tooltip"
-                                    data-placement="top" title="Total discount breakup">
-                                    <i class="icofont-info-circle"></i>
-                                </span> <span class="float-right text-dark">{{'Next Time Adding'}}</span>
-                            </p>
-                            <p class="mb-1 text-success">Total Discount
-                                <span
-                                    class="float-right text-success">{{(Session::get('coupon')['discount_amount'])}}</span>
-                            </p>
-                            <hr />
-                            <h6 class="mb-0 font-weight-bold">TO PAY <span class="float-right">
-                                    @if (Session::has('coupon'))
-                                    {{(Session::get('coupon')['total_amount'])}}
-                                    @else
-                                    {{$total}}
-                                    @endif</span></h6>
-                        </div>
-                        @else
-                        <div class="clearfix p-2 mb-2 bg-white rounded">
-                            <div class="mb-2 input-group input-group-sm">
-                                <input type="text" class="form-control" placeholder="Enter promo code" id="coupon_name">
-                                <div class="input-group-append">
-                                    <button class="btn btn-primary" type="submit" id="button-addon2"
-                                        onclick="ApplyCoupon()"><i class="icofont-sale-discount"></i> APPLY</button>
-                                </div>
+                                <p class="mb-1">Delivery Fee <span class="text-info" data-toggle="tooltip"
+                                        data-placement="top" title="Total discount breakup">
+                                        <i class="icofont-info-circle"></i>
+                                    </span> <span class="float-right text-dark">{{ 'Next Time Adding' }}</span>
+                                </p>
+                                <p class="mb-1 text-success">Total Discount
+                                    <span
+                                        class="float-right text-success">{{ Session::get('coupon')['discount_amount'] }}</span>
+                                </p>
+                                <hr />
+                                <h6 class="mb-0 font-weight-bold">TO PAY <span class="float-right">
+                                        @if (Session::has('coupon'))
+                                            {{ Session::get('coupon')['total_amount'] }}
+                                        @else
+                                            {{ $total }}
+                                        @endif
+                                    </span>
+                                </h6>
                             </div>
+                        @else
+                            <div class="clearfix p-2 mb-2 bg-white rounded">
+                                <div class="mb-2 input-group input-group-sm">
+                                    <input type="text" class="form-control" placeholder="Enter promo code"
+                                        id="coupon_name">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-primary" type="submit" id="button-addon2"
+                                            onclick="ApplyCoupon()"><i class="icofont-sale-discount"></i>
+                                            APPLY</button>
+                                    </div>
+                                </div>
 
-                        </div>
+                            </div>
                         @endif
 
 
@@ -543,12 +553,12 @@
 
 
                         <div class="clearfix p-2 mb-2 bg-white rounded">
-                            <img class="float-left img-fluid" src="{{asset('frontend/img/wallet-icon.png')}}">
+                            <img class="float-left img-fluid" src="{{ asset('frontend/img/wallet-icon.png') }}">
                             <h6 class="mb-2 text-right font-weight-bold">Subtotal : <span class="text-danger">
                                     @if (Session::has('coupon'))
-                                    {{(Session::get('coupon')['total_amount'])}}
+                                        {{ Session::get('coupon')['total_amount'] }}
                                     @else
-                                    {{$total}}
+                                        {{ $total }}
                                     @endif
                                 </span>
                             </h6>
@@ -556,7 +566,7 @@
 
                         </div>
 
-                        <a href="{{route('checkout')}}" class="btn btn-success btn-block btn-lg">TO PAY <i
+                        <a href="{{ route('checkout') }}" class="btn btn-success btn-block btn-lg">TO PAY <i
                                 class="icofont-long-arrow-right"></i></a>
                     </div>
                     <div class="pt-2"></div>
@@ -598,10 +608,10 @@
                 <div class="app">
                     <p class="mb-2">DOWNLOAD APP</p>
                     <a href="#">
-                        <img class="img-fluid" src="{{asset('frontend/img/google.png')}}">
+                        <img class="img-fluid" src="{{ asset('frontend/img/google.png') }}">
                     </a>
                     <a href="#">
-                        <img class="img-fluid" src="{{asset('frontend/img/apple.png')}}">
+                        <img class="img-fluid" src="{{ asset('frontend/img/apple.png') }}">
                     </a>
                 </div>
             </div>
@@ -647,34 +657,49 @@
             <div class="col-md-12">
                 <p class="text-black">POPULAR COUNTRIES</p>
                 <div class="search-links">
-                    <a href="#">Australia</a> | <a href="#">Brasil</a> | <a href="#">Canada</a> | <a href="#">Chile</a>
-                    | <a href="#">Czech Republic</a> | <a href="#">India</a> | <a href="#">Indonesia</a> | <a
-                        href="#">Ireland</a> | <a href="#">New Zealand</a> | <a href="#">United Kingdom</a> | <a
-                        href="#">Turkey</a> | <a href="#">Philippines</a> | <a href="#">Sri Lanka</a> | <a
-                        href="#">Australia</a> | <a href="#">Brasil</a> | <a href="#">Canada</a> | <a href="#">Chile</a>
-                    | <a href="#">Czech Republic</a> | <a href="#">India</a> | <a href="#">Indonesia</a> | <a
-                        href="#">Ireland</a> | <a href="#">New Zealand</a> | <a href="#">United Kingdom</a> | <a
-                        href="#">Turkey</a> | <a href="#">Philippines</a> | <a href="#">Sri Lanka</a><a
-                        href="#">Australia</a> | <a href="#">Brasil</a> | <a href="#">Canada</a> | <a href="#">Chile</a>
-                    | <a href="#">Czech Republic</a> | <a href="#">India</a> | <a href="#">Indonesia</a> | <a
-                        href="#">Ireland</a> | <a href="#">New Zealand</a> | <a href="#">United Kingdom</a> | <a
-                        href="#">Turkey</a> | <a href="#">Philippines</a> | <a href="#">Sri Lanka</a> | <a
-                        href="#">Australia</a> | <a href="#">Brasil</a> | <a href="#">Canada</a> | <a href="#">Chile</a>
-                    | <a href="#">Czech Republic</a> | <a href="#">India</a> | <a href="#">Indonesia</a> | <a
-                        href="#">Ireland</a> | <a href="#">New Zealand</a> | <a href="#">United Kingdom</a> | <a
-                        href="#">Turkey</a> | <a href="#">Philippines</a> | <a href="#">Sri Lanka</a>
+                    <a href="#">Australia</a> | <a href="#">Brasil</a> | <a href="#">Canada</a> |
+                    <a href="#">Chile</a>
+                    | <a href="#">Czech Republic</a> | <a href="#">India</a> | <a
+                        href="#">Indonesia</a> | <a href="#">Ireland</a> | <a href="#">New
+                        Zealand</a> | <a href="#">United Kingdom</a> | <a href="#">Turkey</a> | <a
+                        href="#">Philippines</a> | <a href="#">Sri Lanka</a> | <a
+                        href="#">Australia</a> | <a href="#">Brasil</a> | <a href="#">Canada</a> |
+                    <a href="#">Chile</a>
+                    | <a href="#">Czech Republic</a> | <a href="#">India</a> | <a
+                        href="#">Indonesia</a> | <a href="#">Ireland</a> | <a href="#">New
+                        Zealand</a> | <a href="#">United Kingdom</a> | <a href="#">Turkey</a> | <a
+                        href="#">Philippines</a> | <a href="#">Sri Lanka</a><a
+                        href="#">Australia</a> | <a href="#">Brasil</a> | <a href="#">Canada</a> |
+                    <a href="#">Chile</a>
+                    | <a href="#">Czech Republic</a> | <a href="#">India</a> | <a
+                        href="#">Indonesia</a> | <a href="#">Ireland</a> | <a href="#">New
+                        Zealand</a> | <a href="#">United Kingdom</a> | <a href="#">Turkey</a> | <a
+                        href="#">Philippines</a> | <a href="#">Sri Lanka</a> | <a
+                        href="#">Australia</a> | <a href="#">Brasil</a> | <a href="#">Canada</a> |
+                    <a href="#">Chile</a>
+                    | <a href="#">Czech Republic</a> | <a href="#">India</a> | <a
+                        href="#">Indonesia</a> | <a href="#">Ireland</a> | <a href="#">New
+                        Zealand</a> | <a href="#">United Kingdom</a> | <a href="#">Turkey</a> | <a
+                        href="#">Philippines</a> | <a href="#">Sri Lanka</a>
                 </div>
                 <p class="mt-4 text-black">POPULAR FOOD</p>
                 <div class="search-links">
-                    <a href="#">Fast Food</a> | <a href="#">Chinese</a> | <a href="#">Street Food</a> | <a
-                        href="#">Continental</a> | <a href="#">Mithai</a> | <a href="#">Cafe</a> | <a href="#">South
-                        Indian</a> | <a href="#">Punjabi Food</a> | <a href="#">Fast Food</a> | <a href="#">Chinese</a>
-                    | <a href="#">Street Food</a> | <a href="#">Continental</a> | <a href="#">Mithai</a> | <a
-                        href="#">Cafe</a> | <a href="#">South Indian</a> | <a href="#">Punjabi Food</a><a href="#">Fast
-                        Food</a> | <a href="#">Chinese</a> | <a href="#">Street Food</a> | <a href="#">Continental</a> |
-                    <a href="#">Mithai</a> | <a href="#">Cafe</a> | <a href="#">South Indian</a> | <a href="#">Punjabi
-                        Food</a> | <a href="#">Fast Food</a> | <a href="#">Chinese</a> | <a href="#">Street Food</a> |
-                    <a href="#">Continental</a> | <a href="#">Mithai</a> | <a href="#">Cafe</a> | <a href="#">South
+                    <a href="#">Fast Food</a> | <a href="#">Chinese</a> | <a href="#">Street
+                        Food</a> | <a href="#">Continental</a> | <a href="#">Mithai</a> | <a
+                        href="#">Cafe</a> | <a href="#">South
+                        Indian</a> | <a href="#">Punjabi Food</a> | <a href="#">Fast Food</a> | <a
+                        href="#">Chinese</a>
+                    | <a href="#">Street Food</a> | <a href="#">Continental</a> | <a
+                        href="#">Mithai</a> | <a href="#">Cafe</a> | <a href="#">South Indian</a> |
+                    <a href="#">Punjabi Food</a><a href="#">Fast
+                        Food</a> | <a href="#">Chinese</a> | <a href="#">Street Food</a> | <a
+                        href="#">Continental</a> |
+                    <a href="#">Mithai</a> | <a href="#">Cafe</a> | <a href="#">South Indian</a> |
+                    <a href="#">Punjabi
+                        Food</a> | <a href="#">Fast Food</a> | <a href="#">Chinese</a> | <a
+                        href="#">Street Food</a> |
+                    <a href="#">Continental</a> | <a href="#">Mithai</a> | <a href="#">Cafe</a> |
+                    <a href="#">South
                         Indian</a> | <a href="#">Punjabi Food</a>
                 </div>
             </div>
