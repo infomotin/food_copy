@@ -109,89 +109,55 @@
                             @endif
                         </div>
                     </li>
-
+                    @php
+                        $total = 0;
+                        $cart = Session::get('cart',[]);
+                        // print_r($cart);
+                        $groupCart = [];
+                        foreach ($cart as $id => $details) {
+                            $groupCart[$details['client_id']][] = $details;
+                        }
+                        $clients = App\Models\Client::whereIn('id', array_keys($groupCart))->get()->keyBy('id');
+                        
+                    @endphp
                     <li class="nav-item dropdown dropdown-cart">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
                             aria-haspopup="true" aria-expanded="false">
                             <i class="fas fa-shopping-basket"></i> Cart
                             <span class="badge badge-success">{{ count((array) Session::get('cart')) }}</span>
                         </a>
-                        @php
-                            $total = 0;
-                        @endphp
+
                         {{-- <pre id="demo">{{ print_r(Session::get('cart'), true) }}</pre> --}}
 
 
                         <div class="p-0 border-0 shadow-sm dropdown-menu dropdown-cart-top dropdown-menu-right">
-                            @if (Session::has('cart'))
-                                <div class="p-4 dropdown-cart-top-header">
-                                    <img class="mr-3 img-fluid" alt="osahan" src="img/cart.jpg">
-                                    <h6 class="mb-0">Gus's World Famous Chicken</h6>
-                                    <p class="mb-0 text-secondary">310 S Front St, Memphis, USA</p>
-                                    <small><a class="text-primary font-weight-bold" href="#">View Full
-                                            Menu</a></small>
-                                </div>
-                            @endif
+                            @foreach ( $groupCart as $key => $cart )
+                                
+                                    @dd($cart[$key]);
+                                
+                            <div class="p-4 dropdown-cart-top-header">
+                                <img class="mr-3 img-fluid" alt="osahan" src="img/cart.jpg">
+                                <h6 class="mb-0">Gus's World Famous Chicken</h6>
+                                <p class="mb-0 text-secondary">310 S Front St, Memphis, USA</p>
+                                <small><a class="text-primary font-weight-bold" href="#">View Full
+                                        Menu</a></small>
+                            </div>
+                            @endforeach
+                            
 
-                            @if (Session::has('cart'))
-                                @foreach (Session::get('cart') as $id => $details)
-                                    @php
-                                        $total += $details['price'] * $details['quantity'];
-                                    @endphp
-                                    <div class="p-4 dropdown-cart-top-body border-top">
-                                        <p class="mb-2">
-                                            <img class=" md-2 img-fluid"
-                                                src="{{ asset('upload/products/' . $details['image']) }}"
-                                                style="width: 30px;">
 
-                                            {{ $details['name'] }} x {{ $details['quantity'] }}
-                                            <span
-                                                class="float-right text-secondary">${{ $details['price'] * $details['quantity'] }}
-                                            </span>
-                                        </p>
-
-                                    </div>
-                                @endforeach
-                                @if (Session::has('coupon'))
-                                    <div class="p-4 dropdown-cart-top-footer border-top">
-                                        <p class="mb-1 text-success">Total Discount
-                                            <span
-                                                class="float-right text-success">{{ Session::get('coupon')['discount_amount'] }}</span>
-                                        </p>
-                                        <p class="mb-0 font-weight-bold text-secondary">Sub Total <span
-                                                class="float-right text-dark">{{ Session::get('coupon')['total_amount'] }}</span>
-                                        </p>
-
-                                    </div>
-                                    <div class="p-2 dropdown-cart-top-footer border-top">
-                                        <a class="btn btn-success btn-block btn-lg" href="#"> Checkout</a>
-                                    </div>
-                                @else
-                                    <div class="p-4 dropdown-cart-top-footer border-top">
-                                        <p class="mb-1 text-success">Total Discount
-                                            <span class="float-right text-success">{{ 0 }}</span>
-                                        </p>
-                                        <p class="mb-0 font-weight-bold text-secondary">Sub Total <span
-                                                class="float-right text-dark">${{ $total }}</span></p>
-
-                                    </div>
-                                    <div class="p-2 dropdown-cart-top-footer border-top">
-                                        <a class="btn btn-success btn-block btn-lg" href="#"> Checkout</a>
-                                    </div>
-                                @endif
-                        </div>
-                    @else
-                        <div class="p-0 border-0 shadow-sm dropdown-menu dropdown-cart-top dropdown-menu-right">
                             <div class="p-4 dropdown-cart-top-body border-top">
-                                <a class="nav-link dropdown-toggle" href="#" role="button"
-                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fas fa-shopping-basket"></i> Cart
-                                    <span class="badge badge-success">0</span>
-                                </a>
+                                <p class="mb-2">
+                                    <img class=" md-2 img-fluid"
+                                        src="https://placehold.co/40x40"
+                                        style="width: 30px;">
+                                    {{ 'items' }} x {{ 'quantity' }}
+                                    <span
+                                        class="float-right text-secondary">${{ 'price' }}</span>
+                                    </span>
+                                </p>
                             </div>
                         </div>
-
-                        @endif
                     </li>
                 </ul>
             </div>
