@@ -26,8 +26,6 @@
     <link rel="stylesheet" href="{{ asset('frontend/vendor/owl-carousel/owl.theme.css') }}">
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css">
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-
-
 </head>
 
 <body>
@@ -36,8 +34,6 @@
         // $profileData = App\Models\User::find($userData->id);
     @endphp
     <nav class="shadow-sm navbar navbar-expand-lg navbar-light bg-light osahan-nav">
-
-
         <div class="container">
             <a class="navbar-brand" href="{{ url('/') }}"><img alt="logo"
                     src="{{ asset('frontend/img/logo.png') }}"></a>
@@ -70,14 +66,20 @@
                             aria-haspopup="true" aria-expanded="false">
                             Pages
                         </a>
-                        <div class="border-0 shadow-sm dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="track-order.html">Track Order</a>
-                            <a class="dropdown-item" href="invoice.html">Invoice</a>
-                            <a class="dropdown-item" href="{{ route('login') }}">Login</a>
-                            <a class="dropdown-item" href="register.html">Register</a>
-                            <a class="dropdown-item" href="404.html">404</a>
-                            <a class="dropdown-item" href="extra.html">Extra :)</a>
-                        </div>
+                        @if (Auth::user())
+                            <div class="border-0 shadow-sm dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item" href="track-order.html">Track Order</a>
+                                <a class="dropdown-item" href="invoice.html">Invoice</a>
+                                <a class="dropdown-item" href="404.html">404</a>
+                                <a class="dropdown-item" href="extra.html">Extra :)</a>
+                            </div>
+                        @else
+                            <div class="border-0 shadow-sm dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item" href="{{ route('login') }}">Login</a>
+                                <a class="dropdown-item" href="{{ route('register') }}">Register</a>
+                            </div>
+                        @endif
+
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
@@ -105,9 +107,6 @@
                                         class="icofont-heart"></i>
                                     Register</a>
                             @endif
-
-
-
                         </div>
                     </li>
 
@@ -124,14 +123,16 @@
 
 
                         <div class="p-0 border-0 shadow-sm dropdown-menu dropdown-cart-top dropdown-menu-right">
+                            @if (Session::has('cart'))
+                                <div class="p-4 dropdown-cart-top-header">
+                                    <img class="mr-3 img-fluid" alt="osahan" src="img/cart.jpg">
+                                    <h6 class="mb-0">Gus's World Famous Chicken</h6>
+                                    <p class="mb-0 text-secondary">310 S Front St, Memphis, USA</p>
+                                    <small><a class="text-primary font-weight-bold" href="#">View Full
+                                            Menu</a></small>
+                                </div>
+                            @endif
 
-                            <div class="p-4 dropdown-cart-top-header">
-                                <img class="mr-3 img-fluid" alt="osahan" src="img/cart.jpg">
-                                <h6 class="mb-0">Gus's World Famous Chicken</h6>
-                                <p class="mb-0 text-secondary">310 S Front St, Memphis, USA</p>
-                                <small><a class="text-primary font-weight-bold" href="#">View Full
-                                        Menu</a></small>
-                            </div>
                             @if (Session::has('cart'))
                                 @foreach (Session::get('cart') as $id => $details)
                                     @php
@@ -151,28 +152,46 @@
 
                                     </div>
                                 @endforeach
-                                <div class="p-4 dropdown-cart-top-footer border-top">
-                                    <p class="mb-0 font-weight-bold text-secondary">Sub Total <span
-                                            class="float-right text-dark">${{ $total }}</span></p>
-                                    <small class="text-info">Extra charges may apply</small>
-                                </div>
-                                <div class="p-2 dropdown-cart-top-footer border-top">
-                                    <a class="btn btn-success btn-block btn-lg" href="checkout.html"> Checkout</a>
-                                </div>
+                                @if (Session::has('coupon'))
+                                    <div class="p-4 dropdown-cart-top-footer border-top">
+                                        <p class="mb-1 text-success">Total Discount
+                                            <span
+                                                class="float-right text-success">{{ Session::get('coupon')['discount_amount'] }}</span>
+                                        </p>
+                                        <p class="mb-0 font-weight-bold text-secondary">Sub Total <span
+                                                class="float-right text-dark">{{ Session::get('coupon')['total_amount'] }}</span>
+                                        </p>
+
+                                    </div>
+                                    <div class="p-2 dropdown-cart-top-footer border-top">
+                                        <a class="btn btn-success btn-block btn-lg" href="#"> Checkout</a>
+                                    </div>
+                                @else
+                                    <div class="p-4 dropdown-cart-top-footer border-top">
+                                        <p class="mb-1 text-success">Total Discount
+                                            <span class="float-right text-success">{{ 0 }}</span>
+                                        </p>
+                                        <p class="mb-0 font-weight-bold text-secondary">Sub Total <span
+                                                class="float-right text-dark">${{ $total }}</span></p>
+
+                                    </div>
+                                    <div class="p-2 dropdown-cart-top-footer border-top">
+                                        <a class="btn btn-success btn-block btn-lg" href="#"> Checkout</a>
+                                    </div>
+                                @endif
                         </div>
                     @else
-                        {{-- Emplty cart  --}}
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
-                            aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-shopping-basket"></i> Cart
-                            <span class="badge badge-success">5</span>
-                        </a>
+                        <div class="p-0 border-0 shadow-sm dropdown-menu dropdown-cart-top dropdown-menu-right">
+                            <div class="p-4 dropdown-cart-top-body border-top">
+                                <a class="nav-link dropdown-toggle" href="#" role="button"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-shopping-basket"></i> Cart
+                                    <span class="badge badge-success">0</span>
+                                </a>
+                            </div>
+                        </div>
+
                         @endif
-
-
-
-
-
                     </li>
                 </ul>
             </div>

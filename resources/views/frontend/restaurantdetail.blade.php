@@ -1,28 +1,34 @@
 @include('frontend.dashboard.header')
 
 
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js">
+</script>
 <section class="restaurant-detailed-banner">
     @php
-    // $restaurantsData = App\Models\Client::latest()->where('status','active')->limit(4)->get();
-    // dd($restaurantsData);
+        // $restaurantsData = App\Models\Client::latest()->where('status','active')->limit(4)->get();
+        // dd($restaurantsData);
 
-    $products = App\Models\Client\Product::where('client_id',$restaurant->id)->limit(3)->get();
-    $menusName = $products->map(function($item){
-    return $item->menu->menu_name;
-    });
-    $menusName = $menusName->unique();
-    if($menusName->count() > 1){
-    $menusName = $menusName->implode('* ');
-    }else{
-    $menusName = $menusName->first();
-    }
-    use Carbon\Carbon;
-    $coupons =
-    App\Models\Coupon::where('client_id',$restaurant->id)->where('coupon_status',1)->where('coupon_validity','>=',Carbon::now()->format('Y-m-d'))->latest()->first();
+        $products = App\Models\Client\Product::where('client_id', $restaurant->id)
+            ->limit(3)
+            ->get();
+        $menusName = $products->map(function ($item) {
+            return $item->menu->menu_name;
+        });
+        $menusName = $menusName->unique();
+        if ($menusName->count() > 1) {
+            $menusName = $menusName->implode('* ');
+        } else {
+            $menusName = $menusName->first();
+        }
+        use Carbon\Carbon;
+        $coupons = App\Models\Coupon::where('client_id', $restaurant->id)
+            ->where('coupon_status', 1)
+            ->where('coupon_validity', '>=', Carbon::now()->format('Y-m-d'))
+            ->latest()
+            ->first();
     @endphp
     <div class="text-center">
-        <img class="img-fluid cover" src="{{asset('upload/clients/'.$restaurant->cover_photo)}}">
+        <img class="img-fluid cover" src="{{ asset('upload/clients/' . $restaurant->cover_photo) }}">
     </div>
     <div class="restaurant-detailed-header">
         <div class="container">
@@ -30,13 +36,13 @@
                 <div class="col-md-8">
                     <div class="restaurant-detailed-header-left">
                         <img class="float-left mr-3 img-fluid" alt="osahan"
-                            src="{{asset('upload/clients/'. $restaurant->profile_photo_path)}}">
-                        <h2 class="text-white">{{$restaurant->name}}</h2>
-                        <p class="mb-1 text-white"><i class="icofont-location-pin"></i> {{$restaurant->address}}, NEW
+                            src="{{ asset('upload/clients/' . $restaurant->profile_photo_path) }}">
+                        <h2 class="text-white">{{ $restaurant->name }}</h2>
+                        <p class="mb-1 text-white"><i class="icofont-location-pin"></i> {{ $restaurant->address }}, NEW
                             YORK, NY 10029
                             <span class="badge badge-success">OPEN</span>
                         </p>
-                        <p class="mb-0 text-white"><i class="icofont-food-cart"></i> {{$menusName}}
+                        <p class="mb-0 text-white"><i class="icofont-food-cart"></i> {{ $menusName }}
                         </p>
                     </div>
                 </div>
@@ -73,8 +79,8 @@
                             aria-selected="true">Order Online</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="pills-gallery-tab" data-toggle="pill" href="#pills-gallery" role="tab"
-                            aria-controls="pills-gallery" aria-selected="false">Gallery</a>
+                        <a class="nav-link" id="pills-gallery-tab" data-toggle="pill" href="#pills-gallery"
+                            role="tab" aria-controls="pills-gallery" aria-selected="false">Gallery</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" id="pills-restaurant-info-tab" data-toggle="pill"
@@ -86,8 +92,8 @@
                             aria-controls="pills-book" aria-selected="false">Book A Table</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="pills-reviews-tab" data-toggle="pill" href="#pills-reviews" role="tab"
-                            aria-controls="pills-reviews" aria-selected="false">Ratings & Reviews</a>
+                        <a class="nav-link" id="pills-reviews-tab" data-toggle="pill" href="#pills-reviews"
+                            role="tab" aria-controls="pills-reviews" aria-selected="false">Ratings & Reviews</a>
                     </li>
                 </ul>
             </div>
@@ -103,9 +109,12 @@
                         <div class="tab-pane fade show active" id="pills-order-online" role="tabpanel"
                             aria-labelledby="pills-order-online-tab">
                             @php
-                            $popularProducts =
-                            App\Models\Client\Product::where('client_id',$restaurant->id)->where('status','active')->where('most_popular',1)->limit(5)->get();
-                            // dd($popularProducts);
+                                $popularProducts = App\Models\Client\Product::where('client_id', $restaurant->id)
+                                    ->where('status', 'active')
+                                    ->where('most_popular', 1)
+                                    ->limit(5)
+                                    ->get();
+                                // dd($popularProducts);
                             @endphp
                             <div id="#menu" class="p-4 mb-4 bg-white rounded shadow-sm explore-outlets">
                                 <h5 class="mb-4">Recommended</h5>
@@ -125,26 +134,27 @@
 
                                 <div class="mb-3 owl-carousel owl-theme owl-carousel-five offers-interested-carousel">
                                     @foreach ($popularProducts as $popularProduct)
-                                    <div class="item">
-                                        <div class="mall-category-item">
-                                            <a href="#">
-                                                <img class="img-fluid"
-                                                    src="{{asset('upload/products/'.$popularProduct->image)}}">
+                                        <div class="item">
+                                            <div class="mall-category-item">
+                                                <a href="#">
+                                                    <img class="img-fluid"
+                                                        src="{{ asset('upload/products/' . $popularProduct->image) }}">
 
-                                                <h6>{{$popularProduct->name}}</h6>
-                                                @if ($popularProduct->discount_price == null)
-                                                <span class="text-primary">$:{{$popularProduct->price}} </span>
-                                                @else
-                                                <del class="text-primary">$:{{$popularProduct->price}} </del>
-                                                {{$popularProduct->discount_price}}
-                                                @endif
-                                                <span class="float-right text-secondary">
-                                                    <a href="{{route('addtocart',$popularProduct->id)}}"
-                                                        class="btn btn-outline-secondary btn-sm">Add</a>
-                                                </span>
-                                            </a>
+                                                    <h6>{{ $popularProduct->name }}</h6>
+                                                    @if ($popularProduct->discount_price == null)
+                                                        <span class="text-primary">$:{{ $popularProduct->price }}
+                                                        </span>
+                                                    @else
+                                                        <del class="text-primary">$:{{ $popularProduct->price }} </del>
+                                                        {{ $popularProduct->discount_price }}
+                                                    @endif
+                                                    <span class="float-right text-secondary">
+                                                        <a href="{{ route('addtocart', $popularProduct->id) }}"
+                                                            class="btn btn-outline-secondary btn-sm">Add</a>
+                                                    </span>
+                                                </a>
+                                            </div>
                                         </div>
-                                    </div>
                                     @endforeach
                                 </div>
 
@@ -152,100 +162,108 @@
                             </div>
                             <div class="row">
                                 @php
-                                $bestProducts =
-                                App\Models\Client\Product::where('client_id',$restaurant->id)->where('status','active')->where('best_seller',1)->limit(5)->get();
-                                // dd($popularProducts);
+                                    $bestProducts = App\Models\Client\Product::where('client_id', $restaurant->id)
+                                        ->where('status', 'active')
+                                        ->where('best_seller', 1)
+                                        ->limit(5)
+                                        ->get();
+                                    // dd($popularProducts);
                                 @endphp
                                 <h5 class="mt-3 mb-4 col-md-12">Best Sellers</h5>
                                 @foreach ($bestProducts as $bestProducts)
+                                    <div class="mb-4 col-md-4 col-sm-6">
 
-                                <div class="mb-4 col-md-4 col-sm-6">
-
-                                    <div
-                                        class="overflow-hidden bg-white rounded shadow-sm list-card h-100 position-relative">
-                                        <div class="list-card-image">
-                                            <div class="star position-absolute"><span class="badge badge-success"><i
-                                                        class="icofont-star"></i> 3.1 (300+)</span></div>
-                                            <div class="favourite-heart text-danger position-absolute"><a href="#"><i
-                                                        class="icofont-heart"></i></a></div>
-                                            <div class="member-plan position-absolute"><span
-                                                    class="badge badge-dark">Promoted</span></div>
-                                            <a href="#">
-                                                <img src="{{asset('upload/products/'.$bestProducts->image)}}"
-                                                    class="img-fluid item-img">
-                                            </a>
-                                        </div>
-                                        <div class="p-3 position-relative">
-                                            <div class="list-card-body">
-                                                <h6 class="mb-1"><a href="#"
-                                                        class="text-black">{{$bestProducts->name}}</a>
-                                                </h6>
-                                                <p class="mb-2 text-gray">{{$bestProducts['city']['city_name']}}</p>
-                                                <p class="mb-0 text-gray time"><a class="text-black btn btn-link btn-sm"
-                                                        href="#">
-                                                        @if ($popularProduct->discount_price == null)
-                                                        <span class="text-primary">$:{{$popularProduct->price}} </span>
-                                                        @else
-                                                        <del class="text-primary">$:{{$popularProduct->price}} </del>
-                                                        {{$popularProduct->discount_price}}
-                                                        @endif
-                                                        <span class="badge badge-success">NEW</span></a>
-                                                    <span class="float-right">
-                                                        <a class="btn btn-outline-secondary btn-sm"
-                                                            href="{{route('addtocart',$bestProducts->id)}}">ADD</a>
-                                                    </span>
-                                                </p>
+                                        <div
+                                            class="overflow-hidden bg-white rounded shadow-sm list-card h-100 position-relative">
+                                            <div class="list-card-image">
+                                                <div class="star position-absolute"><span
+                                                        class="badge badge-success"><i class="icofont-star"></i> 3.1
+                                                        (300+)</span></div>
+                                                <div class="favourite-heart text-danger position-absolute"><a
+                                                        href="#"><i class="icofont-heart"></i></a></div>
+                                                <div class="member-plan position-absolute"><span
+                                                        class="badge badge-dark">Promoted</span></div>
+                                                <a href="#">
+                                                    <img src="{{ asset('upload/products/' . $bestProducts->image) }}"
+                                                        class="img-fluid item-img">
+                                                </a>
+                                            </div>
+                                            <div class="p-3 position-relative">
+                                                <div class="list-card-body">
+                                                    <h6 class="mb-1"><a href="#"
+                                                            class="text-black">{{ $bestProducts->name }}</a>
+                                                    </h6>
+                                                    <p class="mb-2 text-gray">{{ $bestProducts['city']['city_name'] }}
+                                                    </p>
+                                                    <p class="mb-0 text-gray time"><a
+                                                            class="text-black btn btn-link btn-sm" href="#">
+                                                            @if ($popularProduct->discount_price == null)
+                                                                <span
+                                                                    class="text-primary">$:{{ $popularProduct->price }}
+                                                                </span>
+                                                            @else
+                                                                <del class="text-primary">$:{{ $popularProduct->price }}
+                                                                </del>
+                                                                {{ $popularProduct->discount_price }}
+                                                            @endif
+                                                            <span class="badge badge-success">NEW</span>
+                                                        </a>
+                                                        <span class="float-right">
+                                                            <a class="btn btn-outline-secondary btn-sm"
+                                                                href="{{ route('addtocart', $bestProducts->id) }}">ADD</a>
+                                                        </span>
+                                                    </p>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-
                                 @endforeach
 
 
                             </div>
-                            @foreach ($menus as $menu )
-                            <div class="row">
+                            @foreach ($menus as $menu)
+                                <div class="row">
 
 
 
-                                <h5 class="mt-3 mb-4 col-md-12">{{$menu->menu_name}} <small
-                                        class="h6 text-black-50">{{$menu->products->count()}} Items</small>
-                                </h5>
-                                <div class="col-md-12">
-                                    <div class="mb-4 bg-white border rounded shadow-sm">
-                                        @foreach ($menu->products as $product)
+                                    <h5 class="mt-3 mb-4 col-md-12">{{ $menu->menu_name }} <small
+                                            class="h6 text-black-50">{{ $menu->products->count() }} Items</small>
+                                    </h5>
+                                    <div class="col-md-12">
+                                        <div class="mb-4 bg-white border rounded shadow-sm">
+                                            @foreach ($menu->products as $product)
+                                                <div class="p-3 menu-list border-bottom">
 
-                                        <div class="p-3 menu-list border-bottom">
+                                                    <a class="float-right btn btn-outline-secondary btn-sm"
+                                                        href="{{ route('addtocart', $product->id) }}">ADD</a>
 
-                                            <a class="float-right btn btn-outline-secondary btn-sm"
-                                                href="{{route('addtocart',$product->id)}}">ADD</a>
-
-                                            <div class="media">
-                                                <img class="mr-3 rounded-pill"
-                                                    src="{{asset('upload/products/'.$product->image)}}"
-                                                    alt="Generic placeholder image">
-                                                <div class="media-body">
-                                                    <h6 class="mb-1">{{$product->name}}</h6>
-                                                    <span class="mb-0 text-gray">Product Single Price :
-                                                        @if ($product->discount_price == null)
-                                                        <span class="text-primary">$:{{$product->price}} </span>
-                                                        @else
-                                                        <span class="text-primary">$:{{$product->discount_price}}
-                                                        </span>
-                                                        @endif
-                                                    </span>
-                                                    <p class="mb-0 text-gray">Size :({{$product->size??''}}CM) | Product
-                                                        Quanty :{{$product->qty}}</p>
+                                                    <div class="media">
+                                                        <img class="mr-3 rounded-pill"
+                                                            src="{{ asset('upload/products/' . $product->image) }}"
+                                                            alt="Generic placeholder image">
+                                                        <div class="media-body">
+                                                            <h6 class="mb-1">{{ $product->name }}</h6>
+                                                            <span class="mb-0 text-gray">Product Single Price :
+                                                                @if ($product->discount_price == null)
+                                                                    <span class="text-primary">$:{{ $product->price }}
+                                                                    </span>
+                                                                @else
+                                                                    <span
+                                                                        class="text-primary">$:{{ $product->discount_price }}
+                                                                    </span>
+                                                                @endif
+                                                            </span>
+                                                            <p class="mb-0 text-gray">Size
+                                                                :({{ $product->size ?? '' }}CM) | Product
+                                                                Quanty :{{ $product->qty }}</p>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            </div>
+                                            @endforeach
+
                                         </div>
-
-                                        @endforeach
-
                                     </div>
                                 </div>
-                            </div>
                             @endforeach
                         </div>
                         <div class="tab-pane fade" id="pills-gallery" role="tabpanel"
@@ -253,14 +271,15 @@
                             <div id="gallery" class="p-4 mb-4 bg-white rounded shadow-sm">
                                 <div class="restaurant-slider-main position-relative homepage-great-deals-carousel">
                                     <div class="owl-carousel owl-theme homepage-ad">
-                                        @foreach ($galarys as $key =>$galary)
-                                        <div class="item">
-                                            <img class="img-fluid"
-                                                src="{{asset('upload/gallerys/'.$galary->gallery_image)}}">
-                                            <div class="text-white position-absolute restaurant-slider-pics bg-dark">
-                                                {{$key+1}} of {{$galarys->count()}}
-                                                Photos</div>
-                                        </div>
+                                        @foreach ($galarys as $key => $galary)
+                                            <div class="item">
+                                                <img class="img-fluid"
+                                                    src="{{ asset('upload/gallerys/' . $galary->gallery_image) }}">
+                                                <div
+                                                    class="text-white position-absolute restaurant-slider-pics bg-dark">
+                                                    {{ $key + 1 }} of {{ $galarys->count() }}
+                                                    Photos</div>
+                                            </div>
                                         @endforeach
 
 
@@ -275,21 +294,22 @@
                             <div id="restaurant-info" class="p-4 mb-4 bg-white rounded shadow-sm">
                                 <div class="float-right ml-5 address-map">
                                     <div class="mapouter">
-                                        <div class="gmap_canvas"><iframe width="300" height="170" id="gmap_canvas"
+                                        <div class="gmap_canvas"><iframe width="300" height="170"
+                                                id="gmap_canvas"
                                                 src="https://maps.google.com/maps?q=university%20of%20san%20francisco&t=&z=9&ie=UTF8&iwloc=&output=embed"
                                                 frameborder="0" scrolling="no" marginheight="0"
                                                 marginwidth="0"></iframe></div>
                                     </div>
                                 </div>
-                                <h5 class="mb-4">{{$restaurant->name}}</h5>
-                                <p class="mb-3">{{$restaurant->address}}</p>
+                                <h5 class="mb-4">{{ $restaurant->name }}</h5>
+                                <p class="mb-3">{{ $restaurant->address }}</p>
                                 </p>
                                 <p class="mb-2 text-black"><i class="mr-2 icofont-phone-circle text-primary"></i>
-                                    {{$restaurant->phone}}</p>
+                                    {{ $restaurant->phone }}</p>
                                 <p class="mb-2 text-black"><i class="mr-2 icofont-email text-primary"></i>
-                                    {{$restaurant->email}}</p>
+                                    {{ $restaurant->email }}</p>
                                 <p class="mb-2 text-black"><i class="mr-2 icofont-shop text-primary"></i>
-                                    {{$restaurant->shopinfo}}</p>
+                                    {{ $restaurant->shopinfo }}</p>
                                 <p class="mb-2 text-black"><i class="mr-2 icofont-clock-time text-primary"></i> Today
                                     11am – 5pm, 6pm – 11pm
                                     <span class="badge badge-success"> OPEN NOW </span>
@@ -329,7 +349,8 @@
                                         <div class="col-sm-6">
                                             <div class="form-group">
                                                 <label>Full Name</label>
-                                                <input class="form-control" type="text" placeholder="Enter Full Name">
+                                                <input class="form-control" type="text"
+                                                    placeholder="Enter Full Name">
                                             </div>
                                         </div>
                                         <div class="col-sm-6">
@@ -463,7 +484,7 @@
                                 <div class="pt-4 pb-4 reviews-members">
                                     <div class="media">
                                         <a href="#"><img alt="Generic placeholder image"
-                                                src="{{asset('frontend/img/user/6.png')}}"
+                                                src="{{ asset('frontend/img/user/6.png') }}"
                                                 class="mr-3 rounded-pill"></a>
                                         <div class="media-body">
                                             <div class="reviews-members-header">
@@ -474,7 +495,8 @@
                                                     <a href="#"><i class="icofont-ui-rating active"></i></a>
                                                     <a href="#"><i class="icofont-ui-rating"></i></a>
                                                 </span>
-                                                <h6 class="mb-1"><a class="text-black" href="#">Gurdeep Singh</a></h6>
+                                                <h6 class="mb-1"><a class="text-black" href="#">Gurdeep
+                                                        Singh</a></h6>
                                                 <p class="text-gray">Tue, 20 Mar 2020</p>
                                             </div>
                                             <div class="reviews-members-body">
@@ -485,8 +507,10 @@
                                                     it look like readable English.</p>
                                             </div>
                                             <div class="reviews-members-footer">
-                                                <a class="total-like" href="#"><i class="icofont-thumbs-up"></i> 88K</a>
-                                                <a class="total-like" href="#"><i class="icofont-thumbs-down"></i>
+                                                <a class="total-like" href="#"><i
+                                                        class="icofont-thumbs-up"></i> 88K</a>
+                                                <a class="total-like" href="#"><i
+                                                        class="icofont-thumbs-down"></i>
                                                     1K</a>
 
                                             </div>
@@ -494,7 +518,8 @@
                                     </div>
                                 </div>
                                 <hr>
-                                <a class="mt-4 text-center w-100 d-block font-weight-bold" href="#">See All Reviews</a>
+                                <a class="mt-4 text-center w-100 d-block font-weight-bold" href="#">See All
+                                    Reviews</a>
                             </div>
                             <div class="p-4 mb-5 bg-white rounded shadow-sm rating-review-select-page">
                                 <h5 class="mb-4">Leave Comment</h5>
@@ -514,7 +539,8 @@
                                         <textarea class="form-control"></textarea>
                                     </div>
                                     <div class="form-group">
-                                        <button class="btn btn-primary btn-sm" type="button"> Submit Comment </button>
+                                        <button class="btn btn-primary btn-sm" type="button"> Submit Comment
+                                        </button>
                                     </div>
                                 </form>
                             </div>
@@ -526,14 +552,16 @@
                 <div class="pb-2">
                     <div
                         class="clearfix p-4 mb-4 text-white bg-white rounded shadow-sm restaurant-detailed-earn-pts card-icon-overlap">
-                        <img class="float-left mr-3 img-fluid" src="{{asset('frontend/img/earn-score-icon.png')}}">
+                        <img class="float-left mr-3 img-fluid" src="{{ asset('frontend/img/earn-score-icon.png') }}">
                         <h6 class="pt-0 mb-1 text-primary font-weight-bold">OFFER</h6>
-                        @if($coupons == NULL)
-                        <p class="mb-0">No Coupon <span class="text-danger font-weight-bold"></span>{{'ZERO'}}</p>
+                        @if ($coupons == null)
+                            <p class="mb-0">No Coupon <span
+                                    class="text-danger font-weight-bold"></span>{{ 'ZERO' }}</p>
                         @else
-                        <p class="mb-0">{{$coupons->coupon_discount}}% off on orders above {{'discount '}} | Use coupon
-                            <span class="text-danger font-weight-bold"></span>{{$coupons->coupon_name}}
-                        </p>
+                            <p class="mb-0">{{ $coupons->coupon_discount }}% off on orders above
+                                {{ 'discount ' }} | Use coupon
+                                <span class="text-danger font-weight-bold"></span>{{ $coupons->coupon_name }}
+                            </p>
                         @endif
 
                         <div class="icon-overlap">
@@ -543,7 +571,7 @@
                 </div>
                 <div class="p-4 mb-4 rounded shadow-sm generator-bg osahan-cart-item">
                     <h5 class="mb-1 text-white">Your Order</h5>
-                    <p class="mb-4 text-white">{{count((array)Session::get('cart'))}} ITEMS</p>
+                    <p class="mb-4 text-white">{{ count((array) Session::get('cart')) }} ITEMS</p>
 
                     <div class="mb-2 bg-white rounded shadow-sm">
                         @php
@@ -555,77 +583,83 @@
                                     $total += $details['price'] * $details['quantity'];
                                 @endphp
 
-                                            <div class="p-2 gold-members border-bottom">
+                                <div class="p-2 gold-members border-bottom">
 
-                                                <p class="float-right mb-0 ml-2 text-gray">{{$details['price'] * $details['quantity']}}</p>
-                                                <span class="float-right count-number">
+                                    <p class="float-right mb-0 ml-2 text-gray">
+                                        {{ $details['price'] * $details['quantity'] }}</p>
+                                    <span class="float-right count-number">
 
 
-                                                    <button class="btn btn-outline-secondary btn-sm left dec" data-id="{{$id}}"> <i
-                                                            class="icofont-minus"></i>
-                                                    </button>
+                                        <button class="btn btn-outline-secondary btn-sm left dec"
+                                            data-id="{{ $id }}"> <i class="icofont-minus"></i>
+                                        </button>
 
-                                                    <input class="count-number-input" type="text" value="{{$details['quantity']}}"
-                                                        readonly="">
+                                        <input class="count-number-input" type="text"
+                                            value="{{ $details['quantity'] }}" readonly="">
 
-                                                    <button class="btn btn-outline-secondary btn-sm right inc" data-id="{{$id}}"> <i
-                                                            class="icofont-plus"></i>
-                                                    </button>
-                                                    <button class="btn btn-outline-danger btn-sm right remove" data-id="{{$id}}"> <i
-                                                            class="icofont-trash"></i>
-                                                    </button>
-                                                </span>
-                                                <div class="media">
-                                                    <div class="mr-2"><img class="img-fluid"
-                                                            src="{{asset('upload/products/'.$details['image'])}}" style="width: 30px;">
-                                                    </div>
-                                                    <div class="media-body">
-                                                        <p class="mt-1 mb-0 text-black">{{$details['name']}}</p>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                        <button class="btn btn-outline-secondary btn-sm right inc"
+                                            data-id="{{ $id }}"> <i class="icofont-plus"></i>
+                                        </button>
+                                        <button class="btn btn-outline-danger btn-sm right remove"
+                                            data-id="{{ $id }}"> <i class="icofont-trash"></i>
+                                        </button>
+                                    </span>
+                                    <div class="media">
+                                        <div class="mr-2"><img class="img-fluid"
+                                                src="{{ asset('upload/products/' . $details['image']) }}"
+                                                style="width: 30px;">
+                                        </div>
+                                        <div class="media-body">
+                                            <p class="mt-1 mb-0 text-black">{{ $details['name'] }}</p>
+                                        </div>
+                                    </div>
+                                </div>
                             @endforeach
                         @endif
                     </div>
                     {{-- coupon apply --}}
                     @if (Session::has('coupon'))
-                    <div class="clearfix p-2 mb-2 bg-white rounded">
-                        <p class="mb-1">Item Total <span
-                                class="float-right text-dark">{{count((array)Session::get('cart'))}} Items</span></p>
-                        <p class="mb-1">Restaurant Coupon Name <span class="float-right text-dark" id="removeCoupon"
-                                >{{(Session::get('coupon')['coupon_name'])}} </span>
-                            <a type="submit" class="float-right text-danger"  onclick="RemoveCoupon()"><i class="icofont-ui-delete"></i></a>
-                        </p>
-                        
+                        <div class="clearfix p-2 mb-2 bg-white rounded">
+                            <p class="mb-1">Item Total <span
+                                    class="float-right text-dark">{{ count((array) Session::get('cart')) }}
+                                    Items</span></p>
+                            <p class="mb-1">Restaurant Coupon Name <span class="float-right text-dark"
+                                    id="removeCoupon">{{ Session::get('coupon')['coupon_name'] }} </span>
+                                <a type="submit" class="float-right text-danger" onclick="RemoveCoupon()"><i
+                                        class="icofont-ui-delete"></i></a>
+                            </p>
 
-                        <p class="mb-1">Delivery Fee <span class="text-info" data-toggle="tooltip" data-placement="top"
-                                title="Total discount breakup">
-                                <i class="icofont-info-circle"></i>
-                            </span> <span class="float-right text-dark">{{'Next Time Adding'}}</span>
-                        </p>
-                        <p class="mb-1 text-success">Total Discount
-                            <span
-                                class="float-right text-success">{{(Session::get('coupon')['discount_amount'])}}</span>
-                        </p>
-                        <hr />
-                        <h6 class="mb-0 font-weight-bold">TO PAY <span class="float-right">
-                                @if (Session::has('coupon'))
-                                {{(Session::get('coupon')['total_amount'])}}
-                                @else
-                                {{$total}}
-                                @endif</span></h6>
-                    </div>
-                    @else
-                    <div class="clearfix p-2 mb-2 bg-white rounded">
-                        <div class="mb-2 input-group input-group-sm">
-                            <input type="text" class="form-control" placeholder="Enter promo code" id="coupon_name">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary" type="submit" id="button-addon2"
-                                    onclick="ApplyCoupon()"><i class="icofont-sale-discount"></i> APPLY</button>
-                            </div>
+
+                            <p class="mb-1">Delivery Fee <span class="text-info" data-toggle="tooltip"
+                                    data-placement="top" title="Total discount breakup">
+                                    <i class="icofont-info-circle"></i>
+                                </span> <span class="float-right text-dark">{{ 'Next Time Adding' }}</span>
+                            </p>
+                            <p class="mb-1 text-success">Total Discount
+                                <span
+                                    class="float-right text-success">{{ Session::get('coupon')['discount_amount'] }}</span>
+                            </p>
+                            <hr />
+                            <h6 class="mb-0 font-weight-bold">TO PAY <span class="float-right">
+                                    @if (Session::has('coupon'))
+                                        {{ Session::get('coupon')['total_amount'] }}
+                                    @else
+                                        {{ $total }}
+                                    @endif
+                                </span></h6>
                         </div>
+                    @else
+                        <div class="clearfix p-2 mb-2 bg-white rounded">
+                            <div class="mb-2 input-group input-group-sm">
+                                <input type="text" class="form-control" placeholder="Enter promo code"
+                                    id="coupon_name">
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary" type="submit" id="button-addon2"
+                                        onclick="ApplyCoupon()"><i class="icofont-sale-discount"></i> APPLY</button>
+                                </div>
+                            </div>
 
-                    </div>
+                        </div>
                     @endif
 
 
@@ -635,12 +669,12 @@
 
 
                     <div class="clearfix p-2 mb-2 bg-white rounded">
-                        <img class="float-left img-fluid" src="{{asset('frontend/img/wallet-icon.png')}}">
+                        <img class="float-left img-fluid" src="{{ asset('frontend/img/wallet-icon.png') }}">
                         <h6 class="mb-2 text-right font-weight-bold">Subtotal : <span class="text-danger">
                                 @if (Session::has('coupon'))
-                                {{(Session::get('coupon')['total_amount'])}}
+                                    {{ Session::get('coupon')['total_amount'] }}
                                 @else
-                                {{$total}}
+                                    {{ $total }}
                                 @endif
                             </span>
                         </h6>
@@ -648,7 +682,7 @@
 
                     </div>
 
-                    <a href="{{route('checkout')}}" class="btn btn-success btn-block btn-lg">Checkout <i
+                    <a href="{{ route('checkout') }}" class="btn btn-success btn-block btn-lg">Checkout <i
                             class="icofont-long-arrow-right"></i></a>
                 </div>
 
@@ -665,7 +699,7 @@
 
 <script>
     // ajaxSetup
-  
+
     $(document).ready(function() {
         $('.inc').on('click', function() {
             // alart
@@ -691,15 +725,15 @@
         $('.remove').on('click', function() {
             var id = $(this).data('id');
             removeItem(id);
-            
+
         });
 
         function updateQuantity(id, newQuantity) {
             $.ajax({
                 type: 'POST',
-                url: '{{route('update.from.cart')}}',
+                url: '{{ route('update.from.cart') }}',
                 data: {
-                    _token: '{{csrf_token()}}',
+                    _token: '{{ csrf_token() }}',
                     id: id,
                     quantity: newQuantity,
                 },
@@ -713,9 +747,9 @@
         function removeItem(id) {
             $.ajax({
                 type: 'POST',
-                url: '{{route('remove.from.cart')}}',
+                url: '{{ route('remove.from.cart') }}',
                 data: {
-                    _token: '{{csrf_token()}}',
+                    _token: '{{ csrf_token() }}',
                     id: id
                 },
                 success: function(response) {

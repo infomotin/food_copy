@@ -122,7 +122,7 @@ Route::middleware('admin')->group(function () {
         Route::get('edit/admin/restaurant/{id}', 'EditRestaurant')->name('admin.edit.restaurant');
         // Route::post('update/admin/restaurant/{id}', 'UpdateRestaurant')->name('admin.update.restaurant');
         Route::get('delete/admin/restaurant/{id}', 'DeleteRestaurant')->name('admin.delete.restaurant');
-        Route::get('/ClientchangeStatus','ClientchangeStatus');
+        Route::get('ClientchangeStatus','ClientchangeStatus');
     });
 });
 
