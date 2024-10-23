@@ -58,7 +58,9 @@ class CartController extends Controller
     public function UpdateFromCart(Request $request)
     {
         // return response()->json($request->all());
-
+        if (session()->has('coupon')) {
+            session()->forget('coupon');
+        }
         $cart = session()->get('cart', []);
 
         if (isset($cart[$request->id])) {
@@ -74,6 +76,9 @@ class CartController extends Controller
     //RemoveFromCart
     public function RemoveFromCart(Request $request)
     {
+        if (session()->has('coupon')) {
+            session()->forget('coupon');
+        }
         if ($request->id) {
             $cart = session()->get('cart');
             $coupon = session()->get('coupon');
@@ -98,7 +103,8 @@ class CartController extends Controller
     //ApplyCoupon
     public function ApplyCoupon(Request $request)
     {
-        //first get coupon
+        //first get co
+        
         $coupon = Coupon::where('coupon_name', $request->coupon_name)->where('coupon_status', 1)->where('coupon_validity', '>=', Carbon::now()->format('Y-m-d'))->first();
         //get cart from session
         $cart = session()->get('cart', []);
@@ -266,7 +272,8 @@ class CartController extends Controller
                 }
                 if ($totalAmount > 0) {
                     $client = \App\Models\Client::find($item['client_id']);
-                    return view('frontend.checkout.shop-checkout', compact('cart', 'totalAmount', 'client'));
+                    $userData = Auth::user();
+                    return view('frontend.checkout.shop-checkout', compact('cart', 'totalAmount', 'client','userData'));
                 } else {
                     $nofication = array(
                         'message' => 'Cart is empty!',
@@ -274,6 +281,12 @@ class CartController extends Controller
                     );
                     return redirect()->route('home')->with($nofication);
                 }
+            }else{
+                $nofication = array(
+                    'message' => 'Cart is empty!',
+                    'alert-type' => 'error'
+                );
+                return redirect()->route('home')->with($nofication);
             }
         } else {
             $nofication = array(

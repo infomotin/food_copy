@@ -50,7 +50,7 @@ $userData = Auth::user();
                   <a class="dropdown-item" href="{{url('/')}}">Extra :)</a>
                </div>
             </li>
-
+            @if(Auth::user())
             <li class="nav-item dropdown">
                <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true"
                   aria-expanded="false">
@@ -67,11 +67,27 @@ $userData = Auth::user();
 
                </div>
             </li>
+            @else 
+            <li class="nav-item dropdown">
+               <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true"
+                  aria-expanded="false">
+                  <i class="icofont-user"></i> My Account
+               </a>
+               <div class="border-0 shadow-sm dropdown-menu dropdown-menu-right">
+                  <a class="dropdown-item" href="{{route('register')}}"><i class="icofont-heart"></i>
+                     Register</a>
+                  <a class="dropdown-item" href="{{route('login')}}"><i class="icofont-heart"></i>
+                     login</a>
+               </div>
+               
+            </li>
+            @endif
+            
             <li class="nav-item dropdown dropdown-cart">
                <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true"
                   aria-expanded="false">
                   <i class="fas fa-shopping-basket"></i> Cart
-                  <span class="badge badge-success">5</span>
+                  <span class="badge badge-success"></span>
                </a>
                <div class="p-0 border-0 shadow-sm dropdown-menu dropdown-cart-top dropdown-menu-right">
                   <div class="p-4 dropdown-cart-top-header">
@@ -102,6 +118,8 @@ $userData = Auth::user();
                   </div>
                </div>
             </li>
+
+            
          </ul>
       </div>
    </div>

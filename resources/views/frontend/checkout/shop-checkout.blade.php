@@ -90,7 +90,7 @@
                             <div class="item">
                                 <div class="mall-category-item position-relative">
                                     <a class="btn btn-primary btn-sm position-absolute" href="#">ADD</a>
-                                    <img class="img-fluid" src="img/list/3.png">
+                                    <img class="img-fluid" src="{{ asset('frontend/img/list/3.png') }}">
                                     <h6>Soups</h6>
                                     <small>$860</small>
                                 </div>
@@ -98,7 +98,7 @@
                             <div class="item">
                                 <div class="mall-category-item position-relative">
                                     <a class="btn btn-primary btn-sm position-absolute" href="#">ADD</a>
-                                    <img class="img-fluid" src="img/list/4.png">
+                                    <img class="img-fluid" src="{{ asset('frontend/img/list/4.png') }}">
                                     <h6>Pizzas</h6>
                                     <small>$602</small>
                                 </div>
@@ -106,7 +106,7 @@
                             <div class="item">
                                 <div class="mall-category-item position-relative">
                                     <a class="btn btn-primary btn-sm position-absolute" href="#">ADD</a>
-                                    <img class="img-fluid" src="img/list/5.png">
+                                    <img class="img-fluid" src="{{ asset('frontend/img/list/5.png') }}">
                                     <h6>Pastas</h6>
                                     <small>$360</small>
                                 </div>
@@ -114,7 +114,7 @@
                             <div class="item">
                                 <div class="mall-category-item position-relative">
                                     <a class="btn btn-primary btn-sm position-absolute" href="#">ADD</a>
-                                    <img class="img-fluid" src="img/list/6.png">
+                                    <img class="img-fluid" src="{{ asset('frontend/img/list/6.png') }}">
                                     <h6>Chinese</h6>
                                     <small>$760</small>
                                 </div>
@@ -126,6 +126,7 @@
                         <h4 class="mb-1">Choose a delivery address</h4>
                         <h6 class="mb-3 text-black-50">Multiple addresses in this location</h6>
                         <div class="row">
+
                             <div class="col-md-6">
                                 <div class="mb-4 bg-white border card addresses-item border-success">
                                     <div class="p-4 gold-members">
@@ -133,7 +134,7 @@
                                             <div class="mr-3"><i class="icofont-ui-home icofont-3x"></i></div>
                                             <div class="media-body">
                                                 <h6 class="mb-1 text-black">Home</h6>
-                                                <p class="text-black">291/d/1, 291, Jawaddi Kalan, Ludhiana, Punjab
+                                                <p class="text-black">{{ $userData->address }}, Kalan, Ludhiana, Punjab
                                                     141002, India
                                                 </p>
                                                 <p class="mb-0 text-black font-weight-bold"><a
@@ -146,6 +147,7 @@
                                     </div>
                                 </div>
                             </div>
+
                             <div class="col-md-6">
                                 <div class="mb-4 bg-white card addresses-item">
                                     <div class="p-4 gold-members">
@@ -165,7 +167,9 @@
                                     </div>
                                 </div>
                             </div>
+
                         </div>
+
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="bg-white card addresses-item">
@@ -233,7 +237,9 @@
                             </div>
                             <div class="pl-0 col-sm-8">
                                 <div class="tab-content h-100" id="v-pills-tabContent">
-                                    
+                                    @php
+                                        $total =0;
+                                    @endphp
                                     <div class="tab-pane fade show active" id="v-pills-cash" role="tabpanel"
                                         aria-labelledby="v-pills-cash-tab">
                                         <h6 class="mt-0 mb-3">Cash</h6>
@@ -246,9 +252,10 @@
                                                 @else
                                                     {{ $total }}
                                                 @endif
-                                                <i class="icofont-long-arrow-right"></i></a>
+                                                <i class="icofont-long-arrow-right"></i>
+                                            </a>
                                     </div>
-                                    
+
                                     <div class="tab-pane fade" id="v-pills-home" role="tabpanel"
                                         aria-labelledby="v-pills-home-tab">
                                         <h6 class="mt-0 mb-3">Add new card</h6>
@@ -316,7 +323,7 @@
                                             </div>
                                         </form>
                                     </div>
-                                    
+
                                     <div class="tab-pane fade" id="v-pills-profile" role="tabpanel"
                                         aria-labelledby="v-pills-profile-tab">
                                         <h6 class="mt-0 mb-3">Add new food card</h6>
@@ -427,8 +434,6 @@
                                             </div>
                                         </form>
                                     </div>
-                                    
-                                    
                                     </form>
                                 </div>
                             </div>
@@ -437,8 +442,12 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="p-4 mb-4 rounded shadow-sm generator-bg osahan-cart-item">
+                <div class="p-4 mb-4 rounded shadow-sm generator-bg">
+                    <dev class="d-flex align-items-center">
+                        <h3 class="mb-1 text-right text-black">Restarunt Name</h3>
+                    </dev>
                     <div class="mb-4 d-flex osahan-cart-item-profile">
+
                         <img class="mr-3 img-fluid rounded-pill" alt="osahan"
                             src="{{ asset('upload/clients/' . $client->profile_photo_path) }}">
                         <div class="d-flex flex-column">
@@ -506,7 +515,8 @@
                                         Items</span>
                                 </p>
                                 <p class="mb-1">Restaurant Coupon Name <span class="float-right text-dark"
-                                        id="removeCoupon">{{ Session::get('coupon')['coupon_name'] }} </span>
+                                        id="removeCoupon">{{ Str::limit(Session::get('coupon')['coupon_name'], 5, '..') }}
+                                    </span>
                                     <a type="submit" class="float-right text-danger" onclick="RemoveCoupon()"><i
                                             class="icofont-ui-delete"></i></a>
                                 </p>

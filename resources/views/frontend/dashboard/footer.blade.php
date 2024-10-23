@@ -143,7 +143,7 @@
 </script>
 <script>
     function ApplyCoupon() {
-        // alert('apply coupon');
+        alert('apply coupon');
         var coupon_name = $('#coupon_name').val();
         $.ajax({
             type: 'POST',
@@ -182,8 +182,9 @@
 </script>
 <script>
     function RemoveCoupon() {
+        alert('remove coupon');
         var coupon_name = $('#removeCoupon').text();
-        // alert(coupon_name);
+        alert(coupon_name);
         $.ajax({
             type: 'POST',
             url: "{{route('remove.coupon')}}",
@@ -289,6 +290,70 @@
            break; 
         }
         @endif 
+</script>
+<script>
+    // ajaxSetup
+  
+    $(document).ready(function() {
+        $('.inc').on('click', function() {
+            // alart
+            alert('increment');
+            var id = $(this).data('id');
+            var input = $(this).closest('span').find('input');
+            var newQuantity = parseInt(input.val()) + 1;
+            console.log(newQuantity);
+            updateQuantity(id, newQuantity);
+        });
+        $('.dec').on('click', function() {
+            alert('increment');
+            var id = $(this).data('id');
+            var input = $(this).closest('span').find('input');
+            var newQuantity = parseInt(input.val()) - 1;
+            if (newQuantity >= 1) {
+                updateQuantity(id, newQuantity);
+            }
+            console.log(newQuantity);
+            // updateQuantity(id, newQuantity);
+        });
+        //remove
+        $('.remove').on('click', function() {
+            var id = $(this).data('id');
+            removeItem(id);
+            
+        });
+
+        function updateQuantity(id, newQuantity) {
+            $.ajax({
+                type: 'POST',
+                url: '{{route('update.from.cart')}}',
+                data: {
+                    _token: '{{csrf_token()}}',
+                    id: id,
+                    quantity: newQuantity,
+                },
+                success: function(response) {
+                    console.log(response);
+                    location.reload();
+                }
+            });
+        }
+        //removeItem
+        function removeItem(id) {
+            alert(id);
+            $.ajax({
+                type: 'POST',
+                url: '{{route('remove.from.cart')}}',
+                data: {
+                    _token: '{{csrf_token()}}',
+                    id: id
+                },
+                success: function(response) {
+                    console.log(response);
+                    location.reload();
+                }
+            });
+        }
+    });
 </script>
 
 </body>
