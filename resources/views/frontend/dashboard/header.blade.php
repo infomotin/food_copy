@@ -118,7 +118,7 @@
                             $groupCart[$details['client_id']][] = $details;
                         }
                         $clients = App\Models\Client::whereIn('id', array_keys($groupCart))->get()->keyBy('id');
-                        
+                        // @dd($groupCart);
                     @endphp
                     <li class="nav-item dropdown dropdown-cart">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
@@ -131,17 +131,19 @@
 
 
                         <div class="p-0 border-0 shadow-sm dropdown-menu dropdown-cart-top dropdown-menu-right">
-                            @foreach ( $groupCart as $key => $cart )
-                                
-                                    @dd($cart[$key]);
-                                
+                            @foreach ( $groupCart as $clientId => $clientCart)
+                            @if (isset($clients[$clientId]))
+                            @php
+                                $client = $clients[$clientId];
+                            @endphp
                             <div class="p-4 dropdown-cart-top-header">
                                 <img class="mr-3 img-fluid" alt="osahan" src="img/cart.jpg">
-                                <h6 class="mb-0">Gus's World Famous Chicken</h6>
+                                <h6 class="mb-0">{{$client['name']}}</h6>
                                 <p class="mb-0 text-secondary">310 S Front St, Memphis, USA</p>
                                 <small><a class="text-primary font-weight-bold" href="#">View Full
                                         Menu</a></small>
                             </div>
+                            @endif
                             @endforeach
                             
 
