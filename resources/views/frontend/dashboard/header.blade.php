@@ -37,6 +37,7 @@
         <div class="container">
             <a class="navbar-brand" href="{{ url('/') }}"><img alt="logo"
                     src="{{ asset('frontend/img/logo.png') }}"></a>
+            <p>back</p>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
                 aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -111,14 +112,12 @@
                     </li>
                     @php
                         $total = 0;
-                        $cart = Session::get('cart',[]);
-                        // print_r($cart);
+                        $cart = Session::get('cart', []);
                         $groupCart = [];
                         foreach ($cart as $id => $details) {
                             $groupCart[$details['client_id']][] = $details;
                         }
                         $clients = App\Models\Client::whereIn('id', array_keys($groupCart))->get()->keyBy('id');
-                        // @dd($groupCart);
                     @endphp
                     <li class="nav-item dropdown dropdown-cart">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
@@ -131,33 +130,78 @@
 
 
                         <div class="p-0 border-0 shadow-sm dropdown-menu dropdown-cart-top dropdown-menu-right">
-                            @foreach ( $groupCart as $clientId => $clientCart)
-                            @if (isset($clients[$clientId]))
-                            @php
-                                $client = $clients[$clientId];
-                            @endphp
-                            <div class="p-4 dropdown-cart-top-header">
-                                <img class="mr-3 img-fluid" alt="osahan" src="img/cart.jpg">
-                                <h6 class="mb-0">{{$client['name']}}</h6>
-                                <p class="mb-0 text-secondary">310 S Front St, Memphis, USA</p>
-                                <small><a class="text-primary font-weight-bold" href="#">View Full
-                                        Menu</a></small>
-                            </div>
-                            @endif
+                            @foreach ($groupCart as $clientId => $clientCart)
+                                @if (isset($clients[$clientId]))
+                                    @php
+                                        $client = $clients[$clientId];
+                                    @endphp
+                                    <div class="p-4 dropdown-cart-top-header">
+                                        <img class="mr-3 img-fluid" alt="{{ $client['name'] }}"
+                                            src="{{ asset('upload/clients/' . $client['profile_photo_path']) }}">
+                                        <h6 class="mb-0">{{ $client['name'] }}</h6>
+                                        <p class="mb-0 text-secondary">{{ $client['address'] }}</p>
+                                        <small><a class="text-primary font-weight-bold" href="#">View Full
+                                                Menu</a></small>
+                                    </div>
+                                @endif
                             @endforeach
-                            
 
 
                             <div class="p-4 dropdown-cart-top-body border-top">
-                                <p class="mb-2">
-                                    <img class=" md-2 img-fluid"
-                                        src="https://placehold.co/40x40"
-                                        style="width: 30px;">
-                                    {{ 'items' }} x {{ 'quantity' }}
-                                    <span
-                                        class="float-right text-secondary">${{ 'price' }}</span>
-                                    </span>
-                                </p>
+                                @php
+                                    $total = 0;
+                                @endphp
+                                @if (Session::has('cart'))
+                                    @foreach (Session::get('cart') as $id => $details)
+                                        @php
+                                            $total += $details['price'] * $details['quantity'];
+                                        @endphp
+                                        <p class="mb-2">
+                                            <img class=" md-2 img-fluid"
+                                                src="{{ asset('upload/products/' . $details['image']) }}"
+                                                style="width: 30px;">
+                                            {{ $details['name'] }} x {{ $details['quantity'] }}
+                                            <span
+                                                class="float-right text-secondary">${{ $details['price'] * $details['quantity'] }}</span>
+                                            </span>
+                                        </p>
+                                    @endforeach
+                                @endif
+                                @if (Session::has('coupon'))
+                                <div class="p-4 dropdown-cart-top-footer border-top">
+                                    <p class="mb-1 text-success">Applied Coupon
+                                        <span
+                                            class="float-right text-success">{{ Session::get('coupon')['coupon_name'] }}</span>
+                                    </p>
+                                    <p class="mb-1 text-success">Total Discount
+                                        <span
+                                            class="float-right text-success">{{ Session::get('coupon')['discount_amount'] }}</span>
+                                    </p>
+                                    <p class="mb-0 font-weight-bold text-secondary">Sub Total <span
+                                            class="float-right text-dark">{{ Session::get('coupon')['total_amount'] }}</span>
+                                    </p>
+
+                                </div>
+                                <div class="p-2 dropdown-cart-top-footer border-top">
+                                    <a class="btn btn-success btn-block btn-lg" href="{{ route('checkout') }}"> Checkout</a>
+                                </div>
+                            @else
+                                <div class="p-4 dropdown-cart-top-footer border-top">
+                                    <p class="mb-1 text-success">Total Discount
+                                        <span class="float-right text-success">{{ 'No discout' }}</span>
+                                    </p>
+                                    <p class="mb-0 font-weight-bold text-secondary">Sub Total <span
+                                            class="float-right text-dark">${{ $total }}</span></p>
+
+                                </div>
+                                <div class="p-2 dropdown-cart-top-footer border-top">
+                                    <a class="btn btn-success btn-block btn-lg" href="{{ route('checkout') }}"> Checkout</a>
+                                </div>
+                            @endif
+
+
+
+
                             </div>
                         </div>
                     </li>

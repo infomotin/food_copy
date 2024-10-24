@@ -235,25 +235,33 @@
 
                                 </div>
                             </div>
+
+
                             <div class="pl-0 col-sm-8">
                                 <div class="tab-content h-100" id="v-pills-tabContent">
                                     @php
-                                        $total =0;
+                                        $total = 0;
                                     @endphp
                                     <div class="tab-pane fade show active" id="v-pills-cash" role="tabpanel"
                                         aria-labelledby="v-pills-cash-tab">
                                         <h6 class="mt-0 mb-3">Cash</h6>
                                         <p>Please keep exact change handy to help us serve you better</p>
                                         <hr>
-                                        <form>
-                                            <a href="thanks.html" class="btn btn-success btn-block btn-lg">PAY
+                                        <form action="#" method="POST">
+                                            @csrf
+                                            <input type="text" name="name"value="{{ Auth::user()->name}}">
+                                            <input type="text" name="user_id" value="{{ Auth::user()->id }}">
+                                            <input type="text" name="user_email" value="{{ Auth::user()->email }}">
+                                            <input type="text" name="user_email" value="{{ Auth::user()->address }}">
+                                            <button type="submit" class="btn btn-success btn-block btn-lg">PAY
                                                 @if (Session::has('coupon'))
                                                     {{ Session::get('coupon')['total_amount'] }}
                                                 @else
                                                     {{ $total }}
                                                 @endif
                                                 <i class="icofont-long-arrow-right"></i>
-                                            </a>
+                                            </button>
+                                        </form>
                                     </div>
 
                                     <div class="tab-pane fade" id="v-pills-home" role="tabpanel"
@@ -434,9 +442,12 @@
                                             </div>
                                         </form>
                                     </div>
-                                    </form>
+
+
                                 </div>
                             </div>
+
+
                         </div>
                     </div>
                 </div>
@@ -446,18 +457,26 @@
                     <dev class="d-flex align-items-center">
                         <h3 class="mb-1 text-right text-black">Restarunt Name</h3>
                     </dev>
-                    <div class="mb-4 d-flex osahan-cart-item-profile">
+                    @foreach ($clients as $clientId => $clientCart)
+                        @if (isset($clients[$clientId]))
+                            @php
+                                $client = $clients[$clientId];
+                            @endphp
+                            <div class="mb-4 d-flex osahan-cart-item-profile">
+                                <img class="mr-3 img-fluid rounded-pill" alt="osahan"
+                                    src="{{ asset('upload/clients/' . $client->profile_photo_path) }}">
+                                <div class="d-flex flex-column">
+                                    <h6 class="mb-1 text-white">{{ $client->name }}
+                                    </h6>
+                                    <p class="mb-0 text-white"><i class="icofont-location-pin"></i>
+                                        {{ $client->address }},
+                                        NEW NY
+                                        10029</p>
+                                </div>
+                            </div>
+                        @endif
+                    @endforeach
 
-                        <img class="mr-3 img-fluid rounded-pill" alt="osahan"
-                            src="{{ asset('upload/clients/' . $client->profile_photo_path) }}">
-                        <div class="d-flex flex-column">
-                            <h6 class="mb-1 text-white">{{ $client->name }}
-                            </h6>
-                            <p class="mb-0 text-white"><i class="icofont-location-pin"></i> {{ $client->address }},
-                                NEW NY
-                                10029</p>
-                        </div>
-                    </div>
                     <div class="p-4 mb-4 ">
                         <h5 class="mb-1 text-white">Your Order</h5>
                         <p class="mb-4 text-white">{{ count((array) Session::get('cart')) }} ITEMS</p>

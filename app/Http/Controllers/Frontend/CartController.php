@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Coupon;
 use Carbon\Carbon;
+use App\Models\Client;
 
 class CartController extends Controller
 {
@@ -103,6 +104,7 @@ class CartController extends Controller
     //ApplyCoupon
     public function ApplyCoupon(Request $request)
     {
+        // dd($request->all());
         //first get co
         
         $coupon = Coupon::where('coupon_name', $request->coupon_name)->where('coupon_status', 1)->where('coupon_validity', '>=', Carbon::now()->format('Y-m-d'))->first();
@@ -123,6 +125,7 @@ class CartController extends Controller
         }
         //check if coupon is valid
         if ($coupon) {
+            // dd($clientIds);
             if (count($clientIds) === 1) {
                 $vendorId = $coupon->client_id;
                 if ($vendorId == $clientIds[0]) {
@@ -149,22 +152,44 @@ class CartController extends Controller
                         'alert-type' => 'error'
                     ));
                 }
-            } else {
-                return response()->json(array(
-                    'status' => false,
-                    'message' => 'Coupon not valid!',
-                    'validity' => false,
-                    'alert-type' => 'error'
-                ));
+            }elseif (count($clientIds) > 1) {
+                $vendorId = $coupon->client_id;
+                if ($vendorId == $clientIds[0]) {
+                    $cart = session()->get('cart', []);
+                    
+                    Session::put('coupon', [
+                        'coupon_name' => $coupon->coupon_name,
+                        'coupon_discount' => $coupon->coupon_discount,
+                        'discount_amount' => round(($totalAmount * $coupon->coupon_discount) / 100),
+                        'total_amount' => round($totalAmount - ($totalAmount * $coupon->coupon_discount) / 100),
+                    ]);
+                    
+                    $couponData = Session::get('coupon');
+                    return response()->json(array(
+                        'couponData' => $couponData,
+                        'status' => true,
+                        'message' => 'Coupon applied successfully!',
+                        'validity' => true,
+                        'alert-type' => 'success'
+                    ));
+                } else {
+                    return response()->json(array(
+                        'status' => false,
+                        'message' => 'Coupon not valid!',
+                        'validity' => false,
+                        'alert-type' => 'error'
+                    ));
+                }
+                
             }
 
-            if (count($clientIds) > 1) {
-                $nofication = array(
-                    'message' => 'tow clients are using this coupon!',
-                    'alert-type' => 'success'
-                );
-                return redirect()->back()->with($nofication);
-            }
+            // if (count($clientIds) > 1) {
+            //     $nofication = array(
+            //         'message' => 'tow clients are using this coupon!',
+            //         'alert-type' => 'success'
+            //     );
+            //     return redirect()->back()->with($nofication);
+            // }
         } else {
             $nofication = array(
                 'message' => 'Coupon not valid!',
@@ -269,11 +294,13 @@ class CartController extends Controller
                 $clientIds = [];
                 foreach ($cart as $key => $item) {
                     $totalAmount += $item['price'];
+                    $clientIds[$item['client_id']][] = $item;  
                 }
+                // $clientIds = array_unique($clientIds);
                 if ($totalAmount > 0) {
-                    $client = \App\Models\Client::find($item['client_id']);
+                    $clients = Client::whereIn('id', array_keys($clientIds))->get()->keyBy('id');
                     $userData = Auth::user();
-                    return view('frontend.checkout.shop-checkout', compact('cart', 'totalAmount', 'client','userData'));
+                    return view('frontend.checkout.shop-checkout', compact('cart', 'totalAmount', 'clients','userData'));
                 } else {
                     $nofication = array(
                         'message' => 'Cart is empty!',

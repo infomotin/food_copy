@@ -143,7 +143,7 @@
 </script>
 <script>
     function ApplyCoupon() {
-        alert('apply coupon');
+        // alert('apply coupon');
         var coupon_name = $('#coupon_name').val();
         $.ajax({
             type: 'POST',
