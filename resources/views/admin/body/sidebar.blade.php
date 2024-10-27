@@ -154,6 +154,44 @@
                 <li>
                     <a href="javascript: void(0);" class="has-arrow">
                         <i data-feather="users"></i>
+                        <span data-key="t-authentication">Manage Order</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li>
+                            <a href="{{route('admin.all.order')}}">
+                                <span data-key="t-login">
+                                    All Order 
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <span data-key="t-login">
+                                    Confirm Order 
+                                </span>
+                            </a>
+                        </li>
+                        {{-- Order list  --}}
+                        <li>
+                            <a href="#">
+                                <span data-key="t-login">
+                                    Processing Order 
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <span data-key="t-login">
+                                    Delivered Order 
+                                </span>
+                            </a>
+                        </li>
+
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow">
+                        <i data-feather="users"></i>
                         <span data-key="t-authentication">Manage Rastaurant</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
@@ -171,10 +209,17 @@
                                 </span>
                             </a>
                         </li>
+                        {{-- Order list  --}}
+                        <li>
+                            <a href="{{route('admin.add.product')}}">
+                                <span data-key="t-login">
+                                    Order List
+                                </span>
+                            </a>
+                        </li>
 
                     </ul>
                 </li>
-
                 <li>
                     <a href="javascript: void(0);" class="has-arrow">
                         <i data-feather="users"></i>

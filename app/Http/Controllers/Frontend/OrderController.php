@@ -121,4 +121,12 @@ class OrderController extends Controller
     // {
     //     return view('frontend.checkout.success');
     // }
+
+    //admin order list
+    // public function AdminAllOrder()
+    // {
+    //     $orders = Order::latest()->get();
+
+    //     return view('admin.backend.order.index',compact('orders'));
+    // }
 }

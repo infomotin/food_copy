@@ -8,6 +8,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CityController;
 use App\Http\Controllers\Admin\ManageController;
+use App\Http\Controllers\Admin\ManageOrderController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\OrderController;
@@ -141,6 +142,14 @@ Route::middleware('admin')->group(function () {
         Route::get('delete/admin/banner/{id}', 'DeleteBanner')->name('admin.banner.delete');
     });
 });
+//Manage Order Route Admin 
+Route::middleware('admin')->group(function () {
+    Route::controller(ManageOrderController::class)->group(function () {
+        Route::get('all/admin/order', 'AdminAllOrder')->name('admin.all.order');
+        
+    });
+});
+
 
 // Route::get('edit/admin/banner/{id}', [ManageController::class, 'EditBanner'])->middleware('admin');
 Route::controller(CartController::class)->group(function () {
