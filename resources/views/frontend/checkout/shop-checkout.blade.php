@@ -241,18 +241,28 @@
                                 <div class="tab-content h-100" id="v-pills-tabContent">
                                     @php
                                         $total = 0;
+                                        if (Session::has('cart')) {
+                                            $cartCollection = Session::get('cart');
+                                            foreach ($cartCollection as $key => $value) {
+                                                $total += $value['price'] * $value['quantity'];
+                                            }
+                                        }
+                                        //if session have coupon
+                                        if (Session::has('coupon')) {
+                                            $total -= Session::get('coupon')['discount_amount'];
+                                        }
                                     @endphp
                                     <div class="tab-pane fade show active" id="v-pills-cash" role="tabpanel"
                                         aria-labelledby="v-pills-cash-tab">
                                         <h6 class="mt-0 mb-3">Cash</h6>
                                         <p>Please keep exact change handy to help us serve you better</p>
                                         <hr>
-                                        <form action="#" method="POST">
+                                        <form action="{{ route('cash.order') }}" method="POST">
                                             @csrf
-                                            <input type="text" name="name"value="{{ Auth::user()->name}}">
-                                            <input type="text" name="user_id" value="{{ Auth::user()->id }}">
-                                            <input type="text" name="user_email" value="{{ Auth::user()->email }}">
-                                            <input type="text" name="user_email" value="{{ Auth::user()->address }}">
+                                            <input type="hidden" name="name"value="{{ Auth::user()->name}}">
+                                            <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
+                                            <input type="hidden" name="user_email" value="{{ Auth::user()->email }}">
+                                            <input type="hidden" name="user_email" value="{{ Auth::user()->address }}">
                                             <button type="submit" class="btn btn-success btn-block btn-lg">PAY
                                                 @if (Session::has('coupon'))
                                                     {{ Session::get('coupon')['total_amount'] }}
@@ -611,7 +621,7 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-12">
-                <h5 class="m-0">Operate food store or restaurants? <a href="login.html">Work With Us</a></h5>
+                <h5 class="m-0">Operate food store or restaurants? <a href="{{ route('client.register') }}">Work With Us</a></h5>
             </div>
         </div>
     </div>

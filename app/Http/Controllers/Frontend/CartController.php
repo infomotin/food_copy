@@ -306,14 +306,14 @@ class CartController extends Controller
                         'message' => 'Cart is empty!',
                         'alert-type' => 'error'
                     );
-                    return redirect()->route('home')->with($nofication);
+                    return redirect()->route('cash.order')->with($nofication);
                 }
             }else{
                 $nofication = array(
                     'message' => 'Cart is empty!',
                     'alert-type' => 'error'
                 );
-                return redirect()->route('home')->with($nofication);
+                return redirect()->route('cash.order')->with($nofication);
             }
         } else {
             $nofication = array(

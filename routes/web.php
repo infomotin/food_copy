@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\CityController;
 use App\Http\Controllers\Admin\ManageController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\CartController;
+use App\Http\Controllers\Frontend\OrderController;
 
 
 
@@ -151,3 +152,14 @@ Route::controller(CartController::class)->group(function () {
     Route::get('/checkout', 'ShopCheckout')->name('checkout');
     
 });
+
+// Oder Route group OrderController
+Route::middleware('auth')->group(function () {
+    Route::controller(OrderController::class)->group(function () {
+        Route::post('cash-order', 'CashOrder')->name('cash.order');
+        // Route::get('checkout-success', 'CashOrderSubmit')->name('frontend.checkout.success');
+        
+
+    });
+});
+
