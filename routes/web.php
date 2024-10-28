@@ -146,6 +146,7 @@ Route::middleware('admin')->group(function () {
 Route::middleware('admin')->group(function () {
     Route::controller(ManageOrderController::class)->group(function () {
         Route::get('all/admin/order', 'AdminAllOrder')->name('admin.all.order');
+        Route::get('view/admin/order/{id}', 'AdminViewOrder')->name('admin.order.details');
         
     });
 });
