@@ -162,5 +162,25 @@ class ManageOrderController extends Controller
         return redirect()->back()->with($notification);
         // return redirect()->back();
     }
+    //UserCheckout
 
+    public function UserCheckout(){
+        // dd('hello');
+        return view('client.backend.order.checkout');
+    }
+    //UserOrderCancel
+
+    public function UserOrderCancel($id){
+        $orders = Order::find($id);
+        $orders->order_status = 'cancel';
+        $orders->order_process_date = Carbon::now();
+        $orders->update();
+        //notification
+        $notification = array(
+            'message' => 'Order Cancel Successfully',
+            'alert-type' => 'success'
+        );
+        return redirect()->back()->with($notification);
+        // return redirect()->back();
+    }
 }

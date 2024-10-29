@@ -1,16 +1,17 @@
 @include('frontend.dashboard.header')
-<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" >
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css">
 @php
-$userData = Auth::user();
-// dd($user);
+    $userData = Auth::user();
+    $userOrders = \App\Models\Order::where('user_id', Auth::user()->id)
+        ->orderBy('id', 'DESC')
+        ->get();
 @endphp
+
+
 <section class="pt-4 pb-4 section osahan-account-page">
     <div class="container">
         <div class="row">
-
             @include('frontend.dashboard.sidebar')
-
-
             <div class="col-md-9">
                 <div class="p-4 bg-white rounded shadow-sm osahan-account-page-right h-100">
                     <div class="tab-content" id="myTabContent">
@@ -21,7 +22,7 @@ $userData = Auth::user();
                             <h4 class="mt-0 mb-4 font-weight-bold">User Profile</h4>
                             <div class="mb-4 bg-white shadow-sm card order-list">
                                 <div class="p-4 gold-members">
-                                    <form action="{{route('profile.store')}}" method="POST"
+                                    <form action="{{ route('profile.store') }}" method="POST"
                                         enctype="multipart/form-data">
                                         @csrf
                                         <div class="row">
@@ -37,7 +38,7 @@ $userData = Auth::user();
                                                                         <label for="example-text-input"
                                                                             class="form-label">Name</label>
                                                                         <input class="form-control" type="text"
-                                                                            value="{{$userData->name}}" id="name"
+                                                                            value="{{ $userData->name }}" id="name"
                                                                             name="name">
                                                                     </div>
 
@@ -45,29 +46,29 @@ $userData = Auth::user();
                                                                         <label for="example-text-input"
                                                                             class="form-label">User Name</label>
                                                                         <input class="form-control" type="text"
-                                                                            value="{{$userData->username}}"
+                                                                            value="{{ $userData->username }}"
                                                                             id="username" name="username">
                                                                     </div>
                                                                     <div class="mb-3">
                                                                         <label for="example-number-input"
                                                                             class="form-label">User Email</label>
                                                                         <input class="form-control" type="email"
-                                                                            value="{{$userData->email}}" id="email"
-                                                                            name="email">
+                                                                            value="{{ $userData->email }}"
+                                                                            id="email" name="email">
                                                                     </div>
                                                                     <div>
                                                                         <label for="example-datetime-local-input"
                                                                             class="form-label">Date of Barth </label>
                                                                         <input class="form-control" type="date"
-                                                                            value="{{$userData->birth_date}}"
+                                                                            value="{{ $userData->birth_date }}"
                                                                             id="birth_date" name="birth_date">
                                                                     </div>
                                                                     <div>
                                                                         <label for="example-datetime-local-input"
                                                                             class="form-label">Phone </label>
                                                                         <input class="form-control" type="number"
-                                                                            value="{{$userData->phone}}" id="phone"
-                                                                            name="phone">
+                                                                            value="{{ $userData->phone }}"
+                                                                            id="phone" name="phone">
                                                                     </div>
 
                                                                 </div>
@@ -79,8 +80,8 @@ $userData = Auth::user();
                                                                         <label for="example-date-input"
                                                                             class="form-label">Address</label>
                                                                         <input class="form-control" type="text"
-                                                                            value="{{$userData->address}}" id="address"
-                                                                            name="address">
+                                                                            value="{{ $userData->address }}"
+                                                                            id="address" name="address">
                                                                     </div>
 
                                                                     <div class="mb-3">
@@ -111,15 +112,16 @@ $userData = Auth::user();
                                                                         <label for="example-date-input"
                                                                             class="form-label">Profile Image</label>
                                                                         <input class="form-control" type="file"
-                                                                            value="{{$userData->profile_photo_path}}"
+                                                                            value="{{ $userData->profile_photo_path }}"
                                                                             id="profile_photo_path"
                                                                             name="profile_photo_path">
                                                                     </div>
                                                                     <div class="mb-3">
 
                                                                         <img id="showImage"
-                                                                            src="{{(!empty($userData->profile_photo_path))?url('upload/users/'.$userData->profile_photo_path):url('upload/no_image.jpg')}}"
-                                                                            alt="" class="p-1 rounded-circle bg-light"
+                                                                            src="{{ !empty($userData->profile_photo_path) ? url('upload/users/' . $userData->profile_photo_path) : url('upload/no_image.jpg') }}"
+                                                                            alt=""
+                                                                            class="p-1 rounded-circle bg-light"
                                                                             width="150">
                                                                     </div>
                                                                     <div class="mt-3">
@@ -145,7 +147,7 @@ $userData = Auth::user();
                             <h4 class="mt-0 mb-4 font-weight-bold">Change Password</h4>
                             <div class="mb-4 bg-white shadow-sm card order-list">
                                 <div class="p-4 gold-members">
-                                    <form action="{{route('change.password')}}" method="POST">
+                                    <form action="{{ route('change.password') }}" method="POST">
                                         @csrf
                                         <div class="row">
                                             <div class="col-12">
@@ -158,30 +160,28 @@ $userData = Auth::user();
                                                                         <label for="example-text-input"
                                                                             class="form-label">Old Password</label>
                                                                         <input class="form-control" type="text"
-                                                                             id="old_password"
-                                                                            name="old_password">
+                                                                            id="old_password" name="old_password">
                                                                     </div>
 
                                                                     <div class="mb-3">
                                                                         <label for="example-text-input"
                                                                             class="form-label">New Password</label>
                                                                         <input class="form-control" type="password"
-
                                                                             id="password" name="password">
                                                                     </div>
                                                                     <div class="mb-3">
                                                                         <label for="example-number-input"
                                                                             class="form-label">Confirm Password</label>
                                                                         <input class="form-control" type="password"
-                                                                             id="confirm_password"
+                                                                            id="confirm_password"
                                                                             name="confirm_password">
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div class="mt-3">
-                                                            <button type="submit"
-                                                                class="btn btn-primary w-md">change Password</button>
+                                                            <button type="submit" class="btn btn-primary w-md">change
+                                                                Password</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -196,43 +196,56 @@ $userData = Auth::user();
                         {{-- =================================================================== --}}
                         <div class="tab-pane fade " id="orders" role="tabpanel" aria-labelledby="orders-tab">
                             <h4 class="mt-0 mb-4 font-weight-bold">Past Orders</h4>
-                            <div class="mb-4 bg-white shadow-sm card order-list">
-                                <div class="p-4 gold-members">
-                                    <a href="#">
-                                        <div class="media">
-                                            <img class="mr-4" src="img/3.jpg" alt="Generic placeholder image">
-                                            <div class="media-body">
-                                                <span class="float-right text-info">Delivered on Mon, Nov 12, 7:18 PM <i
-                                                        class="icofont-check-circled text-success"></i></span>
-                                                <h6 class="mb-2">
-                                                    <a href="detail.html" class="text-black">Gus's World Famous Fried
-                                                        Chicken
-                                                    </a>
-                                                </h6>
-                                                <p class="mb-1 text-gray"><i class="icofont-location-arrow"></i> 730 S
-                                                    Mendenhall Rd, Memphis, TN 38117, USA
-                                                </p>
-                                                <p class="mb-3 text-gray"><i class="icofont-list"></i> ORDER
-                                                    #25102589748 <i class="ml-2 icofont-clock-time"></i> Mon, Nov 12,
-                                                    6:26 PM</p>
-                                                <p class="text-dark">Veg Masala Roll x 1, Veg Burger x 1, Veg Penne
-                                                    Pasta in Red Sauce x 1
-                                                </p>
-                                                <hr>
-                                                <div class="float-right">
-                                                    <a class="btn btn-sm btn-outline-primary" href="#"><i
-                                                            class="icofont-headphone-alt"></i> HELP</a>
-                                                    <a class="btn btn-sm btn-primary" href="detail.html"><i
-                                                            class="icofont-refresh"></i> REORDER</a>
-                                                </div>
-                                                <p class="pt-2 mb-0 text-black text-primary"><span
-                                                        class="text-black font-weight-bold"> Total Paid:</span> $300
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
+                            <table id="datatable" class="table table-bordered dt-responsive nowrap w-100">
+                                <thead>
+                                    <tr>
+                                        <th>SL</th>
+                                        <th>Date</th>
+                                        <th>Inv</th>
+                                        <th>Currency</th>
+                                        <th>Amount</th>
+                                        <th>Payment</th>
+                                        <td>Cancel</td>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($userOrders as $key => $item)
+                                        <tr>
+                                            <td>{{ $key + 1 }}</td>
+                                            <td>{{ $item->order_date }}</td>
+                                            <td>{{ $item->invoice_no }}</td>
+                                            <td>{{ $item->currency }}</td>
+                                            <td>{{ $item->amount }}</td>
+                                            <td style="front-size: 7px">{{ $item->payment_type }}</td>
+
+
+                                            <td>
+                                                <a href="{{ route('user.order.cancel', $item->id) }}"
+                                                    class="btn btn-block btn-danger btn-sm" id="cancel">Cancel
+                                                    Order</a>
+                                            </td>
+
+                                            <td>
+                                                @if ($item->status == 'pending')
+                                                    <a href="{{ route('admin.order.confirm', $item->id) }}"
+                                                        class="btn btn-block btn-successn btn-sm" id="confirm">Confirm
+                                                        Order</a>
+                                                @elseif ($item->status == 'confirm')
+                                                    <a href="{{ route('admin.order.processing', $item->id) }}"
+                                                        class="btn btn-block btn-success btn-sm" id="processing">Processing
+                                                        Order</a>
+                                                @elseif ($item->status == 'processing')
+                                                    <a href="{{ route('admin.order.deliverd', $item->id) }}"
+                                                        class="btn btn-block btn-success btn-sm" id="deliverd">Deliverd
+                                                        Order</a>
+                                                @endif
+                                            </td>
+
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
                         </div>
                         {{-- ========================================================================= --}}
 
@@ -272,48 +285,56 @@ $userData = Auth::user();
                         <div class="tab-pane fade" id="favourites" role="tabpanel" aria-labelledby="favourites-tab">
                             <h4 class="mt-0 mb-4 font-weight-bold">Favourites</h4>
                             <div class="row">
-                                @php 
+                                @php
                                     $favourites = \App\Models\Wishlist::where('user_id', Auth::id())->get();
-                                    
-                                    
                                 @endphp
                                 @foreach ($favourites as $favourite)
-                                <div class="pb-2 mb-4 col-md-4 col-sm-6">
-                                    <div class="overflow-hidden bg-white rounded shadow-sm list-card h-100 position-relative">
-                                        <div class="list-card-image">
-                                            <div class="star position-absolute"><span class="badge badge-success"><i
-                                                        class="icofont-star"></i> 3.1 (300+)</span></div>
-                                            <div class="favourite-heart text-danger position-absolute"><a
-                                                    href="{{route('restaurant.detail',$favourite['client']['id'])}}"><i class="icofont-heart"></i></a></div>
-                                            <div class="member-plan position-absolute"><span
-                                                    class="badge badge-dark">Promoted</span></div>
-                                            <a href="{{route('restaurant.detail',$favourite['client']['id'])}}">
-                                                <img src="{{asset('/upload/clients/'.$favourite['client']['cover_photo'])}}" class="img-fluid item-img" style="width: 300px; height: 200px;">
-                                            </a>
-                                        </div>
-                                        <div class="p-3 position-relative">
-                                            <div class="list-card-body">
-                                                <h6 class="mb-1"><a href="{{route('restaurant.detail',$favourite['client']['id'])}}" class="text-black">{{$favourite['client']['name']}}</a>
-                                                    </a>
-                                                </h6>
-                                                
-                                               
-                                            </div>
-                                            <div class="float-right; margin-bottom: 10px;">
-                                                <a href="{{route('user.favourites.delete',$favourite['client']['id'])}}" class="badge badge-danger">
-                                                    <i class="icofont-ui-delete"></i>
+                                    <div class="pb-2 mb-4 col-md-4 col-sm-6">
+                                        <div
+                                            class="overflow-hidden bg-white rounded shadow-sm list-card h-100 position-relative">
+                                            <div class="list-card-image">
+                                                <div class="star position-absolute"><span
+                                                        class="badge badge-success"><i class="icofont-star"></i> 3.1
+                                                        (300+)
+                                                    </span></div>
+                                                <div class="favourite-heart text-danger position-absolute"><a
+                                                        href="{{ route('restaurant.detail', $favourite['client']['id']) }}"><i
+                                                            class="icofont-heart"></i></a></div>
+                                                <div class="member-plan position-absolute"><span
+                                                        class="badge badge-dark">Promoted</span></div>
+                                                <a
+                                                    href="{{ route('restaurant.detail', $favourite['client']['id']) }}">
+                                                    <img src="{{ asset('/upload/clients/' . $favourite['client']['cover_photo']) }}"
+                                                        class="img-fluid item-img"
+                                                        style="width: 300px; height: 200px;">
                                                 </a>
+                                            </div>
+                                            <div class="p-3 position-relative">
+                                                <div class="list-card-body">
+                                                    <h6 class="mb-1"><a
+                                                            href="{{ route('restaurant.detail', $favourite['client']['id']) }}"
+                                                            class="text-black">{{ $favourite['client']['name'] }}</a>
+                                                        </a>
+                                                    </h6>
+
+
+                                                </div>
+                                                <div class="float-right; margin-bottom: 10px;">
+                                                    <a href="{{ route('user.favourites.delete', $favourite['client']['id']) }}"
+                                                        class="badge badge-danger">
+                                                        <i class="icofont-ui-delete"></i>
+                                                    </a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>  
                                 @endforeach
-                                
-                                
 
-                                
-                                
-                                
+
+
+
+
+
                                 <div class="text-center col-md-12 load-more">
                                     <button class="btn btn-primary" type="button" disabled>
                                         <span class="spinner-grow spinner-grow-sm" role="status"
@@ -559,7 +580,8 @@ $userData = Auth::user();
                                     <div class="mb-4 bg-white shadow-sm card addresses-item">
                                         <div class="p-4 gold-members">
                                             <div class="media">
-                                                <div class="mr-3"><i class="icofont-location-pin icofont-3x"></i></div>
+                                                <div class="mr-3"><i class="icofont-location-pin icofont-3x"></i>
+                                                </div>
                                                 <div class="media-body">
                                                     <h6 class="mb-1">Other</h6>
                                                     <p>Delhi Bypass Rd, Jawaddi Taksal, Ludhiana, Punjab 141002, India
@@ -580,7 +602,8 @@ $userData = Auth::user();
                                     <div class="mb-4 bg-white shadow-sm card addresses-item">
                                         <div class="p-4 gold-members">
                                             <div class="media">
-                                                <div class="mr-3"><i class="icofont-location-pin icofont-3x"></i></div>
+                                                <div class="mr-3"><i class="icofont-location-pin icofont-3x"></i>
+                                                </div>
                                                 <div class="media-body">
                                                     <h6 class="mb-1">Other</h6>
                                                     <p>MT, Model Town Rd, Pritm Nagar, Model Town, Ludhiana, Punjab
@@ -598,14 +621,15 @@ $userData = Auth::user();
                                         </div>
                                     </div>
                                 </div>
-                            </div> 
-                            
+                            </div>
+
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="bg-white shadow-sm card addresses-item">
                                         <div class="p-4 gold-members">
                                             <div class="media">
-                                                <div class="mr-3"><i class="icofont-location-pin icofont-3x"></i></div>
+                                                <div class="mr-3"><i class="icofont-location-pin icofont-3x"></i>
+                                                </div>
                                                 <div class="media-body">
                                                     <h6 class="mb-1">Other</h6>
                                                     <p>GNE Rd, Jawaddi Taksal, Ludhiana, Punjab 141002, India
@@ -626,7 +650,8 @@ $userData = Auth::user();
                                     <div class="bg-white shadow-sm card addresses-item">
                                         <div class="p-4 gold-members">
                                             <div class="media">
-                                                <div class="mr-3"><i class="icofont-location-pin icofont-3x"></i></div>
+                                                <div class="mr-3"><i class="icofont-location-pin icofont-3x"></i>
+                                                </div>
                                                 <div class="media-body">
                                                     <h6 class="mb-1">Other</h6>
                                                     <p>GTTT, Model Town Rd, Pritm Nagar, Model Town, Ludhiana, Punjab
@@ -655,11 +680,11 @@ $userData = Auth::user();
     </div>
 </section>
 <script type="text/javascript">
-    $(document).ready(function(){
-        $('#profile_photo_path').change(function(e){
+    $(document).ready(function() {
+        $('#profile_photo_path').change(function(e) {
             var reader = new FileReader();
-            reader.onload = function(e){
-                $('#showImage').attr('src',e.target.result);
+            reader.onload = function(e) {
+                $('#showImage').attr('src', e.target.result);
             }
             reader.readAsDataURL(e.target.files['0']);
         });
@@ -670,26 +695,26 @@ $userData = Auth::user();
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
 <script>
- @if(Session::has('message'))
- var type = "{{ Session::get('alert-type','info') }}"
- switch(type){
-    case 'info':
-    toastr.info(" {{ Session::get('message') }} ");
-    break;
+    @if (Session::has('message'))
+        var type = "{{ Session::get('alert-type', 'info') }}"
+        switch (type) {
+            case 'info':
+                toastr.info(" {{ Session::get('message') }} ");
+                break;
 
-    case 'success':
-    toastr.success(" {{ Session::get('message') }} ");
-    break;
+            case 'success':
+                toastr.success(" {{ Session::get('message') }} ");
+                break;
 
-    case 'warning':
-    toastr.warning(" {{ Session::get('message') }} ");
-    break;
+            case 'warning':
+                toastr.warning(" {{ Session::get('message') }} ");
+                break;
 
-    case 'error':
-    toastr.error(" {{ Session::get('message') }} ");
-    break;
- }
- @endif
+            case 'error':
+                toastr.error(" {{ Session::get('message') }} ");
+                break;
+        }
+    @endif
 </script>
 
 

@@ -16,6 +16,7 @@ use App\Http\Controllers\Frontend\OrderController;
 
 
 
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -31,10 +32,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/user/logout', [ProfileController::class, 'UserLogout'])->name('user.logout');
     // Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::post('/profile/password/change', [ProfileController::class, 'PasswordChange'])->name('change.password');
-    //UserFavourites
     Route::get('/user/favourites', [HomeController::class, 'UserFavourites'])->name('user.favourites');
-    //favourite.delete
     Route::get('/user/favourites/delete/{id}', [HomeController::class, 'UserFavouritesDelete'])->name('user.favourites.delete');
+    Route::get('/user/checkout', [ManageOrderController::class, 'UserCheckout'])->name('user.orders.checkout');
+    Route::get('/user/orders/cancel/{id}', [ManageOrderController::class, 'UserOrderCancel'])->name('user.order.cancel');
 });
 
 require __DIR__.'/auth.php';
