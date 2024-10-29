@@ -147,6 +147,9 @@ Route::middleware('admin')->group(function () {
     Route::controller(ManageOrderController::class)->group(function () {
         Route::get('all/admin/order', 'AdminAllOrder')->name('admin.all.order');
         Route::get('view/admin/order/{id}', 'AdminViewOrder')->name('admin.order.details');
+        Route::get('print/admin/order/confirm/{id}', 'AdminOrderConfirm')->name('admin.order.confirm');
+        Route::get('print/admin/order/processing/{id}', 'AdminOrderProcess')->name('admin.order.processing');
+        Route::get('print/admin/order/delivered/{id}', 'AdminOrderDelivered')->name('admin.order.deliverd');
         
     });
 });

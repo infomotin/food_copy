@@ -1,4 +1,5 @@
 <?php
+
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
@@ -9,14 +10,17 @@ use App\Http\Controllers\Admin\CityController;
 use App\Http\Controllers\Client\RestaurantController;
 use App\Http\Controllers\Client\CouponController;
 use App\Http\Controllers\Frontend\HomeController;
+use App\Http\Controllers\Frontend\OrderController;
+use App\Http\Controllers\Admin\ManageOrderController;
 
 
 
-require __DIR__.'/auth.php';
+
+require __DIR__ . '/auth.php';
 
 
 // all route for client menu here
-Route::middleware(['clientstatus','client'],)->group(function () {
+Route::middleware(['clientstatus', 'client'],)->group(function () {
     //for menu
     Route::controller(RestaurantController::class)->group(function () {
         Route::get('all/menu', 'AllMenu')->name('all.menu');
@@ -61,9 +65,16 @@ Route::middleware(['clientstatus','client'],)->group(function () {
     });
     //end all route for Coupon
 
-
+    Route::controller(ManageOrderController::class)->group(function () {
+        Route::get('client/order/all', 'ClientOrderAll')->name('client.order.all');
+        Route::get('client/order/view/{id}', 'ClientOrderView')->name('client.order.view');
+        Route::get('client/order/confirm/{id}', 'ClientOrderConfirm')->name('client.order.confirm');
+        Route::get('client/order/processing/{id}', 'ClientOrderProcess')->name('client.order.processing');
+        Route::get('client/order/delivered/{id}', 'ClientOrderDelivered')->name('client.order.deliverd');
+        Route::get('client/order/reject/{id}', 'ClientOrderReject')->name('client.order.reject');
+    });
 });
 
-Route::get('restaurant/detail/{id}',[HomeController::class,'RestaurantDetail'])->name('restaurant.detail');
+Route::get('restaurant/detail/{id}', [HomeController::class, 'RestaurantDetail'])->name('restaurant.detail');
 //add-wish-list
-Route::post('/add-wish-list/{id}',[HomeController::class,'AddToWishlist']);
+Route::post('/add-wish-list/{id}', [HomeController::class, 'AddToWishlist']);
