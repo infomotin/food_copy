@@ -1,12 +1,14 @@
-@include('frontend.checkout.success')
+@include('frontend.dashboard.header')
 
 
 {{-- --------------------------------- --}}
 <section class="pt-5 pb-5 text-center bg-white section">
     <div class="container">
         <div class="row">
-            <div class="col-sm-12">
-                <h5 class="m-0">Order Complete <a href="{{ route('client.register') }}">Thanks for.</a></h5>
+            <div class="pt-5 pb-5 text-center">
+                <h1>Order is Complete Thanks</h1>
+                <p></p>
+                <a href="{{ url('/') }}" class="btn btn-primary">Continue Shopping</a>
             </div>
         </div>
     </div>

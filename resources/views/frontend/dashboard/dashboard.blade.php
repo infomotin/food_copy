@@ -207,6 +207,7 @@
                                         <th>Payment</th>
                                         <td>Cancel</td>
                                         <th>Status</th>
+                                        <th>invoice</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -221,27 +222,23 @@
 
 
                                             <td>
+                                                @if($item->order_status == 'pending')
                                                 <a href="{{ route('user.order.cancel', $item->id) }}"
-                                                    class="btn btn-block btn-danger btn-sm" id="cancel">Cancel
-                                                    Order</a>
+                                                    class="btn btn-sm btn-danger" id="cancel">Cancel
+                                                </a>
+                                                @else
+                                                    <span class="badge badge-soft-success">Not Possible </span>
+                                                @endif
+                                                
                                             </td>
 
                                             <td>
-                                                @if ($item->status == 'pending')
-                                                    <a href="{{ route('admin.order.confirm', $item->id) }}"
-                                                        class="btn btn-block btn-successn btn-sm" id="confirm">Confirm
-                                                        Order</a>
-                                                @elseif ($item->status == 'confirm')
-                                                    <a href="{{ route('admin.order.processing', $item->id) }}"
-                                                        class="btn btn-block btn-success btn-sm" id="processing">Processing
-                                                        Order</a>
-                                                @elseif ($item->status == 'processing')
-                                                    <a href="{{ route('admin.order.deliverd', $item->id) }}"
-                                                        class="btn btn-block btn-success btn-sm" id="deliverd">Deliverd
-                                                        Order</a>
-                                                @endif
+                                                <span class="badge badge-soft-success">{{ $item->order_status }}</span>
                                             </td>
-
+                                            <td>
+                                                <a href="{{ route('user.order.download', $item->id) }}"
+                                                    class="btn btn-sm btn-success" id="download">Dowload</a>
+                                            </td>
                                         </tr>
                                     @endforeach
                                 </tbody>

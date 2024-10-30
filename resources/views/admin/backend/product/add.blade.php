@@ -28,6 +28,7 @@
                         <form action="{{route('admin.product.store')}}" method="POST" enctype="multipart/form-data" id="myForm">
                             @csrf
                             <div class="row">
+                                
                                 <div class="col-md-3">
                                     <div class="mb-3">
                                         <label for="example-text-input" class="form-label">Category Name</label>
@@ -61,6 +62,7 @@
                                         </select>
                                     </div>
                                 </div>
+                                
                                 <div class="col-md-1">
                                     <div class="mb-1">
                                         <label for="example-text-input" class="form-label">Restaruant</label>

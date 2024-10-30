@@ -35,7 +35,7 @@
                                 <tbody>
                                     <tr>
                                         <th width="50%">Shipping Name: </th>
-                                        <td>{{ $orders->name }}</td>
+                                        <td>{{ $orders->first_name . ' ' . $orders->last_name }}</td>
                                     </tr>
                                     <tr>
                                         <th width="50%">Shipping Phone: </th>
@@ -79,7 +79,7 @@
                                 <tbody>
                                     <tr>
                                         <th width="50%">Name: </th>
-                                        <td>{{ $orders->name }}</td>
+                                        <td>{{ $orders->first_name . ' ' . $orders->last_name }}</td>
                                     </tr>
                                     <tr>
                                         <th width="50%">Phone: </th>
@@ -133,7 +133,7 @@
             </div>
 
 
-            <div class="row-cols-1 row-cols-md-1 row-cols-lg-2 row-cols-xl-2">
+            <div class="row"> 
 
                 <div class="col-12">
                     <div class="card">

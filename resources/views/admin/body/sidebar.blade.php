@@ -233,6 +233,29 @@
                 </li>
 
 
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow">
+                        <i data-feather="users"></i>
+                        <span data-key="t-authentication">Admin All Reports</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="{{route('admin.all.report')}}" data-key="t-login">All Report</a></li>
+                        <li><a href="#" data-key="t-register">Product List</a></li>
+                        <li><a href="#" data-key="t-register">Order List</a></li>
+                        <li><a href="#" data-key="t-register">Customer List</a></li>
+                        <li><a href="#" data-key="t-register">Cupun List</a></li>
+                        <li><a href="#" data-key="t-register">Discount List</a></li>
+                        <li><a href="#" data-key="t-register">Category List</a></li>
+                        <li><a href="#" data-key="t-register">City List</a></li>
+                        
+                        
+
+                        
+
+                    </ul>
+                </li>
+
+
 
                 <li class="mt-2 menu-title" data-key="t-components">Elements</li>
 

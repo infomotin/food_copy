@@ -8,6 +8,7 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class ManageOrderController extends Controller
 {
@@ -29,6 +30,7 @@ class ManageOrderController extends Controller
         foreach ($orderItems as $item) {
             $totalPrice += $item->price * $item->quantity;
         }
+        
         return view('admin.backend.order.view', compact('orders', 'orderItems','totalPrice'));
     }
     //AdminOrderConfirm
@@ -172,9 +174,18 @@ class ManageOrderController extends Controller
 
     public function UserOrderCancel($id){
         $orders = Order::find($id);
-        $orders->order_status = 'cancel';
-        $orders->order_process_date = Carbon::now();
-        $orders->update();
+        //change order status
+        if($orders->order_status == 'pending'){
+            $orders->order_status = 'cancel';
+            $orders->order_process_date = Carbon::now();
+            $orders->update();
+        }else{
+            $notification = array(
+                'message' => 'Order Processing,Cancel Not Successfully',
+                'alert-type' => 'error'
+            );
+            return redirect()->back()->with($notification);
+        }
         //notification
         $notification = array(
             'message' => 'Order Cancel Successfully',
@@ -182,5 +193,31 @@ class ManageOrderController extends Controller
         );
         return redirect()->back()->with($notification);
         // return redirect()->back();
+
+       
+    }
+    //UserOrderInfo
+
+    public function UserOrderInfo($id){
+        $order = Order::with('user')->where('id', $id)->first();
+        $orderItems = OrderItem::with('product')->where('order_id', $id)->orderBy('id', 'DESC')->get();
+        $totalPrice = 0;
+        // dd($orderItems);
+        foreach ($orderItems as $item) {
+            $totalPrice += $item->price * $item->quantity;
+        }
+        // dd($orderItems);
+        $pdf = PDF::loadView('frontend.dashboard.invoice_download', compact('order', 'orderItems','totalPrice'))->setPaper('a4', 'landscape')->setOption(
+            [
+                'enable_php' => true, 
+                'dpi' => 150, 
+                'default_font' => 'sans-serif',
+                'tempDir' => public_path(),
+                'chroot' => public_path(),
+
+            ],
+        );
+        return $pdf->download('invoice-' . $order->id . '.pdf');
+        // return view('frontend.dashboard.invoice_download',compact('orderItems','totalPrice','orders'));
     }
 }

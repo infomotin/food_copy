@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CityController;
 use App\Http\Controllers\Admin\ManageController;
 use App\Http\Controllers\Admin\ManageOrderController;
+use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\OrderController;
@@ -36,6 +37,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/user/favourites/delete/{id}', [HomeController::class, 'UserFavouritesDelete'])->name('user.favourites.delete');
     Route::get('/user/checkout', [ManageOrderController::class, 'UserCheckout'])->name('user.orders.checkout');
     Route::get('/user/orders/cancel/{id}', [ManageOrderController::class, 'UserOrderCancel'])->name('user.order.cancel');
+    Route::get('/user/orders/download/{id}', [ManageOrderController::class, 'UserOrderInfo'])->name('user.order.download');
 });
 
 require __DIR__.'/auth.php';
@@ -151,6 +153,14 @@ Route::middleware('admin')->group(function () {
         Route::get('print/admin/order/confirm/{id}', 'AdminOrderConfirm')->name('admin.order.confirm');
         Route::get('print/admin/order/processing/{id}', 'AdminOrderProcess')->name('admin.order.processing');
         Route::get('print/admin/order/delivered/{id}', 'AdminOrderDelivered')->name('admin.order.deliverd');
+        
+    });
+});
+//Manage Report Route Admin 
+Route::middleware('admin')->group(function () {
+    Route::controller(ReportController::class)->group(function () {
+        Route::get('all/admin/report', 'AdminAllReport')->name('admin.all.report');
+       
         
     });
 });

@@ -111,9 +111,9 @@ class OrderController extends Controller
             'message' => 'Your Order Placed Successfully',
             'alert-type' => 'success'
         );
-        // return view('frontend.checkout.success')->with($notification);
+        return view('frontend.checkout.success')->with($notification);
         // dd($notification);
-        return redirect()->route('dashboard')->with($notification);
+        // return redirect()->route('frontend.checkout.success')->with($notification);
     }
     //CashOrderSubmit
 
