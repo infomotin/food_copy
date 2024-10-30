@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\OrderController;
+use App\Http\Controllers\Frontend\ReviewsController;
 
 
 
@@ -186,4 +187,14 @@ Route::middleware('auth')->group(function () {
 
     });
 });
+
+Route::middleware('auth')->group(function () {
+    Route::controller(ReviewsController::class)->group(function () {
+        Route::post('store/review', 'CommentStore')->name('comment.store');
+       
+        
+
+    });
+});
+
 
