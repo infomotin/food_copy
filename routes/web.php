@@ -156,6 +156,12 @@ Route::middleware('admin')->group(function () {
         Route::get('print/admin/order/delivered/{id}', 'AdminOrderDelivered')->name('admin.order.deliverd');
         
     });
+    Route::controller(ReviewsController::class)->group(function () {
+        Route::get('admin/pending/review', 'AdminPendingReview')->name('admin.pending.review');
+        Route::get('admin/approved/review', 'AdminApprovedReview')->name('admin.approved.review');
+        Route::get('admin/delete/review/{id}', 'AdminDeleteReview')->name('admin.review.delete');
+        Route::get('AdminchangeReviewStatus','AdminchangeReviewStatus');
+    });
 });
 //Manage Report Route Admin 
 Route::middleware('admin')->group(function () {

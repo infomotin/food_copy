@@ -9,6 +9,7 @@ use App\Models\Review;
 use App\Models\ReviesRateing;
 use Carbon\Carbon;
 
+
 class ReviewsController extends Controller
 {
     //CommentStore
@@ -25,7 +26,8 @@ class ReviewsController extends Controller
         // fist count review 
         $count = Review::where('client_id', $last)->where('user_id', Auth::id())->where('status', 1)->count();
         // dd($count);
-        if ($count == 0) {
+        if ($count < 10) {
+            // dd('You have already given a review.');
             $Reviews = new Review();
             $Reviews->user_id = $userData;
             $Reviews->client_id = $request->client_id;
@@ -43,6 +45,7 @@ class ReviewsController extends Controller
             $redirectUrl = $previousUrl ? $previousUrl . '#pills-reviews' : route('restaurant.detail', ['id' => $request->client_id]) . '#pills-reviews';
             return redirect()->to($redirectUrl)->with($notification);
         } else {
+            // dd('You have already given a review.');
             $notification = array(
                 'message' => 'You have already given a review.',
                 'alert-type' => 'warning'
@@ -73,5 +76,47 @@ class ReviewsController extends Controller
         return response()->json($notification);
         
 
+    }
+    //AdminPendingReview
+    public function AdminPendingReview()
+    {
+        $reviews = Review::all();
+        return view('admin.backend.review.pending', compact('reviews'));
+    }
+    //AdminApprovedReview
+    public function AdminApprovedReview()
+    {
+        $reviews = Review::where('status', 1)->get();
+        return view('admin.backend.review.approved', compact('reviews'));
+    }
+    //AdminDeleteReview
+    public function AdminDeleteReview($id)
+    {
+        $reviews = Review::find($id);
+        $reviews->delete();
+        $notification = array(
+            'message' => 'Review Deleted Successfully',
+            'alert-type' => 'success'
+        );
+        return redirect()->back()->with($notification);
+    }
+    //AdminchangeReviewStatus
+    public function AdminchangeReviewStatus(Request $request)
+    {
+        // dd($request->id, $request->status);
+        $reviews = Review::find($request->id);
+        if($request->status == 1){
+            $reviews->status = 0;
+        }else{
+            $reviews->status = 1;
+        }
+        // dd($reviews->status);
+        $reviews->status = $request->status;
+        $reviews->save();
+        $notification = array(
+            'message' => 'Review Status Updated Successfully',
+            'alert-type' => 'success'
+        );
+        return redirect()->back()->with($notification);
     }
 }

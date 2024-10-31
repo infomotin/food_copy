@@ -10,7 +10,7 @@
                 <li class="menu-title" data-key="t-menu">Menu</li>
 
                 <li>
-                    <a href="{{route('admin.dashboard')}}">
+                    <a href="{{ route('admin.dashboard') }}">
                         <i data-feather="home"></i>
                         <span data-key="t-dashboard">Dashboard</span>
                     </a>
@@ -65,14 +65,14 @@
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
                         <li>
-                            <a href="{{route('admin.all.restaurant')}}">
+                            <a href="{{ route('admin.all.restaurant') }}">
                                 <span data-key="t-login">
                                     All Rastaurant Product
                                 </span>
                             </a>
                         </li>
                         <li>
-                            <a href="{{route('admin.add.restaurant')}}">
+                            <a href="{{ route('admin.add.restaurant') }}">
                                 <span data-key="t-login">
                                     Add Rastaurant
                                 </span>
@@ -88,14 +88,14 @@
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
                         <li>
-                            <a href="{{route('admin.all.banner')}}">
+                            <a href="{{ route('admin.all.banner') }}">
                                 <span data-key="t-login">
                                     All Banner
                                 </span>
                             </a>
                         </li>
                         <li>
-                            <a href="{{route('admin.add.restaurant')}}">
+                            <a href="{{ route('admin.add.restaurant') }}">
                                 <span data-key="t-login">
                                     Add Rastaurant
                                 </span>
@@ -111,7 +111,7 @@
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
                         <li>
-                            <a href="{{route('all.category')}}">
+                            <a href="{{ route('all.category') }}">
                                 <span data-key="t-login">
                                     All Category
                                 </span>
@@ -134,7 +134,7 @@
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
                         <li>
-                            <a href="{{route('all.city')}}">
+                            <a href="{{ route('all.city') }}">
                                 <span data-key="t-login">
                                     All City
                                 </span>
@@ -158,16 +158,16 @@
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
                         <li>
-                            <a href="{{route('admin.all.order')}}">
+                            <a href="{{ route('admin.all.order') }}">
                                 <span data-key="t-login">
-                                    All Order 
+                                    All Order
                                 </span>
                             </a>
                         </li>
                         <li>
                             <a href="#">
                                 <span data-key="t-login">
-                                    Confirm Order 
+                                    Confirm Order
                                 </span>
                             </a>
                         </li>
@@ -175,14 +175,14 @@
                         <li>
                             <a href="#">
                                 <span data-key="t-login">
-                                    Processing Order 
+                                    Processing Order
                                 </span>
                             </a>
                         </li>
                         <li>
                             <a href="#">
                                 <span data-key="t-login">
-                                    Delivered Order 
+                                    Delivered Order
                                 </span>
                             </a>
                         </li>
@@ -196,14 +196,14 @@
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
                         <li>
-                            <a href="{{route('admin.all.product')}}">
+                            <a href="{{ route('admin.all.product') }}">
                                 <span data-key="t-login">
                                     All Rastaurant Product
                                 </span>
                             </a>
                         </li>
                         <li>
-                            <a href="{{route('admin.add.product')}}">
+                            <a href="{{ route('admin.add.product') }}">
                                 <span data-key="t-login">
                                     Add Product
                                 </span>
@@ -211,7 +211,7 @@
                         </li>
                         {{-- Order list  --}}
                         <li>
-                            <a href="{{route('admin.add.product')}}">
+                            <a href="{{ route('admin.add.product') }}">
                                 <span data-key="t-login">
                                     Order List
                                 </span>
@@ -223,11 +223,11 @@
                 <li>
                     <a href="javascript: void(0);" class="has-arrow">
                         <i data-feather="users"></i>
-                        <span data-key="t-authentication">Authentication</span>
+                        <span data-key="t-authentication">Reviews Manage </span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="auth-login.html" data-key="t-login">Login</a></li>
-                        <li><a href="auth-register.html" data-key="t-register">Register</a></li>
+                        <li><a href="{{ route('admin.pending.review') }}" data-key="t-login">Pending Reviews</a></li>
+                        <li><a href="{{ route('admin.approved.review') }}" data-key="t-register">Approved Reviews</a></li>
 
                     </ul>
                 </li>
@@ -239,7 +239,7 @@
                         <span data-key="t-authentication">Admin All Reports</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="{{route('admin.all.report')}}" data-key="t-login">All Report</a></li>
+                        <li><a href="{{ route('admin.all.report') }}" data-key="t-login">All Report</a></li>
                         <li><a href="#" data-key="t-register">Product List</a></li>
                         <li><a href="#" data-key="t-register">Order List</a></li>
                         <li><a href="#" data-key="t-register">Customer List</a></li>
@@ -247,10 +247,10 @@
                         <li><a href="#" data-key="t-register">Discount List</a></li>
                         <li><a href="#" data-key="t-register">Category List</a></li>
                         <li><a href="#" data-key="t-register">City List</a></li>
-                        
-                        
 
-                        
+
+
+
 
                     </ul>
                 </li>
@@ -308,7 +308,7 @@
 
             <div class="mx-4 mt-5 mb-0 text-center border-0 card sidebar-alert">
                 <div class="card-body">
-                    <img src="{{asset('backend/assets/images/giftbox.png')}}" alt="">
+                    <img src="{{ asset('backend/assets/images/giftbox.png') }}" alt="">
                     <div class="mt-4">
                         <h5 class="alertcard-title font-size-16">Unlimited Access</h5>
                         <p class="font-size-13">Upgrade your plan from a Free trial, to select ‘Business Plan’.</p>
