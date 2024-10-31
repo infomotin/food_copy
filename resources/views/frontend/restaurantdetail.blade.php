@@ -404,14 +404,14 @@
                                 <h5 class="mb-4 ">Ratings and Reviews</h5>
                                 <div class="graph-star-rating-header">
                                     <div class="star-rating">
-                                        <a href="#"><i class="icofont-ui-rating active"></i></a>
-                                        <a href="#"><i class="icofont-ui-rating active"></i></a>
-                                        <a href="#"><i class="icofont-ui-rating active"></i></a>
-                                        <a href="#"><i class="icofont-ui-rating active"></i></a>
-                                        <a href="#"><i class="icofont-ui-rating"></i></a> <b
-                                            class="ml-2 text-black">334</b>
+                                        @for ($i = 1; $i <= 5; $i++)
+                                            <a href="#"><i
+                                                    class="icofont-ui-rating {{ $i <= round($average_rating) ? 'active' : '' }}"></i></a>
+                                        @endfor
+
+                                        <b class="ml-2 text-black">{{$total_reviews}}</b>
                                     </div>
-                                    <p class="mt-2 mb-4 text-black">Rated 3.5 out of 5</p>
+                                    <p class="mt-2 mb-4 text-black">Rated {{$average_rating}} out of 5</p>
                                 </div>
                                 <div class="graph-star-rating-body">
                                     <div class="rating-list">
@@ -488,6 +488,7 @@
                                     .icofont-ui-rating {
                                         color: #cccc;
                                     }
+
                                     .icofont-ui-rating.active {
                                         color: #dd646e;
                                     }
