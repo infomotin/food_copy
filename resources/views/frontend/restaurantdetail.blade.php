@@ -409,72 +409,38 @@
                                                     class="icofont-ui-rating {{ $i <= round($average_rating) ? 'active' : '' }}"></i></a>
                                         @endfor
 
-                                        <b class="ml-2 text-black">{{$total_reviews}}</b>
+                                        <b class="ml-2 text-black">{{ $total_reviews }}</b>
                                     </div>
-                                    <p class="mt-2 mb-4 text-black">Rated {{$average_rating}} out of 5</p>
+                                    <p class="mt-2 mb-4 text-black">Rated {{ $average_rating }} out of 5</p>
                                 </div>
+
                                 <div class="graph-star-rating-body">
-                                    <div class="rating-list">
-                                        <div class="text-black rating-list-left">
-                                            5 Star
-                                        </div>
-                                        <div class="rating-list-center">
-                                            <div class="progress">
-                                                <div style="width: 56%" aria-valuemax="5" aria-valuemin="0"
-                                                    aria-valuenow="5" role="progressbar"
-                                                    class="progress-bar bg-primary">
-                                                    <span class="sr-only">80% Complete (danger)</span>
+                                    @foreach ($ratingCount as $key => $value)
+                                        <div class="rating-list">
+                                            <div class="text-black rating-list-left">
+                                                {{ $key }} Star
+                                            </div>
+                                            <div class="rating-list-center">
+                                                <div class="progress">
+                                                    <div style="width: {{ $ratingPercent[$key] }}%" aria-valuemax="5"
+                                                        aria-valuemin="0" aria-valuenow="5" role="progressbar"
+                                                        class="progress-bar bg-primary">
+                                                        <span class="sr-only">{{ $ratingPercent[$key] }}% Complete
+                                                            (danger)</span>
+                                                    </div>
                                                 </div>
                                             </div>
+                                            <div class="text-black rating-list-right">
+                                                {{ number_format($ratingPercent[$key], 2) }}%</div>
+
                                         </div>
-                                        <div class="text-black rating-list-right">56%</div>
-                                    </div>
-                                    <div class="rating-list">
-                                        <div class="text-black rating-list-left">
-                                            4 Star
-                                        </div>
-                                        <div class="rating-list-center">
-                                            <div class="progress">
-                                                <div style="width: 23%" aria-valuemax="5" aria-valuemin="0"
-                                                    aria-valuenow="5" role="progressbar"
-                                                    class="progress-bar bg-primary">
-                                                    <span class="sr-only">80% Complete (danger)</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="text-black rating-list-right">23%</div>
-                                    </div>
-                                    <div class="rating-list">
-                                        <div class="text-black rating-list-left">
-                                            3 Star
-                                        </div>
-                                        <div class="rating-list-center">
-                                            <div class="progress">
-                                                <div style="width: 11%" aria-valuemax="5" aria-valuemin="0"
-                                                    aria-valuenow="5" role="progressbar"
-                                                    class="progress-bar bg-primary">
-                                                    <span class="sr-only">80% Complete (danger)</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="text-black rating-list-right">11%</div>
-                                    </div>
-                                    <div class="rating-list">
-                                        <div class="text-black rating-list-left">
-                                            2 Star
-                                        </div>
-                                        <div class="rating-list-center">
-                                            <div class="progress">
-                                                <div style="width: 2%" aria-valuemax="5" aria-valuemin="0"
-                                                    aria-valuenow="5" role="progressbar"
-                                                    class="progress-bar bg-primary">
-                                                    <span class="sr-only">80% Complete (danger)</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="text-black rating-list-right">02%</div>
-                                    </div>
+                                    @endforeach
+
+
+
                                 </div>
+
+
                                 <div class="mt-3 mb-3 text-center graph-star-rating-footer">
                                     <button type="button" class="btn btn-outline-primary btn-sm">Rate and
                                         Review</button>
@@ -549,13 +515,13 @@
                                                         data-id="{{ $review->id }}"
                                                         data-user_id="{{ $review->user->id }}"
                                                         data-client_id="{{ $review->client->id }}"> <i
-                                                            class="icofont-like">{{ $likeCount }}</i>
+                                                            class="icofont-like">{{ number_format($likeCount) }}</i>
                                                     </button>
                                                     <button class="btn btn-outline-secondary btn-sm left dislike"
                                                         data-id="{{ $review->id }}"
                                                         data-user_id="{{ $userData->id }}"
                                                         data-client_id="{{ $review->client_id }}"> <i
-                                                            class="icofont-dlike">{{ $dislikeCount }}</i>
+                                                            class="icofont-dlike">{{ number_format($dislikeCount) }}</i>
                                                     </button>
                                                 </div>
                                             </div>
