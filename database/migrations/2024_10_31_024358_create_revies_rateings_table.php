@@ -11,15 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('reviews', function (Blueprint $table) {
+        Schema::create('revies_rateings', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('client_id')->unsigned();
-            $table->foreign('client_id')->references('id')->on('clients')->onDelete('cascade');
+            $table->foreignId('review_id')->constrained()->onDelete('cascade');
             $table->unsignedBigInteger('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->integer('status')->default(0); 
-            $table->integer('rating')->default(0); 
-            $table->text('review');
+            $table->integer('positive')->default(0);
+            $table->integer('negative')->default(0);
             $table->timestamps();
         });
     }
@@ -29,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('reviews');
+        Schema::dropIfExists('revies_rateings');
     }
 };

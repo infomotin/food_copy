@@ -383,8 +383,11 @@
                                 </form>
                             </div>
                         </div>
+
+                        {{-- Review  --}}
                         <div class="tab-pane fade" id="pills-reviews" role="tabpanel"
                             aria-labelledby="pills-reviews-tab">
+
                             <div id="ratings-and-reviews"
                                 class="clearfix p-4 mb-4 bg-white rounded shadow-sm restaurant-detailed-star-rating">
                                 <span class="float-right star-rating">
@@ -396,6 +399,7 @@
                                 </span>
                                 <h5 class="pt-1 mb-0">Rate this Place</h5>
                             </div>
+
                             <div class="clearfix p-4 mb-4 bg-white rounded shadow-sm graph-star-rating">
                                 <h5 class="mb-4 ">Ratings and Reviews</h5>
                                 <div class="graph-star-rating-header">
@@ -476,47 +480,87 @@
                                         Review</button>
                                 </div>
                             </div>
+
                             <div class="p-4 mb-4 bg-white rounded shadow-sm restaurant-detailed-ratings-and-reviews">
                                 <a href="#" class="float-right btn btn-outline-primary btn-sm">Top Rated</a>
                                 <h5 class="mb-1">All Ratings and Reviews</h5>
-
+                                <style>
+                                    .icofont-ui-rating {
+                                        color: #cccc;
+                                    }
+                                    .icofont-ui-rating.active {
+                                        color: #dd646e;
+                                    }
+                                </style>
                                 <hr>
-                                <div class="pt-4 pb-4 reviews-members">
-                                    <div class="media">
-                                        <a href="#"><img alt="Generic placeholder image"
-                                                src="{{ asset('frontend/img/user/6.png') }}"
-                                                class="mr-3 rounded-pill"></a>
-                                        <div class="media-body">
-                                            <div class="reviews-members-header">
-                                                <span class="float-right star-rating">
-                                                    <a href="#"><i class="icofont-ui-rating active"></i></a>
-                                                    <a href="#"><i class="icofont-ui-rating active"></i></a>
-                                                    <a href="#"><i class="icofont-ui-rating active"></i></a>
-                                                    <a href="#"><i class="icofont-ui-rating active"></i></a>
-                                                    <a href="#"><i class="icofont-ui-rating"></i></a>
-                                                </span>
-                                                <h6 class="mb-1"><a class="text-black" href="#">Gurdeep
-                                                        Singh</a></h6>
-                                                <p class="text-gray">Tue, 20 Mar 2020</p>
-                                            </div>
-                                            <div class="reviews-members-body">
-                                                <p>It is a long established fact that a reader will be distracted by the
-                                                    readable content of a page when looking at its layout. The point of
-                                                    using Lorem Ipsum is that it has a more-or-less normal distribution
-                                                    of letters, as opposed to using 'Content here, content here', making
-                                                    it look like readable English.</p>
-                                            </div>
-                                            <div class="reviews-members-footer">
-                                                <a class="total-like" href="#"><i
-                                                        class="icofont-thumbs-up"></i> 88K</a>
-                                                <a class="total-like" href="#"><i
-                                                        class="icofont-thumbs-down"></i>
-                                                    1K</a>
+                                @php
+                                    $reviews = \App\Models\Review::where('client_id', $restaurant->id)
+                                        ->where('status', 1)
+                                        ->get();
+                                @endphp
+                                @foreach ($reviews as $key => $review)
+                                    @php
+                                        $userData = App\Models\User::where('id', $review->user_id)->first();
+                                        $likeCount = App\Models\ReviesRateing::where('id', $review->id)
+                                            ->where('positive', 1)
+                                            ->count('positive');
+                                        $dislikeCount = App\Models\ReviesRateing::where('id', $review->id)
+                                            ->where('negative', 1)
+                                            ->count('negative');
+                                    @endphp
 
+                                    {{-- common part    --}}
+                                    <div class="pt-4 pb-4 reviews-members">
+                                        <div class="media">
+                                            <a href="#"><img alt="Generic placeholder image"
+                                                    src="{{ asset('upload/users/' . $review['user']['profile_photo_path']) }}"
+                                                    class="mr-3 rounded-pill"></a>
+                                            <div class="media-body">
+                                                <div class="reviews-members-header">
+                                                    <span class="float-right star-rating">
+                                                        @php
+                                                            $rating = $review->rating;
+                                                        @endphp
+                                                        @for ($i = 0; $i <= 5; $i++)
+                                                            @if ($i <= $rating)
+                                                                <a href="#"><i
+                                                                        class="icofont-ui-rating active"></i></a>
+                                                            @else
+                                                                <a href="#"><i
+                                                                        class="icofont-ui-rating"></i></a>
+                                                            @endif
+                                                        @endfor
+
+
+                                                    </span>
+                                                    <h6 class="mb-1"><a class="text-black"
+                                                            href="#">{{ $review['user']['name'] }}</a></h6>
+                                                    <p class="text-gray">
+                                                        {{ \Carbon\Carbon::parse($review->created_at)->diffForHumans() }}
+                                                    </p>
+                                                </div>
+                                                <div class="reviews-members-body">
+                                                    <p>{{ Str::limit($review->review, 100, '...') }}</p>
+                                                </div>
+                                                <div class="reviews-members-footer">
+
+                                                    <button class="btn btn-outline-secondary btn-sm left like"
+                                                        data-id="{{ $review->id }}"
+                                                        data-user_id="{{ $review->user->id }}"
+                                                        data-client_id="{{ $review->client->id }}"> <i
+                                                            class="icofont-like">{{ $likeCount }}</i>
+                                                    </button>
+                                                    <button class="btn btn-outline-secondary btn-sm left dislike"
+                                                        data-id="{{ $review->id }}"
+                                                        data-user_id="{{ $userData->id }}"
+                                                        data-client_id="{{ $review->client_id }}"> <i
+                                                            class="icofont-dlike">{{ $dislikeCount }}</i>
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                @endforeach
                                 <hr>
                                 <a class="mt-4 text-center w-100 d-block font-weight-bold" href="#">See All
                                     Reviews</a>
@@ -528,26 +572,28 @@
                                             class="float-right btn btn-outline-primary btn-sm"
                                             href="{{ route('login') }}">Login</a></h5>
                                 @else
-
                                     {{-- style difine for ratting icone  --}}
                                     <style>
                                         .star-rating label {
-                                           display: inline-flex;
-                                           margin-right: 5px;
-                                           cursor: pointer;
+                                            display: inline-flex;
+                                            margin-right: 5px;
+                                            cursor: pointer;
                                         }
-                                        .star-rating input[type="radio"]{
-                                           display: none;
+
+                                        .star-rating input[type="radio"] {
+                                            display: none;
                                         }
-                                        .star-rating input[type="radio"]:checked + .star-icon{
-                                           color: #dd646e;
+
+                                        .star-rating input[type="radio"]:checked+.star-icon {
+                                            color: #dd646e;
                                         }
-                                       </style> 
+                                    </style>
 
                                     <h5 class="mb-4">Leave Comment</h5>
                                     <p class="mb-2">Rate the Place</p>
                                     <form method="post" action="{{ route('comment.store') }}">
                                         @csrf
+                                        <input type="hidden" name="client_id" value="{{ $restaurant->id }}">
                                         <div class="mb-4">
                                             <span class="star-rating">
                                                 <label for="rating-1">
@@ -590,13 +636,13 @@
                                 @endguest
 
                             </div>
-
-
-
                         </div>
+                        {{-- end review   --}}
+
                     </div>
                 </div>
             </div>
+            {{-- discount copun and cart  --}}
             <div class="col-md-4">
                 <div class="pb-2">
                     <div
@@ -742,6 +788,7 @@
 
                 </div>
             </div>
+
         </div>
     </div>
 </section>
@@ -770,6 +817,39 @@
             console.log(newQuantity);
             // updateQuantity(id, newQuantity);
         });
+        //increment like 
+        $('.like').on('click', function() {
+            // alart
+            alert('increment review like');
+            var id = $(this).data('id');
+            var user_id = $(this).data('user_id');
+            var client_id = $(this).data('client_id');
+            var like = 1;
+            var dislike = 0;
+            console.log(id, user_id, client_id, like, dislike);
+            updateLike(id, user_id, client_id, like, dislike);
+        });
+        //decrement like
+        $('.dislike').on('click', function() {
+            alert('increment review dislike');
+            var id = $(this).data('id');
+            var user_id = $(this).data('user_id');
+            var client_id = $(this).data('client_id');
+            var like = 0;
+            var dislike = 1;
+            console.log(id, user_id, client_id, like, dislike);
+            updateLike(id, user_id, client_id, like, dislike);
+        });
+        //remove
+        $('.inc').on('click', function() {
+            // alart
+            alert('increment');
+            var id = $(this).data('id');
+            var input = $(this).closest('span').find('input');
+            var newQuantity = parseInt(input.val()) + 1;
+            console.log(newQuantity);
+            updateQuantity(id, newQuantity);
+        })
         //remove
         $('.remove').on('click', function() {
             var id = $(this).data('id');
@@ -800,6 +880,26 @@
                 data: {
                     _token: '{{ csrf_token() }}',
                     id: id
+                },
+                success: function(response) {
+                    console.log(response);
+                    location.reload();
+                }
+            });
+        }
+        //updateLike
+
+        function updateLike(id, user_id, client_id, like, dislike) {
+            $.ajax({
+                type: 'POST',
+                url: '{{ route('update.like') }}',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    id: id,
+                    user_id: user_id,
+                    client_id: client_id,
+                    like: like,
+                    dislike: dislike
                 },
                 success: function(response) {
                     console.log(response);

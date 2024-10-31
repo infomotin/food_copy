@@ -191,9 +191,7 @@ Route::middleware('auth')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::controller(ReviewsController::class)->group(function () {
         Route::post('store/review', 'CommentStore')->name('comment.store');
-       
-        
-
+        Route::post('store/review/submit', 'UpdateLike')->name('update.like');
     });
 });
 
