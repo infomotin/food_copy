@@ -26,12 +26,19 @@
             $coupons =
             App\Models\Coupon::where('client_id',$restaurants->id)->where('coupon_status',1)->orderBy('id')->first();
             @endphp
+            @php
+                $reviews_count = App\Models\Review::where('client_id', $restaurants->id)
+                                                            ->where('status', 1)->latest()
+                                                            ->count();
+                $reviews_average = App\Models\Review::where('client_id', $restaurants->id)->where('status', 1)->avg('rating');
+                // $average_rating = round(($reviews_count > 0 ? $reviews_sum / $reviews_count : 0), 1);
+            @endphp
             <div class="col-md-3">
                 <div class="item pd-3">
                     <div class="overflow-hidden bg-white rounded shadow-sm list-card h-100 position-relative">
                         <div class="list-card-image">
                             <div class="star position-absolute"><span class="badge badge-success"><i
-                                        class="icofont-star"></i> 3.1 (300+)</span></div>
+                                        class="icofont-star"></i> {{ number_format($reviews_average, 1) }} ({{ $reviews_count }})</span></div>
                             <div class="favourite-heart text-danger position-absolute">
                                 <a aria-label="Add To Wishlist" onclick="addWishlist({{$restaurants->id}})"><i
                                         class="icofont-heart">

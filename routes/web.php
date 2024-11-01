@@ -14,10 +14,15 @@ use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\OrderController;
 use App\Http\Controllers\Frontend\ReviewsController;
+use App\Http\Controllers\Frontend\FilterController;
 
 
 
 
+//Frontend with out auth route
+Route::controller(FilterController::class)->group(function () {
+    Route::get('/list/restaurants', 'ListRestaurant')->name('list.restaurants');
+});
 
 Route::get('/', function () {
     return view('welcome');

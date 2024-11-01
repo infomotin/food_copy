@@ -121,6 +121,9 @@
         </small>
     </div>
 </footer>
+
+
+
 <!-- jQuery -->
 <script src="{{asset('frontend/vendor/jquery/jquery-3.3.1.slim.min.js')}}"></script>
 <!-- Bootstrap core JavaScript-->

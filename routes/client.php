@@ -12,6 +12,7 @@ use App\Http\Controllers\Client\CouponController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\OrderController;
 use App\Http\Controllers\Admin\ManageOrderController;
+use App\Http\Controllers\Frontend\ReviewsController;
 
 
 
@@ -72,6 +73,10 @@ Route::middleware(['clientstatus', 'client'],)->group(function () {
         Route::get('client/order/processing/{id}', 'ClientOrderProcess')->name('client.order.processing');
         Route::get('client/order/delivered/{id}', 'ClientOrderDelivered')->name('client.order.deliverd');
         Route::get('client/order/reject/{id}', 'ClientOrderReject')->name('client.order.reject');
+    });
+    Route::controller(ReviewsController::class)->group(function () {
+        Route::get('client/review/all', 'ClientReviewAll')->name('client.review.all');
+        Route::get('ClientchangeReviewStatus', 'ClientchangeReviewStatus');
     });
 });
 

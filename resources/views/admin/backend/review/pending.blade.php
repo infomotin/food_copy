@@ -32,6 +32,7 @@
                                     <th>SL</th>
                                     <th>Date </th>
                                     <th>Review</th>
+                                    <th>Ratting</th>
                                     <th>Restarunts</th>
                                     <th>User Name</th>
                                     <th>Status</th>
@@ -44,6 +45,11 @@
                                     <td>{{$key+1}}</td>
                                     <td>{{Carbon\Carbon::parse($item->created_at)->format('d-m-Y')}}</td>
                                     <td>{{Str::limit($item->review, 10)}} {{strlen($item->review) > 10 ? '...' : ''}} </td>
+                                    <td>
+                                        @for ($i = 1; $i <= 5; $i++)
+                                        <i class="bx bxs-star {{$i <= $item->ratting ? 'text-warning' : 'text-secondary'}}"></i>
+                                        @endfor
+                                    </td>
                                     <td>{{$item['client']['name']}}</td>
                                     <td>{{$item['user']['name']}}</td>
                                     <td>

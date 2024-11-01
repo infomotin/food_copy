@@ -119,4 +119,30 @@ class ReviewsController extends Controller
         );
         return redirect()->back()->with($notification);
     }
+    //ClientReviewAll
+    public function ClientReviewAll()
+    {
+        $user = Auth::guard('client')->user()->id;
+        $reviews = Review::where('user_id', $user)->get();
+        return view('client.backend.review.all', compact('reviews'));
+    }
+    //ClientchangeReviewStatus
+    public function ClientchangeReviewStatus(Request $request)
+    {
+        // dd($request->id, $request->status);
+        $reviews = Review::find($request->id);
+        if($request->status == 1){
+            $reviews->status = 0;
+        }else{
+            $reviews->status = 1;
+        }
+        // dd($reviews->status);
+        $reviews->status = $request->status;
+        $reviews->save();
+        $notification = array(
+            'message' => 'Review Status Updated Successfully',
+            'alert-type' => 'success'
+        );
+        return redirect()->back()->with($notification);
+    }
 }

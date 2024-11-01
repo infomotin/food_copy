@@ -36,8 +36,9 @@
     <nav class="shadow-sm navbar navbar-expand-lg navbar-light bg-light osahan-nav">
         <div class="container">
             <a class="navbar-brand" href="{{ url('/') }}"><img alt="logo"
-                    src="{{ asset('frontend/img/logo.png') }}"></a>
-            <p>back</p>
+                    src="{{ asset('frontend/img/favicon.png') }}">Dazzle
+                    Demo</a>
+            <p>back</p> 
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
                 aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -57,7 +58,7 @@
                             Restaurants
                         </a>
                         <div class="border-0 shadow-sm dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="listing.html">Listing</a>
+                            <a class="dropdown-item" href="{{ route('list.restaurants') }}">Listing</a>
                             <a class="dropdown-item" href="detail.html">Detail + Cart</a>
                             <a class="dropdown-item" href="checkout.html">Checkout</a>
                         </div>

@@ -27,7 +27,7 @@
                         Restaurants
                     </a>
                     <div class="border-0 shadow-sm dropdown-menu dropdown-menu-right">
-                        <a class="dropdown-item" href="listing.html">Listing</a>
+                        <a class="dropdown-item" href="{{ route('list.restaurants') }}">Listing</a>
                         <a class="dropdown-item" href="detail.html">Detail + Cart</a>
                         <a class="dropdown-item" href="checkout.html">Checkout</a>
                     </div>
