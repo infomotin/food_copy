@@ -31,4 +31,26 @@ class FilterController extends Controller
         $products = Product::all();
         return view('frontend.list_restaurant', compact('products'));
     }
+    //FilterpProducts
+    public function FilterpProducts(Request $request)
+    {
+        // dd($request->all());
+        $categoryId = $request->input('categorys');
+        $cityId = $request->input('citys');
+        $menuId = $request->input('menus');
+        $products = Product::query();
+        // dd($categoryId, $cityId, $menuId);
+        if ($categoryId) {
+            $products->whereIn('category_id', $categoryId);
+        }
+        if ($cityId) {
+            $products->whereIn('city_id', $cityId);
+        }
+        if ($menuId) {
+            $products->whereIn('menu_id', $menuId);
+        }
+        $product = $products->get();
+        dd($product);
+        return view('frontend.list_restaurant', compact('product'));
+    }
 }

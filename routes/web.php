@@ -22,6 +22,7 @@ use App\Http\Controllers\Frontend\FilterController;
 //Frontend with out auth route
 Route::controller(FilterController::class)->group(function () {
     Route::get('/list/restaurants', 'ListRestaurant')->name('list.restaurants');
+    Route::get('/list/filter/products', 'FilterpProducts')->name('filter.products');
 });
 
 Route::get('/', function () {
