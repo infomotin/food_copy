@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\CityController;
 use App\Http\Controllers\Admin\ManageController;
 use App\Http\Controllers\Admin\ManageOrderController;
 use App\Http\Controllers\Admin\ReportController;
+use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\OrderController;
@@ -168,11 +169,17 @@ Route::middleware('admin')->group(function () {
         Route::get('admin/delete/review/{id}', 'AdminDeleteReview')->name('admin.review.delete');
         Route::get('AdminchangeReviewStatus','AdminchangeReviewStatus');
     });
+    Route::controller(RoleController::class)->group(function () {
+        Route::get('all/admin/permition', 'AllPermition')->name('all.permition');
+        Route::get('add/admin/permition', 'AddPermition')->name('admin.add.permition');
+        Route::post('store/admin/permition/submit', 'AddPermitionStore')->name('admin.addPermission.store');
+
+    });
 });
 //Manage Report Route Admin 
 Route::middleware('admin')->group(function () {
     Route::controller(ReportController::class)->group(function () {
-        Route::get('all/admin/report', 'AdminAllReport')->name('admin.all.report');
+    Route::get('all/admin/report', 'AdminAllReport')->name('admin.all.report');
        
         
     });

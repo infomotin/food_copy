@@ -13,12 +13,12 @@
         <div class="row">
             <div class="col-12">
                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                    <h4 class="mb-sm-0 font-size-18">All Restarunts</h4>
+                    <h4 class="mb-sm-0 font-size-18">All Permitons</h4>
 
                     <div class="page-title-right">
                         <ol class="m-0 breadcrumb">
-                            <a href="{{route('admin.add.product')}}"
-                                class="btn btn-primary waves-effect waves-light">Add Restarunt</a>
+                            <a href="{{route('admin.add.permition')}}"
+                                class="btn btn-primary waves-effect waves-light">Add Permitons</a>
                         </ol>
                     </div>
 
@@ -35,31 +35,24 @@
                             <thead>
                                 <tr>
                                     <th>SL</th>
-                                    <th>Image </th>
-                                    <th>Restarunts</th>
-                                    <th>Email</th>
-                                    <th>Phone</th>
-                                    <td>Address</td>
-                                    <td>DOB</td>
+                                    <th>Name </th>
+                                    <th>Guard Name</th>
+                                    <th>Group Name</th>
                                     <th>Status</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($restaurants as $key => $item)
+                                @foreach ($permitions as $key => $item)
                                 <tr>
                                     <td>{{$key+1}}</td>
-                                    <td><img src="{{(!empty($item->profile_photo_path))?url('upload/clients/'.$item->profile_photo_path):url('upload/no_image.jpg')}}"
-                                            height="40" width="40" alt=""></td>
                                     <td>{{$item->name}}</td>
-                                    <td>{{$item->email}}</td>
-                                    <td>{{$item->phone}}</td>
-                                    <td>{{$item->address}}</td>
-                                    <td>{{ Carbon\Carbon::parse($item->birth_date)->format('d-m-Y') ? $item->birth_date : 'Data not found'}}</td>
+                                    <td>{{$item->guard_name}}</td>
+                                    <td>{{$item->group_name}}</td>
                                     <td>
                                         <input type="checkbox" class="toggle-class" data-onstyle="success"
                                             data-offstyle="danger" data-toggle="toggle" data-on="Active"
-                                            data-off="Inactive" data-id="{{$item->id}}" {{$item->status == 'active' ?
+                                            data-off="Inactive" data-id="{{$item->id}}" {{$item->status == '1' ?
                                         'checked' : ''}} id="flexCheckDefault">
                                     </td>
                                     <td>

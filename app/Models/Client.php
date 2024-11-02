@@ -6,10 +6,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-
+use Spatie\Permission\Traits\HasRoles;
 class Client extends Authenticatable
 {
-    use HasFactory,Notifiable;
+    use HasFactory,Notifiable,HasRoles;
     /**
      * The attributes that are mass assignable.
      *
@@ -22,6 +22,7 @@ class Client extends Authenticatable
     // ];
     protected $guard = 'client';
     protected $guarded = [];
+    protected $guard_name = 'client';
     /**
      * The attributes that should be hidden for serialization.
      *

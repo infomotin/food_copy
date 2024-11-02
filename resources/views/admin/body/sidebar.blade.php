@@ -231,7 +231,19 @@
 
                     </ul>
                 </li>
+                {{-- Role Permition  --}}
 
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow">
+                        <i data-feather="users"></i>
+                        <span data-key="t-authentication">Role </span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="{{ route('all.permition') }}" data-key="t-login">Add Role</a></li>
+                        <li><a href="{{ route('admin.approved.review') }}" data-key="t-register">Show All Role</a></li>
+
+                    </ul>
+                </li>
 
                 <li>
                     <a href="javascript: void(0);" class="has-arrow">
