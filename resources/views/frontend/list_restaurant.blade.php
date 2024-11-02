@@ -278,6 +278,7 @@
                     </div>
                 </div>
                 <div class="row" id="product-list">
+                    
                     @foreach ($products as $key => $item)
                         <div class="pb-2 mb-4 col-md-4 col-sm-6">
                             <div class="overflow-hidden bg-white rounded shadow-sm list-card h-100 position-relative">
@@ -345,7 +346,7 @@
                 cities: [],
             };
 
-            $('.filter-checkboox:checkbox').each(function() {
+            $('.filter-checkboox:checked').each(function() {
                
                     var type = $(this).data('type');
                     console.log(type);
@@ -375,7 +376,7 @@
                 data:filters,
                 success:function(respons) {
                     console.log(respons);
-                    // $('#product-list').html(data);
+                    $('#product-list').html(respons);
                 }
             })
         })
