@@ -129,4 +129,87 @@ class OrderController extends Controller
 
     //     return view('admin.backend.order.index',compact('orders'));
     // }
+    //StripeOrder
+    public function StripeOrder(Request $request)
+    {
+    
+        $cart = session()->get('cart', []);
+        $totalAmount = 0;
+
+        foreach ($cart as $key => $item) {
+            $totalAmount += $item['price'] * $item['quantity'];
+        }
+        //if session have coupon
+        if (Session::has('coupon')) {
+            $totalAmount -= Session::get('coupon')['discount_amount'];
+        }else{
+            $totalAmount;
+        }
+        // Stripe Set Api key
+
+        \Stripe\Stripe::setApiKey('sk_test_51QGjvtHJTt4cpFqff0t629NRGbJeZmh3yrEurxFAaXwUlFHxCa44qks4Hl8OZkUysr1CdflxQMcil8FgVQcyDnW700UsAb8OPv');
+        $token = $_POST['stripeToken'];
+        $charge = \Stripe\Charge::create([
+            'amount' => $totalAmount * 100,
+            'currency' => 'usd',
+            'description' => 'Payment',
+            'source' => $token,
+            'metadata' => ['order_id' => 3487],
+        ]);
+        //Auto Order Number Generate using 
+        $order_id = Order::insertGetId([
+            'user_id' => Auth::id(),
+            'first_name' => $request->name,
+            'phone' => $request->phone,
+            'email' => $request->email,
+            'address' => $request->address,
+            'postcode' => $request->post_code,
+            'order_note' => $request->notes,
+            'amount' => $totalAmount,
+            'total_amount' => $totalAmount,
+            'payment_status' => 'pending',
+            'payment_type' => $charge->payment_method,
+            'payment_method' => 'Strpe',
+            'currency' => $charge->currency,
+            'transaction_id' => $charge->balance_transaction,
+            'created_at' => Carbon::now(),
+            'order_process_date' => Carbon::now(),
+            'invoice_no' => 'INV-'.Carbon::now()->format('Y').mt_rand(10000000,99999999),
+            'order_no' => $charge->metadata->order_id,
+            'order_date' => Carbon::now(),
+            'order_time' => Carbon::now(),
+            'order_month' => Carbon::now()->format('F'),
+            'order_year' => Carbon::now()->format('Y'),
+            // 'order_day' => Carbon::now()->format('d'),
+            'order_status' => 'pending',
+
+        ]);
+        // dd($order_id);
+        //insert order item
+        foreach ($cart as $key => $item) {
+            $price = $item['price'] * $item['quantity'];
+            OrderItem::insert([
+                'order_id' => $order_id,
+                'product_id' => $item['id'],
+                'quantity' => $item['quantity'],
+                'price' => $item['price'],
+                'total_price' => $price,
+                'client_id' => $item['client_id'],
+                'created_at' => Carbon::now(),
+            ]);
+        }
+        if(Session::has('cart')){
+            Session::forget('cart');
+        }
+        if(Session::has('coupon')){
+            Session::forget('coupon');
+        }
+        
+        //notification
+        $notification = array(
+            'message' => 'Your Order Placed Successfully',
+            'alert-type' => 'success'
+        );
+        return view('frontend.checkout.success')->with($notification);
+    }
 }

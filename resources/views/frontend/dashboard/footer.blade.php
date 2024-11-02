@@ -123,7 +123,7 @@
 </footer>
 
 
-
+<script src="https://js.stripe.com/v3/"></script> 
 <!-- jQuery -->
 <script src="{{asset('frontend/vendor/jquery/jquery-3.3.1.slim.min.js')}}"></script>
 <!-- Bootstrap core JavaScript-->

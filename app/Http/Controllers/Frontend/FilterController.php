@@ -16,6 +16,7 @@ use App\Models\Client\Gllery;
 use App\Models\Client\Menu;
 use App\Models\Wishlist;
 use App\Models\Coupon;
+use Illuminate\Support\Facades\Log;
 
 
 class FilterController extends Controller
@@ -30,5 +31,28 @@ class FilterController extends Controller
         // $product = Product::where('status', 1)->where('name', 'like', '%' . $search . '%')->get();
         $products = Product::all();
         return view('frontend.list_restaurant', compact('products'));
+    }
+    //FilterpProducts
+    public function FilterpProducts(Request $request)
+    {
+        // dd($request->all());
+        Log::info($request->all());
+        $categoryId = $request->input('categorys');
+        $cityId = $request->input('citys');
+        $menuId = $request->input('menus');
+        $products = Product::query();
+        // dd($categoryId, $cityId, $menuId);
+        if ($categoryId) {
+            $products->whereIn('category_id', $categoryId);
+        }
+        if ($cityId) {
+            $products->whereIn('city_id', $cityId);
+        }
+        if ($menuId) {
+            $products->whereIn('menu_id', $menuId);
+        }
+        $products = $products->get();
+        // dd($product);
+        return view('frontend.product_list', compact('products'))->render();
     }
 }

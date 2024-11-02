@@ -22,6 +22,7 @@ use App\Http\Controllers\Frontend\FilterController;
 //Frontend with out auth route
 Route::controller(FilterController::class)->group(function () {
     Route::get('/list/restaurants', 'ListRestaurant')->name('list.restaurants');
+    Route::get('/list/filter/products', 'FilterpProducts')->name('filter.products');
 });
 
 Route::get('/', function () {
@@ -193,6 +194,7 @@ Route::controller(CartController::class)->group(function () {
 Route::middleware('auth')->group(function () {
     Route::controller(OrderController::class)->group(function () {
         Route::post('cash-order', 'CashOrder')->name('cash.order');
+        Route::post('stripe-order', 'StripeOrder')->name('stripe.order');
         // Route::get('checkout-success', 'CashOrderSubmit')->name('frontend.checkout.success');
         
 

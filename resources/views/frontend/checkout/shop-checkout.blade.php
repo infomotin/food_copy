@@ -1,5 +1,33 @@
 @include('frontend.dashboard.header')
+<style>
+    /**
+    * The CSS shown here will not be introduced in the Quickstart guide, but shows
+    * how you can use CSS to style your Element's container.
+    */
+    .StripeElement {
+        box-sizing: border-box;
+        height: 40px;
+        padding: 10px 12px;
+        border: 1px solid transparent;
+        border-radius: 4px;
+        background-color: white;
+        box-shadow: 0 1px 3px 0 #e6ebf1;
+        -webkit-transition: box-shadow 150ms ease;
+        transition: box-shadow 150ms ease;
+    }
 
+    .StripeElement--focus {
+        box-shadow: 0 1px 3px 0 #cfd7df;
+    }
+
+    .StripeElement--invalid {
+        border-color: #fa755a;
+    }
+
+    .StripeElement--webkit-autofill {
+        background-color: #fefde5 !important;
+    }
+</style>
 {{-- modal --}}
 <div class="modal fade" id="add-address-modal" tabindex="-1" role="dialog" aria-labelledby="add-address" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -259,10 +287,12 @@
                                         <hr>
                                         <form action="{{ route('cash.order') }}" method="POST">
                                             @csrf
-                                            <input type="hidden" name="name"value="{{ Auth::user()->name}}">
+                                            <input type="hidden" name="name"value="{{ Auth::user()->name }}">
                                             <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
-                                            <input type="hidden" name="user_email" value="{{ Auth::user()->email }}">
-                                            <input type="hidden" name="user_email" value="{{ Auth::user()->address }}">
+                                            <input type="hidden" name="user_email"
+                                                value="{{ Auth::user()->email }}">
+                                            <input type="hidden" name="user_email"
+                                                value="{{ Auth::user()->address }}">
                                             <button type="submit" class="btn btn-success btn-block btn-lg">PAY
                                                 @if (Session::has('coupon'))
                                                     {{ Session::get('coupon')['total_amount'] }}
@@ -287,58 +317,35 @@
                                                     class="icofont-discover-alt"></i> <i class="icofont-jcb-alt"></i>
                                             </span>
                                         </p>
-                                        <form>
-                                            <div class="form-row">
-                                                <div class="form-group col-md-12">
-                                                    <label for="inputPassword4">Card number</label>
-                                                    <div class="input-group">
-                                                        <input type="number" class="form-control"
-                                                            placeholder="Card number">
-                                                        <div class="input-group-append">
-                                                            <button class="btn btn-outline-secondary" type="button"
-                                                                id="button-addon2"><i
-                                                                    class="icofont-card"></i></button>
-                                                        </div>
-                                                    </div>
+                                        <hr>
+                                        {{-- stripe payment method --}}
+                                        <form action="{{ route('stripe.order') }}" method="POST" id="payment-form">
+                                            @csrf
+                                            <label for="card-element"> 
+
+                                            </label>
+                                            <input type="hidden" name="name"value="{{ Auth::user()->name }}">
+                                            <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
+                                            <input type="hidden" name="user_email"
+                                                value="{{ Auth::user()->email }}">
+                                            <input type="hidden" name="user_email"
+                                                value="{{ Auth::user()->address }}">
+                                            <div>
+                                                <div id="card-element">
+
                                                 </div>
-                                                <div class="form-group col-md-8">
-                                                    <label>Valid through(MM/YY)
-                                                    </label>
-                                                    <input type="number" class="form-control"
-                                                        placeholder="Enter Valid through(MM/YY)">
-                                                </div>
-                                                <div class="form-group col-md-4">
-                                                    <label>CVV
-                                                    </label>
-                                                    <input type="number" class="form-control"
-                                                        placeholder="Enter CVV Number">
-                                                </div>
-                                                <div class="form-group col-md-12">
-                                                    <label>Name on card
-                                                    </label>
-                                                    <input type="text" class="form-control"
-                                                        placeholder="Enter Card number">
-                                                </div>
-                                                <div class="form-group col-md-12">
-                                                    <div class="custom-control custom-checkbox">
-                                                        <input type="checkbox" class="custom-control-input"
-                                                            id="customCheck1">
-                                                        <label class="custom-control-label"
-                                                            for="customCheck1">Securely
-                                                            save this card for a faster checkout next time.</label>
-                                                    </div>
-                                                </div>
-                                                <div class="mb-0 form-group col-md-12">
-                                                    <a href="thanks.html" class="btn btn-success btn-block btn-lg">PAY
-                                                        @if (Session::has('coupon'))
-                                                            {{ Session::get('coupon')['total_amount'] }}
-                                                        @else
-                                                            {{ $total }}
-                                                        @endif
-                                                        <i class="icofont-long-arrow-right"></i>
-                                                    </a>
+                                                <div id="card-errors" role="alert">
+
                                                 </div>
                                             </div>
+                                            <button type="submit" class="btn btn-success btn-block btn-lg">PAY
+                                                @if (Session::has('coupon'))
+                                                    {{ Session::get('coupon')['total_amount'] }}
+                                                @else
+                                                    {{ $total }}
+                                                @endif
+                                                <i class="icofont-long-arrow-right"></i>
+                                            </button>
                                         </form>
                                     </div>
 
@@ -621,7 +628,8 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-12">
-                <h5 class="m-0">Operate food store or restaurants? <a href="{{ route('client.register') }}">Work With Us</a></h5>
+                <h5 class="m-0">Operate food store or restaurants? <a href="{{ route('client.register') }}">Work
+                        With Us</a></h5>
             </div>
         </div>
     </div>
@@ -746,6 +754,72 @@
     </div>
 </section>
 
-
+<script type="text/javascript">
+    // Create a Stripe client.
+    var stripe = Stripe(
+        'pk_test_51QGjvtHJTt4cpFqfVoM3JP03oOI7ttc3lR8hCUWkR4gsphlbEuztF2KfalY2yJrGvcSx6vy70VuelUHI5mMTS9vb00vsBTjhrR'
+        );
+    // Create an instance of Elements.
+    var elements = stripe.elements();
+    // Custom styling can be passed to options when creating an Element.
+    // (Note that this demo uses a wider set of styles than the guide below.)
+    var style = {
+        base: {
+            color: '#32325d',
+            fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+            fontSmoothing: 'antialiased',
+            fontSize: '16px',
+            '::placeholder': {
+                color: '#aab7c4'
+            }
+        },
+        invalid: {
+            color: '#fa755a',
+            iconColor: '#fa755a'
+        }
+    };
+    // Create an instance of the card Element.
+    var card = elements.create('card', {
+        style: style
+    });
+    // Add an instance of the card Element into the `card-element` <div>.
+    card.mount('#card-element');
+    // Handle real-time validation errors from the card Element.
+    card.on('change', function(event) {
+        var displayError = document.getElementById('card-errors');
+        if (event.error) {
+            displayError.textContent = event.error.message;
+        } else {
+            displayError.textContent = '';
+        }
+    });
+    // Handle form submission.
+    var form = document.getElementById('payment-form');
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
+        stripe.createToken(card).then(function(result) {
+            if (result.error) {
+                // Inform the user if there was an error.
+                var errorElement = document.getElementById('card-errors');
+                errorElement.textContent = result.error.message;
+            } else {
+                // Send the token to your server.
+                stripeTokenHandler(result.token);
+            }
+        });
+    });
+    // Submit the form with the token ID.
+    function stripeTokenHandler(token) {
+        // Insert the token ID into the form so it gets submitted to the server
+        var form = document.getElementById('payment-form');
+        var hiddenInput = document.createElement('input');
+        hiddenInput.setAttribute('type', 'hidden');
+        hiddenInput.setAttribute('name', 'stripeToken');
+        hiddenInput.setAttribute('value', token.id);
+        form.appendChild(hiddenInput);
+        // Submit the form
+        form.submit();
+    }
+</script>
 
 @include('frontend.dashboard.footer')
