@@ -173,6 +173,14 @@ Route::middleware('admin')->group(function () {
         Route::get('all/admin/permition', 'AllPermition')->name('all.permition');
         Route::get('add/admin/permition', 'AddPermition')->name('admin.add.permition');
         Route::post('store/admin/permition/submit', 'AddPermitionStore')->name('admin.addPermission.store');
+        Route::get('AdminChangeStatus','AdminChangeStatus')->name('AdminChangeStatus');
+        Route::get('edit/admin/permition/{id}', 'EditPermition')->name('admin.edit.permition');
+        Route::post('update/admin/permition/{id}', 'UpdatePermition')->name('admin.addPermission.update');
+        Route::get('delete/admin/permition/{id}', 'DeletePermition')->name('admin.delete.permition');
+        Route::get('add/admin/import', 'AdminAddImport')->name('admin.add.import');
+        Route::post('store/admin/import/submit', 'AdminImportStore')->name('admin.import.store');
+        Route::get('export/admin', 'AdminExport')->name('admin.export');
+        // Route::get('import/admin', 'AdminImport')->name('admin.import');
 
     });
 });

@@ -16,6 +16,7 @@ return Application::configure(basePath: dirname(__DIR__))
                 'admin'=>\App\Http\Middleware\Admin::class,
                 'client'=>\App\Http\Middleware\Client::class,
                 'clientstatus'=>\App\Http\Middleware\ClientStatus::class,
+                'Excel' => Maatwebsite\Excel\Facades\Excel::class,
             ],
 
         );
