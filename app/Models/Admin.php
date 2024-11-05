@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Support\Facades\DB;
 
 class Admin extends Authenticatable
 {
@@ -46,5 +47,14 @@ class Admin extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public static function getPermissionsGroup(){
+        $permition_group = DB::table('permissions')->select('group_name')->groupBy('group_name')->get();
+        return $permition_group;
+    }
+    public static function getPermissionsByGroupName($group_name){
+        $permitions = DB::table('permissions')->select('id','name')->where('group_name',$group_name)->get();
+        return $permitions;
     }
 }

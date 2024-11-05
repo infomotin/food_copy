@@ -11,6 +11,7 @@ use App\Exports\PermitionExport;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\PermitionImport;
+use App\Models\Admin;
 
 class RoleController extends Controller
 {
@@ -97,5 +98,50 @@ class RoleController extends Controller
     //AdminImport
     public function AdminImport(){
         return view('admin.backend.page.permission.import');
+    }
+
+    //AdminAllRole
+    public function AdminAllRole(){
+        $roles = Role::all();
+        return view('admin.backend.page.role.index',compact('roles'));
+    }
+    //AdminAddRole
+    public function AdminAddRole(){
+        return view('admin.backend.page.role.add');
+    }
+    //AdminAddRoleStore
+    public function AdminAddRoleStore(Request $request){
+        $role = Role::create([
+            'name' => $request->name,
+            'guard_name' => 'admin'
+        ]);
+        return redirect()->route('all.role')->with('success','Role Added Successfully');
+    }
+    //AdminEditRole
+    public function AdminEditRole($id){
+        $role = Role::find($id);
+        return view('admin.backend.page.role.edit',compact('role'));
+    }
+    //AdminUpdateRole
+    public function AdminUpdateRole(Request $request,$id){
+        $role = Role::find($id);
+        $role->name = $request->name;
+        $role->save();
+        return redirect()->route('all.role')->with('success','Role Updated Successfully');
+    }
+    //AdminDeleteRole
+    public function AdminDeleteRole($id){
+        $role = Role::find($id);
+        $role->delete();
+        return redirect()->route('all.role')->with('success','Role Deleted Successfully');
+    }
+    //AdminAllRolePermition
+    public function AdminAllRolePermition(){
+        $roles = Role::all();
+        $permitions = Permission::all();
+        $permition_group = Admin::getPermissionsGroup();
+
+        return view('admin.backend.page.role.rolesetup',compact('roles','permitions','permition_group'));
+        
     }
 }
