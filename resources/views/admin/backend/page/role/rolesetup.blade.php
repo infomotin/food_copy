@@ -41,14 +41,14 @@
                                                         </div>
                                                         <div class="col-lg-9">
                                                             @php
-                                                                $permitions = App\Models\Admin::getGroupPermitions($group->group_name);
+                                                                $permitions = App\Models\Admin::getPermissionsByGroupName($group->group_name);
                                                             @endphp
 
                                                             @foreach ($permitions as $permition)
                                                                 <input type="checkbox" class="form-check-input"
-                                                                    id="flexCheckDefault">
+                                                                    id="flexCheckDefault{{ $permition->id }}" name="permitions[]" value="{{ $permition->id }}">
                                                                 <label class="form-check-label"
-                                                                    for="flexCheckDefault">{{ $permition->name }}</label>
+                                                                    for="flexCheckDefault{{ $permition->id }}">{{ $permition->name }}</label>
                                                             @endforeach
                                                         </div>
                                                     </div>
