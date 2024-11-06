@@ -12,6 +12,7 @@ use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\PermitionImport;
 use App\Models\Admin;
+use Illuminate\Support\Facades\DB;
 
 class RoleController extends Controller
 {
@@ -135,13 +136,37 @@ class RoleController extends Controller
         $role->delete();
         return redirect()->route('all.role')->with('success','Role Deleted Successfully');
     }
-    //AdminAllRolePermition
+    // AdminAllRolePermition
     public function AdminAllRolePermition(){
+        $roles = Role::all();
+        $permitions = Permission::all();
+        $permition_group = Admin::getPermissionsGroup();
+        return view('admin.backend.page.role.rolepermitionindex',compact('roles'));
+    }
+
+    //AddRolePermition
+    public function AddRolePermition(){
         $roles = Role::all();
         $permitions = Permission::all();
         $permition_group = Admin::getPermissionsGroup();
 
         return view('admin.backend.page.role.rolesetup',compact('roles','permitions','permition_group'));
         
+    }
+    //RolePermitionStore
+    public function RolePermitionStore(Request $request){
+        // dd($request->all());
+       $data = array();
+       $permitions = $request->permition;
+       foreach($permitions as $key => $permition){
+        $data['role_id'] = $request->role_id;
+        $data['permission_id'] = $permition;
+        
+        DB::table('role_has_permissions')->insert($data);
+       }
+    //    dd($data);
+       
+       return redirect()->route('all.role')->with('success','Role Updated Successfully');
+
     }
 }

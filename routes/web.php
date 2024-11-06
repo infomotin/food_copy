@@ -188,7 +188,10 @@ Route::middleware('admin')->group(function () {
         Route::post('update/admin/role/{id}', 'AdminUpdateRole')->name('admin.update.role');
         Route::get('delete/admin/role/{id}', 'AdminDeleteRole')->name('admin.delete.role');
         //role.permition
-        Route::get('add/admin/role/permition', 'AdminAllRolePermition')->name('add.role.permition');
+        
+        Route::get('all/admin/role/permition', 'AdminAllRolePermition')->name('all.role.permition');
+        Route::get('add/admin/role/permition', 'AddRolePermition')->name('add.role.permition');
+        Route::post('store/admin/role/permition', 'RolePermitionStore')->name('role.permition.store');
 
     });
 });

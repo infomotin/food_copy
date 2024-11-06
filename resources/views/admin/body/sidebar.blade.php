@@ -241,6 +241,7 @@
                     <ul class="sub-menu" aria-expanded="false">
                         <li><a href="{{ route('all.permition') }}" data-key="t-login">Add Permition</a></li>
                         <li><a href="{{ route('all.role') }}" data-key="t-register"> All Role</a></li>
+                        <li><a href="{{ route('all.role.permition') }}" data-key="t-register"> Role In Permition list</a></li>
                         <li><a href="{{ route('add.role.permition') }}" data-key="t-register"> Role In Permition</a></li>
 
                     </ul>
