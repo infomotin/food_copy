@@ -62,9 +62,9 @@
                                         'checked' : ''}} id="flexCheckDefault">
                                     </td> --}}
                                     <td>
-                                        <a href="{{route('admin.edit.role', $item->id)}}" class="btn btn-info sm"
+                                        <a href="{{route('admin.edit.roleinpermition', $item->id)}}" class="btn btn-info sm"
                                             title="Edit Data"> <i class="fas fa-edit"></i> </a>
-                                        <a href="{{route('admin.delete.role', $item->id)}}"
+                                        <a href="{{route('admin.delete.roleinpermition', $item->id)}}"
                                             class="btn btn-danger sm" title="Delete Data" id="delete"> <i
                                                 class="fas fa-trash-alt"></i> </a>
 
@@ -83,52 +83,52 @@
     <!-- container-fluid -->
 </div>
 <script type="text/javascript">
-    $(function() {
-      $('.toggle-class').change(function() {
-          var status = $(this).prop('checked') == true ? 'active' : 'inactive';
-          var id = $(this).data('id');
-            console.log(status);
-            console.log(id);
-          $.ajax({
-              type: "GET",
-              dataType: "json",
-              url:'{{ route('AdminChangeStatus') }}',
-              data: {
-                'status': status, 
-                'id': id
-            },
-              success: function(response){
-                console.log(response);
-                    location.reload();
-              const Toast = Swal.mixin({
-                    toast: true,
-                    position: 'top-end',
-                    icon: 'success',
-                    showConfirmButton: false,
-                    timer: 3000
-              })
-              if ($.isEmptyObject(data.error)) {
+    // $(function() {
+    //   $('.toggle-class').change(function() {
+    //       var status = $(this).prop('checked') == true ? 'active' : 'inactive';
+    //       var id = $(this).data('id');
+    //         console.log(status);
+    //         console.log(id);
+    //       $.ajax({
+    //           type: "GET",
+    //           dataType: "json",
+    //           url:'{{ route('AdminChangeStatus') }}',
+    //           data: {
+    //             'status': status, 
+    //             'id': id
+    //         },
+    //           success: function(response){
+    //             console.log(response);
+    //                 location.reload();
+    //           const Toast = Swal.mixin({
+    //                 toast: true,
+    //                 position: 'top-end',
+    //                 icon: 'success',
+    //                 showConfirmButton: false,
+    //                 timer: 3000
+    //           })
+    //           if ($.isEmptyObject(data.error)) {
 
-                      Toast.fire({
-                      type: 'success',
-                      title: data.success,
-                      })
+    //                   Toast.fire({
+    //                   type: 'success',
+    //                   title: data.success,
+    //                   })
 
-              }else{
+    //           }else{
 
-             Toast.fire({
-                      type: 'error',
-                      title: data.error,
-                      })
-                  }
+    //          Toast.fire({
+    //                   type: 'error',
+    //                   title: data.error,
+    //                   })
+    //               }
 
-                // End Message
+    //             // End Message
 
 
-              }
-          });
-      });
-    });
+    //           }
+    //       });
+    //   });
+    // });
 </script>
 
 @endsection

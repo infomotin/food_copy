@@ -188,11 +188,23 @@ Route::middleware('admin')->group(function () {
         Route::post('update/admin/role/{id}', 'AdminUpdateRole')->name('admin.update.role');
         Route::get('delete/admin/role/{id}', 'AdminDeleteRole')->name('admin.delete.role');
         //role.permition
-        
         Route::get('all/admin/role/permition', 'AdminAllRolePermition')->name('all.role.permition');
         Route::get('add/admin/role/permition', 'AddRolePermition')->name('add.role.permition');
         Route::post('store/admin/role/permition', 'RolePermitionStore')->name('role.permition.store');
+        Route::get('edit/admin/role/permition/{id}', 'EditRoleInPermition')->name('admin.edit.roleinpermition');
+        Route::post('update/admin/role/permition', 'UpdateRoleInPermition')->name('admin.update.roleinpermition');
+        Route::get('delete/admin/role/permition/{id}', 'DeleteRolePermition')->name('admin.delete.roleinpermition');
 
+    });
+    //admin user route 
+    Route::controller(RoleController::class)->group(function () {
+        Route::get('all/admin/user', 'AllUser')->name('all.user');
+        Route::get('admin/add/user','AddUser')->name('add.user');
+        Route::post('admin/add/user/submit','AddUserStore')->name('add.user.store');
+        // Route::get('admin/edit/user/{id}','EditUser')->name('edit.user');
+        // Route::post('admin/update/user/{id}','UpdateUser')->name('update.user');
+        // Route::get('admin/delete/user/{id}','DeleteUser')->name('delete.user');
+        
     });
 });
 //Manage Report Route Admin 

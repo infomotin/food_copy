@@ -57,4 +57,15 @@ class Admin extends Authenticatable
         $permitions = DB::table('permissions')->select('id','name')->where('group_name',$group_name)->get();
         return $permitions;
     }
+    public static function roleHasPermition($role, $permissions){
+        // dd($role, $permissions);
+            $hasPermission = true;
+            foreach ($permissions as $key => $permission) {
+               if (!$role->hasPermissionTo($permission->name)) {
+                $hasPermission = false;
+               }
+            //    dd($hasPermission);
+               return $hasPermission;
+            }
+    }
 }

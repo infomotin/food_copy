@@ -81,6 +81,31 @@
 
                     </ul>
                 </li>
+
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow">
+                        <i data-feather="users"></i>
+                        <span data-key="t-authentication">Manage User</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li>
+                            <a href="{{ route('all.user') }}">
+                                <span data-key="t-login">
+                                    All User
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('add.user') }}">
+                                <span data-key="t-login">
+                                    Add User
+                                </span>
+                            </a>
+                        </li>
+
+                    </ul>
+                </li>
+
                 <li>
                     <a href="javascript: void(0);" class="has-arrow">
                         <i data-feather="users"></i>

@@ -165,8 +165,39 @@ class RoleController extends Controller
         DB::table('role_has_permissions')->insert($data);
        }
     //    dd($data);
-       
-       return redirect()->route('all.role')->with('success','Role Updated Successfully');
-
+       return redirect()->route('all.role.permition')->with('success','Role Updated Successfully');
+    }
+    // EditRoleInPermition
+    public function EditRoleInPermition($id){
+        // dd($id);
+        $role = Role::find($id);
+        $permitions = Permission::all();
+        $permition_group = Admin::getPermissionsGroup();
+        return view('admin.backend.page.role.rolepermitionedit',compact('role','permitions','permition_group'));
+    }
+    // UpdateRoleInPermition
+    public function UpdateRoleInPermition(Request $request){
+        dd($request->all());
+        $role = Role::find($id);
+        $role->name = $request->name;
+        $role->save();
+        return redirect()->route('all.role')->with('success','Role Updated Successfully');
+    }
+    // DeleteRolePermition
+    public function DeleteRolePermition($id){
+        dd($id);
+        $role = Role::find($id);
+        $role->delete();
+        return redirect()->route('all.role')->with('success','Role Deleted Successfully');
+    }
+    //AllUser
+    public function AllUser(){
+        $users = Admin::all();
+        return view('admin.backend.page.user.index',compact('users'));
+    }
+    //AddUser
+    public function AddUser(){
+        $roles = Role::all();
+        return view('admin.backend.page.user.add',compact('roles'));
     }
 }
